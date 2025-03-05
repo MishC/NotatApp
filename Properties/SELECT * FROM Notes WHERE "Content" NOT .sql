@@ -1,0 +1,1 @@
+SELECT * FROM Notes WHERE "Content" NOT LIKE 'Listen%';

@@ -1,0 +1,6 @@
+@NotatApp_HostAddress = http://localhost:5152
+
+GET {{NotatApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
