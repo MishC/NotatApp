@@ -10,6 +10,18 @@ using Microsoft.AspNetCore.Builder;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+//Frontend CORS header
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173") // Allow frontend
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // Allow credentials (optional)
+    });
+});
+
 
 // Serilog
 Log.Logger = new LoggerConfiguration()
@@ -48,6 +60,8 @@ builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
+// Enable CORS middleware
+app.UseCors("AllowReactApp");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
