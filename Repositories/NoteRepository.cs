@@ -15,12 +15,12 @@ namespace NotatApp.Repositories
 
         public async Task<List<Note>> GetAllNotesAsync() => await _context.Notes.ToListAsync();
 
-public async Task<Note?> GetNoteByIdAsync(int id)
-{
-    return await _context.Notes
-        .Include(n => n.Folder) // Ensure Folder is loaded
-        .FirstOrDefaultAsync(n => n.Id == id);
-}
+        public async Task<Note?> GetNoteByIdAsync(int id)
+        {
+            return await _context.Notes
+                .Include(n => n.Folder) // Ensure Folder is loaded
+                .FirstOrDefaultAsync(n => n.Id == id);
+        }
 
         public async Task AddNoteAsync(Note note)
         {

@@ -18,7 +18,6 @@ public class NoteServiceTests
         _noteService = new NoteService(_mockRepo.Object);
     }
 
-    // Test 1: Creating a valid note
     [Fact]
     public async Task CreateNote_ValidNote_ReturnsCreatedNote()
     {
@@ -53,7 +52,7 @@ public class NoteServiceTests
     public async Task CreateNote_NullNote_ThrowsArgumentNullException()
     {
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _noteService.AddNoteAsync(null));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _noteService.AddNoteAsync(null!));
     }
 
     [Fact]
@@ -66,7 +65,6 @@ public class NoteServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() => _noteService.AddNoteAsync(note));
     }
 
-    // ✅ Test 5: Fetching a valid note
     [Fact]
     public async Task GetNoteById_ValidId_ReturnsNote()
     {

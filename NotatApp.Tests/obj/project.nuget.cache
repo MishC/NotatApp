@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "lhNnOAc/WSQ=",
+  "dgSpecHash": "IdOaM9ucOUU=",
   "success": true,
   "projectFilePath": "/home/michaelachovancova/Documents/Advanced_Programming/NotatApp/NotatApp.Tests/NotatApp.Tests.csproj",
   "expectedPackageFiles": [
     "/home/michaelachovancova/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",
-    "/home/michaelachovancova/.nuget/packages/coverlet.collector/6.0.0/coverlet.collector.6.0.0.nupkg.sha512",
     "/home/michaelachovancova/.nuget/packages/microsoft.aspnetcore.openapi/8.0.13/microsoft.aspnetcore.openapi.8.0.13.nupkg.sha512",
     "/home/michaelachovancova/.nuget/packages/microsoft.codecoverage/17.13.0/microsoft.codecoverage.17.13.0.nupkg.sha512",
     "/home/michaelachovancova/.nuget/packages/microsoft.data.sqlite.core/9.0.2/microsoft.data.sqlite.core.9.0.2.nupkg.sha512",

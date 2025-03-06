@@ -18,7 +18,7 @@ public class FolderRepository : IFolderRepository
         return await _context.Folders.Include(f => f.Notes).ToListAsync();
     }
 
-    public async Task<Folder> GetFolderByIdAsync(int id)
+    public async Task<Folder?> GetFolderByIdAsync(int id)
     {
         return await _context.Folders.Include(f => f.Notes).FirstOrDefaultAsync(f => f.Id == id);
     }
