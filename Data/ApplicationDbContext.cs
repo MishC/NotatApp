@@ -17,7 +17,12 @@ namespace NotatApp.Data
                 .WithMany(f => f.Notes)
                 .HasForeignKey(n => n.FolderId)
                 .OnDelete(DeleteBehavior.Cascade);
-        
+            modelBuilder.Entity<Note>()
+            .HasKey(n => n.Id);
+
+         modelBuilder.Entity<Note>()
+        .Property(n => n.Id)
+        .ValueGeneratedOnAdd();
 
         base.OnModelCreating(modelBuilder);
         

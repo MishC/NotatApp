@@ -1,0 +1,8 @@
+2025-03-11 13:18:02.293 +01:00 [INF] HTTP GET /api/notes/ responded 200 in 0.9333 ms
+2025-03-11 13:18:02.294 +01:00 [INF] HTTP GET /api/notes/ responded 200 in 0.4563 ms
+2025-03-11 13:18:02.294 +01:00 [INF] HTTP GET /api/folders responded 200 in 0.3930 ms
+2025-03-11 13:18:02.297 +01:00 [INF] HTTP GET /api/folders responded 200 in 0.5536 ms
+2025-03-11 15:24:22.871 +01:00 [INF] HTTP GET /api/notes/ responded 200 in 1.1052 ms
+2025-03-11 15:24:22.873 +01:00 [INF] HTTP GET /api/notes/ responded 200 in 0.5821 ms
+2025-03-11 15:24:22.873 +01:00 [INF] HTTP GET /api/folders responded 200 in 0.6439 ms
+2025-03-11 15:24:22.874 +01:00 [INF] HTTP GET /api/folders responded 200 in 0.8823 ms

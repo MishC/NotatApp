@@ -54,26 +54,21 @@ namespace NotatApp.Services
             {
                 throw new ArgumentException("Title cannot be null or empty.");
             }
-              if (note.Content != null && note.Content.Length > 1000)
+              if (note?.Content?.Length > 1000)
             {
                 throw new ArgumentException("Content cannot exceed 1000 characters.");
             }
 
-            if (note.Title.Length < 3 || note.Title.Length > 100)
+            if (note?.Title.Length < 3 || note?.Title.Length > 100)
             {
                 throw new ArgumentException("Title must be between 3 and 100 characters.");
             }
-            await _noteRepository.AddNoteAsync(note);
+            await _noteRepository.AddNoteAsync(note!);
         }
         public async Task UpdateNoteAsync(Note note)
         {
-            var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id);
-            if (existingNote == null)
-            {
-                throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
-            }
-
-            if (note.Title.Length < 3 || note.Title.Length > 100)
+            var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id) ?? throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
+            if (note.Title?.Length < 3 || note.Title?.Length > 100)
             {
                 throw new ArgumentException("Title must be between 3 and 100 characters.");
             }

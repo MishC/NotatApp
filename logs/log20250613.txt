@@ -1,0 +1,32 @@
+2025-06-13 18:51:16.079 +02:00 [INF] Starting the application...
+2025-06-13 18:51:16.229 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 18:51:16.232 +02:00 [WRN] Overriding address(es) 'http://localhost:5152'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 18:56:17.323 +02:00 [INF] HTTP GET / responded 307 in 2.1589 ms
+2025-06-13 18:56:17.407 +02:00 [INF] HTTP GET / responded 404 in 13.3373 ms
+2025-06-13 18:56:32.476 +02:00 [INF] HTTP GET /api/folders responded 200 in 847.0597 ms
+2025-06-13 18:56:32.476 +02:00 [INF] HTTP GET /api/notes responded 200 in 847.2772 ms
+2025-06-13 18:56:32.527 +02:00 [INF] HTTP GET /api/notes responded 200 in 47.9127 ms
+2025-06-13 18:56:32.528 +02:00 [INF] HTTP GET /api/folders responded 200 in 48.8475 ms
+2025-06-13 19:07:32.790 +02:00 [INF] HTTP GET /api/folders responded 200 in 6.0902 ms
+2025-06-13 19:07:32.840 +02:00 [INF] HTTP GET /api/notes responded 200 in 3.8267 ms
+2025-06-13 19:07:32.875 +02:00 [INF] HTTP GET /api/folders responded 200 in 3.3719 ms
+2025-06-13 19:07:32.883 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.2073 ms
+2025-06-13 19:07:42.331 +02:00 [INF] HTTP POST /api/notes responded 201 in 152.7471 ms
+2025-06-13 19:12:14.584 +02:00 [INF] HTTP GET /api/notes responded 200 in 3.1474 ms
+2025-06-13 19:12:14.596 +02:00 [INF] HTTP GET /api/folders responded 200 in 3.1954 ms
+2025-06-13 19:12:14.612 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.6300 ms
+2025-06-13 19:12:14.616 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.2486 ms
+2025-06-13 19:12:20.029 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.7863 ms
+2025-06-13 19:12:20.046 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.6175 ms
+2025-06-13 19:12:20.066 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4736 ms
+2025-06-13 19:12:20.071 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.5453 ms
+2025-06-13 19:12:26.140 +02:00 [INF] HTTP POST /api/notes responded 201 in 27.2492 ms
+2025-06-13 19:15:55.465 +02:00 [INF] HTTP POST /api/notes responded 201 in 11.1367 ms
+2025-06-13 19:16:00.351 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.7456 ms
+2025-06-13 19:16:00.447 +02:00 [INF] HTTP GET /api/notes responded 200 in 3.2494 ms
+2025-06-13 19:16:00.458 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.8669 ms
+2025-06-13 19:16:00.473 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.2138 ms
+2025-06-13 19:16:08.864 +02:00 [INF] HTTP DELETE /api/notes/54 responded 204 in 69.5415 ms
+2025-06-13 19:16:11.802 +02:00 [INF] HTTP DELETE /api/notes/53 responded 204 in 19.9416 ms
+2025-06-13 19:16:12.909 +02:00 [INF] HTTP DELETE /api/notes/52 responded 204 in 20.1159 ms
+2025-06-13 19:16:29.694 +02:00 [INF] HTTP POST /api/notes responded 201 in 10.5480 ms
