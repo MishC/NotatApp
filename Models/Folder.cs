@@ -12,7 +12,7 @@ namespace NotatApp.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(20, MinimumLength = 2)]
         public string? Name { get; set; }
         
         [ValidateNever]

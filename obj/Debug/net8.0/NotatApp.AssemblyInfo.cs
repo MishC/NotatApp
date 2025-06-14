@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NotatApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a027d2118bdfb90ce6d23b869c29c3adfad2efdd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5783f570d422e09186d2b6d3022148cb48854c9e")]
 [assembly: System.Reflection.AssemblyProductAttribute("NotatApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NotatApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

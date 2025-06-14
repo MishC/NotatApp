@@ -30,3 +30,452 @@
 2025-06-13 19:16:11.802 +02:00 [INF] HTTP DELETE /api/notes/53 responded 204 in 19.9416 ms
 2025-06-13 19:16:12.909 +02:00 [INF] HTTP DELETE /api/notes/52 responded 204 in 20.1159 ms
 2025-06-13 19:16:29.694 +02:00 [INF] HTTP POST /api/notes responded 201 in 10.5480 ms
+2025-06-13 19:27:14.645 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.0297 ms
+2025-06-13 19:27:14.645 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0972 ms
+2025-06-13 19:32:26.008 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.5521 ms
+2025-06-13 19:32:26.008 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9960 ms
+2025-06-13 19:33:15.547 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.6288 ms
+2025-06-13 19:33:15.549 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1745 ms
+2025-06-13 19:33:15.564 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.6694 ms
+2025-06-13 19:33:15.565 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.5363 ms
+2025-06-13 19:33:39.944 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.7947 ms
+2025-06-13 19:33:39.947 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4067 ms
+2025-06-13 19:33:39.959 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3024 ms
+2025-06-13 19:33:39.959 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2943 ms
+2025-06-13 19:36:55.085 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.7671 ms
+2025-06-13 19:36:55.090 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2999 ms
+2025-06-13 19:36:55.105 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2989 ms
+2025-06-13 19:36:55.107 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1732 ms
+2025-06-13 19:38:51.347 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.5877 ms
+2025-06-13 19:38:51.370 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4267 ms
+2025-06-13 19:38:51.375 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2750 ms
+2025-06-13 19:38:51.381 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.9389 ms
+2025-06-13 19:41:20.765 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1935 ms
+2025-06-13 19:41:20.775 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4453 ms
+2025-06-13 19:41:20.809 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4440 ms
+2025-06-13 19:41:20.815 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2526 ms
+2025-06-13 19:48:00.851 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.9778 ms
+2025-06-13 19:48:00.854 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3675 ms
+2025-06-13 19:48:00.882 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4862 ms
+2025-06-13 19:48:00.882 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2266 ms
+2025-06-13 19:49:06.121 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.5487 ms
+2025-06-13 19:49:06.122 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0405 ms
+2025-06-13 19:49:06.176 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0548 ms
+2025-06-13 19:49:06.181 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.7159 ms
+2025-06-13 19:49:17.761 +02:00 [INF] HTTP DELETE /api/notes/55 responded 204 in 24.0914 ms
+2025-06-13 19:52:03.990 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.6945 ms
+2025-06-13 19:52:03.995 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3194 ms
+2025-06-13 19:52:04.016 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2117 ms
+2025-06-13 19:52:04.018 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.7527 ms
+2025-06-13 19:52:07.865 +02:00 [INF] HTTP DELETE /api/notes/3 responded 204 in 18.7410 ms
+2025-06-13 19:52:46.492 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2986 ms
+2025-06-13 19:52:46.497 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3218 ms
+2025-06-13 19:52:46.527 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9283 ms
+2025-06-13 19:52:46.529 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1652 ms
+2025-06-13 19:53:37.270 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1047 ms
+2025-06-13 19:53:37.311 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6154 ms
+2025-06-13 19:53:37.330 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2186 ms
+2025-06-13 19:53:37.334 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3395 ms
+2025-06-13 19:54:04.560 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.6126 ms
+2025-06-13 19:54:04.561 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.5533 ms
+2025-06-13 19:54:04.583 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8603 ms
+2025-06-13 19:54:04.583 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9966 ms
+2025-06-13 19:54:11.217 +02:00 [INF] HTTP DELETE /api/notes/8 responded 204 in 17.8451 ms
+2025-06-13 19:54:12.247 +02:00 [INF] HTTP DELETE /api/notes/10 responded 204 in 17.3930 ms
+2025-06-13 19:55:09.897 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1826 ms
+2025-06-13 19:55:09.899 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1229 ms
+2025-06-13 19:55:09.915 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0599 ms
+2025-06-13 19:55:09.915 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7843 ms
+2025-06-13 19:57:00.274 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9287 ms
+2025-06-13 19:57:00.276 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7876 ms
+2025-06-13 19:57:00.298 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.3005 ms
+2025-06-13 19:57:00.299 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3526 ms
+2025-06-13 19:57:44.244 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8502 ms
+2025-06-13 19:57:44.290 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9487 ms
+2025-06-13 19:57:44.300 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8228 ms
+2025-06-13 19:57:44.308 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1024 ms
+2025-06-13 19:59:26.553 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7636 ms
+2025-06-13 19:59:26.568 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4457 ms
+2025-06-13 19:59:26.578 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9343 ms
+2025-06-13 19:59:26.579 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9036 ms
+2025-06-13 19:59:57.114 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9938 ms
+2025-06-13 19:59:57.115 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8296 ms
+2025-06-13 19:59:57.134 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9276 ms
+2025-06-13 19:59:57.135 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8973 ms
+2025-06-13 20:00:29.765 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8629 ms
+2025-06-13 20:00:29.766 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7421 ms
+2025-06-13 20:00:29.775 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0240 ms
+2025-06-13 20:00:29.775 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1261 ms
+2025-06-13 20:01:14.873 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8252 ms
+2025-06-13 20:01:14.886 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9076 ms
+2025-06-13 20:01:14.896 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0229 ms
+2025-06-13 20:01:14.899 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2729 ms
+2025-06-13 20:03:18.834 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8842 ms
+2025-06-13 20:03:18.852 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0062 ms
+2025-06-13 20:03:18.867 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2767 ms
+2025-06-13 20:03:18.869 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8606 ms
+2025-06-13 20:03:35.420 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0528 ms
+2025-06-13 20:03:35.426 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2006 ms
+2025-06-13 20:03:35.440 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7739 ms
+2025-06-13 20:03:35.442 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9587 ms
+2025-06-13 20:07:45.681 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0396 ms
+2025-06-13 20:07:45.682 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3675 ms
+2025-06-13 20:07:45.693 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7854 ms
+2025-06-13 20:07:45.694 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0914 ms
+2025-06-13 20:09:12.816 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1044 ms
+2025-06-13 20:09:12.817 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0522 ms
+2025-06-13 20:09:12.839 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8070 ms
+2025-06-13 20:09:12.839 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8261 ms
+2025-06-13 20:10:48.535 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9412 ms
+2025-06-13 20:10:48.536 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8355 ms
+2025-06-13 20:10:48.552 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8072 ms
+2025-06-13 20:10:48.552 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9776 ms
+2025-06-13 20:13:51.284 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.3133 ms
+2025-06-13 20:13:51.297 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3283 ms
+2025-06-13 20:13:51.314 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1317 ms
+2025-06-13 20:13:51.316 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9820 ms
+2025-06-13 20:16:32.915 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1615 ms
+2025-06-13 20:16:32.916 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7560 ms
+2025-06-13 20:16:32.942 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0288 ms
+2025-06-13 20:16:32.943 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1301 ms
+2025-06-13 20:16:35.315 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2058 ms
+2025-06-13 20:16:35.344 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9389 ms
+2025-06-13 20:16:35.348 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8344 ms
+2025-06-13 20:16:35.399 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9439 ms
+2025-06-13 20:17:36.140 +02:00 [INF] Starting the application...
+2025-06-13 20:17:36.312 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:17:36.315 +02:00 [WRN] Overriding address(es) 'http://localhost:5152'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:18:16.205 +02:00 [INF] HTTP GET /api/folders responded 200 in 794.9876 ms
+2025-06-13 20:18:16.261 +02:00 [INF] HTTP GET /api/notes responded 200 in 852.1147 ms
+2025-06-13 20:18:16.269 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.8793 ms
+2025-06-13 20:18:16.270 +02:00 [INF] HTTP GET /api/folders responded 200 in 49.7109 ms
+2025-06-13 20:24:08.521 +02:00 [INF] Starting the application...
+2025-06-13 20:24:08.697 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:24:08.700 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:24:44.964 +02:00 [INF] HTTP GET /api/notes responded 200 in 536.7084 ms
+2025-06-13 20:24:45.009 +02:00 [INF] HTTP GET /api/notes responded 200 in 38.3013 ms
+2025-06-13 20:24:45.065 +02:00 [INF] HTTP GET /api/folders responded 200 in 639.1971 ms
+2025-06-13 20:24:45.074 +02:00 [INF] HTTP GET /api/folders responded 200 in 4.3349 ms
+2025-06-13 20:25:19.205 +02:00 [INF] HTTP GET /api/notes responded 200 in 5.1236 ms
+2025-06-13 20:25:19.209 +02:00 [INF] HTTP GET /api/folders responded 200 in 3.7650 ms
+2025-06-13 20:25:19.227 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.9920 ms
+2025-06-13 20:25:19.451 +02:00 [INF] HTTP GET /api/folders responded 200 in 3.8567 ms
+2025-06-13 20:26:59.723 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:26:59.811 +02:00 [INF] Starting the application...
+2025-06-13 20:26:59.841 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:26:59.859 +02:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (98): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-06-13 20:26:59.869 +02:00 [FTL] Application failed to start!
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (98): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Program.cs:line 89
+2025-06-13 20:27:07.648 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:27:07.743 +02:00 [INF] Starting the application...
+2025-06-13 20:27:07.778 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:27:07.798 +02:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (98): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-06-13 20:27:07.809 +02:00 [FTL] Application failed to start!
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (98): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Program.cs:line 89
+2025-06-13 20:28:03.534 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:28:03.623 +02:00 [INF] Starting the application...
+2025-06-13 20:28:03.653 +02:00 [WRN] Overriding address(es) 'http://localhost:5152'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:28:03.672 +02:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (98): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-06-13 20:28:03.681 +02:00 [FTL] Application failed to start!
+System.IO.IOException: Failed to bind to address https://127.0.0.1:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (98): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Program.cs:line 89
+2025-06-13 20:29:43.250 +02:00 [INF] Starting the application...
+2025-06-13 20:29:43.419 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:29:43.422 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:30:52.651 +02:00 [INF] HTTP GET /api/folders responded 200 in 797.8861 ms
+2025-06-13 20:30:52.651 +02:00 [INF] HTTP GET /api/notes responded 200 in 798.1836 ms
+2025-06-13 20:30:52.720 +02:00 [INF] HTTP GET /api/notes responded 200 in 62.8073 ms
+2025-06-13 20:30:52.720 +02:00 [INF] HTTP GET /api/folders responded 200 in 63.1802 ms
+2025-06-13 20:32:40.013 +02:00 [INF] Starting the application...
+2025-06-13 20:32:40.188 +02:00 [WRN] The ASP.NET Core developer certificate is only trusted by some clients. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert
+2025-06-13 20:32:40.191 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:34:59.619 +02:00 [INF] Starting the application...
+2025-06-13 20:34:59.802 +02:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+2025-06-13 20:34:59.805 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-13 20:35:12.790 +02:00 [INF] HTTP GET /api/notes responded 200 in 779.3843 ms
+2025-06-13 20:35:12.843 +02:00 [INF] HTTP GET /api/notes responded 200 in 46.2514 ms
+2025-06-13 20:35:12.865 +02:00 [INF] HTTP GET /api/folders responded 200 in 855.9462 ms
+2025-06-13 20:35:12.873 +02:00 [INF] HTTP GET /api/folders responded 200 in 4.8853 ms
+2025-06-13 20:35:20.716 +02:00 [INF] HTTP GET /api/notes responded 200 in 4.3957 ms
+2025-06-13 20:35:20.716 +02:00 [INF] HTTP GET /api/folders responded 200 in 4.3564 ms
+2025-06-13 20:35:20.725 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.1795 ms
+2025-06-13 20:35:20.725 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.1794 ms
+2025-06-13 23:32:14.585 +02:00 [INF] HTTP GET /api/folders responded 200 in 3.4222 ms
+2025-06-13 23:32:14.589 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.0243 ms
+2025-06-13 23:32:14.736 +02:00 [INF] HTTP GET /api/notes responded 200 in 154.2706 ms
+2025-06-13 23:32:14.740 +02:00 [INF] HTTP GET /api/notes responded 200 in 2.1745 ms
+2025-06-13 23:38:44.342 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6242 ms
+2025-06-13 23:38:44.345 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9051 ms
+2025-06-13 23:38:44.494 +02:00 [INF] HTTP GET /api/notes responded 200 in 152.7638 ms
+2025-06-13 23:38:44.496 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0868 ms
+2025-06-13 23:38:47.269 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2701 ms
+2025-06-13 23:38:47.269 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2672 ms
+2025-06-13 23:38:47.272 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0067 ms
+2025-06-13 23:38:47.272 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0079 ms
+2025-06-13 23:45:22.359 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9629 ms
+2025-06-13 23:45:22.359 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1583 ms
+2025-06-13 23:45:22.361 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7554 ms
+2025-06-13 23:45:22.361 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7533 ms
+2025-06-13 23:45:32.244 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1358 ms
+2025-06-13 23:45:32.244 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1358 ms
+2025-06-13 23:45:32.249 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1943 ms
+2025-06-13 23:45:32.249 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1943 ms
+2025-06-13 23:46:22.034 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4712 ms
+2025-06-13 23:46:22.041 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4194 ms
+2025-06-13 23:46:22.060 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2544 ms
+2025-06-13 23:46:22.060 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6779 ms
+2025-06-13 23:47:44.169 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4475 ms
+2025-06-13 23:47:44.170 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1422 ms
+2025-06-13 23:47:44.205 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.3646 ms
+2025-06-13 23:47:44.205 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3653 ms
+2025-06-13 23:49:03.686 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2191 ms
+2025-06-13 23:49:03.686 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.3891 ms
+2025-06-13 23:49:03.703 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2136 ms
+2025-06-13 23:49:03.703 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2137 ms
+2025-06-13 23:49:50.157 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8791 ms
+2025-06-13 23:49:50.157 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6167 ms
+2025-06-13 23:49:50.190 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0021 ms
+2025-06-13 23:49:50.190 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0021 ms
+2025-06-13 23:50:00.180 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1915 ms
+2025-06-13 23:50:00.181 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4120 ms
+2025-06-13 23:50:00.214 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1065 ms
+2025-06-13 23:50:00.214 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0943 ms
+2025-06-13 23:50:43.748 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4838 ms
+2025-06-13 23:50:43.752 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3942 ms
+2025-06-13 23:50:43.759 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2009 ms
+2025-06-13 23:50:43.759 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.2025 ms
+2025-06-13 23:51:07.646 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1121 ms
+2025-06-13 23:51:07.646 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9968 ms
+2025-06-13 23:51:07.671 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8417 ms
+2025-06-13 23:51:07.671 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8417 ms
+2025-06-13 23:51:09.896 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9255 ms
+2025-06-13 23:51:09.896 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1515 ms
+2025-06-13 23:51:09.927 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1187 ms
+2025-06-13 23:51:09.927 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1311 ms
+2025-06-13 23:51:22.954 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9971 ms
+2025-06-13 23:51:22.955 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8346 ms
+2025-06-13 23:51:23.002 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.7143 ms
+2025-06-13 23:51:23.002 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.8383 ms
+2025-06-13 23:51:45.995 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4298 ms
+2025-06-13 23:51:46.004 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.8725 ms
+2025-06-13 23:51:46.044 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0514 ms
+2025-06-13 23:51:46.045 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3066 ms
+2025-06-13 23:52:43.531 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.4366 ms
+2025-06-13 23:52:43.531 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1149 ms
+2025-06-13 23:52:43.581 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8259 ms
+2025-06-13 23:52:43.581 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8367 ms
+2025-06-13 23:53:06.881 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9047 ms
+2025-06-13 23:53:06.881 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5647 ms
+2025-06-13 23:53:06.966 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8985 ms
+2025-06-13 23:53:06.966 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9443 ms
+2025-06-13 23:53:15.012 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.1343 ms
+2025-06-13 23:53:15.012 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5814 ms
+2025-06-13 23:53:15.092 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7168 ms
+2025-06-13 23:53:15.092 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5600 ms
+2025-06-13 23:53:39.353 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8602 ms
+2025-06-13 23:53:39.353 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5741 ms
+2025-06-13 23:53:39.407 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7560 ms
+2025-06-13 23:53:39.407 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7733 ms
+2025-06-13 23:54:00.205 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.6822 ms
+2025-06-13 23:54:00.205 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.3996 ms
+2025-06-13 23:54:00.264 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7147 ms
+2025-06-13 23:54:00.264 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7910 ms
+2025-06-13 23:54:14.647 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8640 ms
+2025-06-13 23:54:14.653 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1246 ms
+2025-06-13 23:54:14.703 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7556 ms
+2025-06-13 23:54:14.703 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7238 ms
+2025-06-13 23:54:27.885 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9719 ms
+2025-06-13 23:54:27.885 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9117 ms
+2025-06-13 23:54:27.890 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6909 ms
+2025-06-13 23:54:27.890 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.6919 ms
+2025-06-13 23:54:48.943 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8772 ms
+2025-06-13 23:54:48.944 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5470 ms
+2025-06-13 23:54:49.006 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7195 ms
+2025-06-13 23:54:49.006 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7324 ms
+2025-06-13 23:55:45.131 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8584 ms
+2025-06-13 23:55:45.132 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0131 ms
+2025-06-13 23:55:45.142 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0135 ms
+2025-06-13 23:55:45.142 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0166 ms
+2025-06-13 23:56:41.267 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7580 ms
+2025-06-13 23:56:41.269 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8137 ms
+2025-06-13 23:56:41.275 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7740 ms
+2025-06-13 23:56:41.277 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9830 ms
+2025-06-13 23:56:54.036 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.8844 ms
+2025-06-13 23:56:54.037 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8093 ms
+2025-06-13 23:56:54.046 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9465 ms
+2025-06-13 23:56:54.096 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1925 ms
+2025-06-13 23:57:02.532 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9337 ms
+2025-06-13 23:57:02.538 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1059 ms
+2025-06-13 23:57:02.596 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9127 ms
+2025-06-13 23:57:02.596 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7632 ms
+2025-06-13 23:57:04.307 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9961 ms
+2025-06-13 23:57:04.307 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8275 ms
+2025-06-13 23:57:04.312 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9913 ms
+2025-06-13 23:57:04.312 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0798 ms
+2025-06-13 23:58:37.469 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.9172 ms
+2025-06-13 23:58:37.470 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9001 ms
+2025-06-13 23:58:37.543 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7393 ms
+2025-06-13 23:58:37.546 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1799 ms
+2025-06-13 23:58:54.845 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.6498 ms
+2025-06-13 23:58:54.854 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0966 ms
+2025-06-13 23:58:54.905 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7095 ms
+2025-06-13 23:58:54.917 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6123 ms
+2025-06-13 23:59:17.745 +02:00 [INF] HTTP GET /api/notes responded 200 in 1.0032 ms
+2025-06-13 23:59:17.745 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7839 ms
+2025-06-13 23:59:17.799 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7354 ms
+2025-06-13 23:59:17.799 +02:00 [INF] HTTP GET /api/notes responded 200 in 0.7362 ms

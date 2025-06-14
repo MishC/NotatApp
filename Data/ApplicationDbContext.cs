@@ -30,7 +30,8 @@ namespace NotatApp.Data
         modelBuilder.Entity<Folder>().HasData(
             new Folder { Id = 1, Name = "Work" },
             new Folder { Id = 2, Name = "Personal" },
-            new Folder { Id = 3, Name = "Ideas" }
+            new Folder { Id = 3, Name = "Ideas" },
+            new Folder { Id = 4, Name = "Done" }
         );
 
         // Seed 3 notes

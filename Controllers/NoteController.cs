@@ -18,6 +18,19 @@ namespace NotatApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllNotes() => Ok(await _noteService.GetAllNotesAsync());
 
+        [HttpGet("pending")]
+        public async Task<IActionResult> GetPendingNotes()
+        {
+            var pending = await _noteService.GetPendingNotesAsync();
+            return Ok(pending);
+        }
+        [HttpGet("done")]
+          public async Task<IActionResult> GetDoneNotes()
+        {
+            var pending = await _noteService.GetDoneNotesAsync();
+            return Ok(pending);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetNoteById(int id)
         {
@@ -39,6 +52,19 @@ namespace NotatApp.Controllers
             await _noteService.UpdateNoteAsync(note);
             return NoContent();
         }
+         
+        [HttpPut("{folderId}/{id}")]
+        public async Task<IActionResult> UpdateNoteFolder(int folderId, int id)
+        {
+            var note = await _noteService.GetNoteByIdAsync(id);
+            if (note == null)
+            return NotFound();
+
+            note.FolderId = folderId;
+            await _noteService.UpdateNoteAsync(note);
+            return NoContent();
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNote(int id)
