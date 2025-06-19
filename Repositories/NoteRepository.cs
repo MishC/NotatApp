@@ -21,7 +21,7 @@ namespace NotatApp.Repositories
                 .Include(n => n.Folder) // Ensure Folder is loaded
                 .FirstOrDefaultAsync(n => n.Id == id);
         }
-
+        
         public async Task AddNoteAsync(Note note)
         {
             _context.Notes.Add(note);

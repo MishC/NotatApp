@@ -1,0 +1,512 @@
+2025-06-16 12:31:15.396 +02:00 [INF] HTTP GET /api/folders responded 200 in 4.3217 ms
+2025-06-16 12:31:15.400 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4754 ms
+2025-06-16 12:31:15.546 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 154.0417 ms
+2025-06-16 12:31:15.549 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2634 ms
+2025-06-16 12:33:47.072 +02:00 [INF] HTTP POST /api/notes responded 201 in 47.4496 ms
+2025-06-16 12:36:14.835 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1654 ms
+2025-06-16 12:36:14.835 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1330 ms
+2025-06-16 12:36:14.837 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7824 ms
+2025-06-16 12:36:14.837 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7846 ms
+2025-06-16 12:59:47.167 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.0714 ms
+2025-06-16 12:59:47.217 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.0898 ms
+2025-06-16 12:59:47.251 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2479 ms
+2025-06-16 12:59:47.264 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6691 ms
+2025-06-16 13:05:46.642 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.9129 ms
+2025-06-16 13:05:46.657 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.8118 ms
+2025-06-16 13:05:46.793 +02:00 [INF] HTTP GET /api/folders responded 200 in 152.4025 ms
+2025-06-16 13:05:46.801 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.8937 ms
+2025-06-16 13:05:59.235 +02:00 [ERR] HTTP POST /api/notes responded 500 in 2.4780 ms
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-16 13:05:59.254 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-06-16 13:05:59.256 +02:00 [ERR] An exception was thrown attempting to execute the error handler.
+System.NotImplementedException: The method or operation is not implemented.
+   at GlobalExceptionHandler.Microsoft.AspNetCore.Diagnostics.IExceptionHandler.TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Middlewares/GlobalExceptionHandler.cs:line 54
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+2025-06-16 13:05:59.256 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-16 13:07:28.907 +02:00 [INF] Starting the application...
+2025-06-16 13:07:29.073 +02:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+2025-06-16 13:07:29.077 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-16 13:07:34.953 +02:00 [ERR] HTTP POST /api/notes responded 500 in 103.0141 ms
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-16 13:07:34.974 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-06-16 13:07:34.976 +02:00 [ERR] An exception was thrown attempting to execute the error handler.
+System.NotImplementedException: The method or operation is not implemented.
+   at GlobalExceptionHandler.Microsoft.AspNetCore.Diagnostics.IExceptionHandler.TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Middlewares/GlobalExceptionHandler.cs:line 54
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+2025-06-16 13:07:34.976 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-16 13:07:37.533 +02:00 [INF] HTTP GET /api/folders responded 200 in 425.6968 ms
+2025-06-16 13:07:37.533 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 427.3749 ms
+2025-06-16 13:07:37.572 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 35.1968 ms
+2025-06-16 13:07:37.572 +02:00 [INF] HTTP GET /api/folders responded 200 in 35.5555 ms
+2025-06-16 13:07:42.515 +02:00 [ERR] HTTP POST /api/notes responded 500 in 3.1120 ms
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-16 13:07:42.516 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-06-16 13:07:42.517 +02:00 [ERR] An exception was thrown attempting to execute the error handler.
+System.NotImplementedException: The method or operation is not implemented.
+   at GlobalExceptionHandler.Microsoft.AspNetCore.Diagnostics.IExceptionHandler.TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Middlewares/GlobalExceptionHandler.cs:line 54
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+2025-06-16 13:07:42.518 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-16 13:08:54.535 +02:00 [ERR] HTTP POST /api/notes responded 500 in 0.9506 ms
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2025-06-16 13:08:54.535 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+2025-06-16 13:08:54.536 +02:00 [ERR] An exception was thrown attempting to execute the error handler.
+System.NotImplementedException: The method or operation is not implemented.
+   at GlobalExceptionHandler.Microsoft.AspNetCore.Diagnostics.IExceptionHandler.TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Middlewares/GlobalExceptionHandler.cs:line 54
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+2025-06-16 13:08:54.536 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentException: Title must be between 3 and 100 characters.
+   at NotatApp.Services.NoteService.AddNoteAsync(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Services/NoteService.cs:line 86
+   at NotatApp.Controllers.NoteController.CreateNote(Note note) in /home/michaelachovancova/Documents/Advanced_Programming/NotatApp/Controllers/NoteController.cs:line 44
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.HandleException(HttpContext context, ExceptionDispatchInfo edi)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddlewareImpl.<Invoke>g__Awaited|10_0(ExceptionHandlerMiddlewareImpl middleware, HttpContext context, Task task)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-16 13:08:56.402 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 3.1051 ms
+2025-06-16 13:08:56.402 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.9893 ms
+2025-06-16 13:08:56.467 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.6278 ms
+2025-06-16 13:08:56.467 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6632 ms
+2025-06-16 13:09:03.688 +02:00 [INF] Starting the application...
+2025-06-16 13:09:03.869 +02:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+2025-06-16 13:09:03.873 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-16 13:09:08.576 +02:00 [INF] HTTP POST /api/notes responded 201 in 522.7293 ms
+2025-06-16 13:11:10.143 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 129.8282 ms
+2025-06-16 13:11:10.147 +02:00 [INF] HTTP GET /api/folders responded 200 in 133.2653 ms
+2025-06-16 13:11:18.102 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 9.6816 ms
+2025-06-16 13:11:18.103 +02:00 [INF] HTTP GET /api/folders responded 200 in 10.8093 ms
+2025-06-16 13:11:19.805 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.7733 ms
+2025-06-16 13:11:19.805 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.8779 ms
+2025-06-16 13:11:45.824 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4431 ms
+2025-06-16 13:11:45.824 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9564 ms
+2025-06-16 13:12:43.311 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3824 ms
+2025-06-16 13:12:43.311 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1328 ms
+2025-06-16 13:14:04.588 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.6269 ms
+2025-06-16 13:14:04.589 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3342 ms
+2025-06-16 13:14:05.899 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3472 ms
+2025-06-16 13:14:05.902 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.9647 ms
+2025-06-16 13:14:47.013 +02:00 [INF] Starting the application...
+2025-06-16 13:14:47.191 +02:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+2025-06-16 13:14:47.194 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-16 13:14:52.136 +02:00 [INF] HTTP GET /api/folders responded 200 in 553.0589 ms
+2025-06-16 13:14:52.176 +02:00 [INF] HTTP GET /api/folders responded 200 in 35.2333 ms
+2025-06-16 13:14:52.223 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 640.8547 ms
+2025-06-16 13:14:52.229 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.5072 ms
+2025-06-16 13:15:35.833 +02:00 [INF] HTTP GET /api/folders responded 200 in 5.2699 ms
+2025-06-16 13:15:35.833 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 5.8905 ms
+2025-06-16 13:15:35.844 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.1567 ms
+2025-06-16 13:15:35.844 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.1867 ms
+2025-06-16 13:16:34.886 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.8735 ms
+2025-06-16 13:16:34.886 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.7066 ms
+2025-06-16 13:16:34.899 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.8200 ms
+2025-06-16 13:16:34.899 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.8101 ms
+2025-06-16 13:16:41.345 +02:00 [INF] HTTP DELETE /api/notes/60 responded 204 in 87.9983 ms
+2025-06-16 13:17:08.231 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.5386 ms
+2025-06-16 13:17:08.239 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.3512 ms
+2025-06-16 13:17:08.241 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2718 ms
+2025-06-16 13:17:08.243 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6992 ms
+2025-06-16 13:17:33.890 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4055 ms
+2025-06-16 13:17:33.890 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8319 ms
+2025-06-16 13:17:33.898 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4623 ms
+2025-06-16 13:17:33.898 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4708 ms
+2025-06-16 13:17:45.042 +02:00 [INF] HTTP DELETE /api/notes/58 responded 204 in 17.0608 ms
+2025-06-16 13:17:57.486 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1406 ms
+2025-06-16 13:17:57.507 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6555 ms
+2025-06-16 13:17:57.514 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4205 ms
+2025-06-16 13:17:57.515 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0002 ms
+2025-06-16 13:20:09.306 +02:00 [INF] HTTP DELETE /api/notes/22 responded 204 in 15.6388 ms
+2025-06-16 13:20:15.190 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4651 ms
+2025-06-16 13:20:15.191 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3254 ms
+2025-06-16 13:20:15.203 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2710 ms
+2025-06-16 13:20:15.203 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2739 ms
+2025-06-16 13:20:18.972 +02:00 [INF] HTTP DELETE /api/notes/59 responded 204 in 15.5350 ms
+2025-06-16 13:20:25.155 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.6523 ms
+2025-06-16 13:20:25.156 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.5864 ms
+2025-06-16 13:20:25.167 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3933 ms
+2025-06-16 13:20:25.167 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3789 ms
+2025-06-16 13:20:36.365 +02:00 [INF] HTTP POST /api/notes responded 201 in 56.9682 ms
+2025-06-16 13:28:40.377 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2804 ms
+2025-06-16 13:28:40.377 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.9969 ms
+2025-06-16 13:28:40.391 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1111 ms
+2025-06-16 13:28:40.391 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1076 ms
+2025-06-16 13:33:26.489 +02:00 [INF] HTTP POST /api/notes responded 201 in 22.6675 ms
+2025-06-16 13:33:35.174 +02:00 [INF] HTTP POST /api/notes responded 201 in 7.5079 ms
+2025-06-16 13:34:45.175 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.1241 ms
+2025-06-16 13:34:45.177 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3835 ms
+2025-06-16 13:34:45.185 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.6552 ms
+2025-06-16 13:34:45.187 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2407 ms
+2025-06-16 13:40:02.021 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.1266 ms
+2025-06-16 13:40:02.033 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.6536 ms
+2025-06-16 13:40:02.063 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.5855 ms
+2025-06-16 13:40:02.114 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1943 ms
+2025-06-16 13:41:42.992 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2779 ms
+2025-06-16 13:41:43.049 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4961 ms
+2025-06-16 13:41:43.058 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2765 ms
+2025-06-16 13:41:43.067 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4136 ms
+2025-06-16 13:42:05.446 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3497 ms
+2025-06-16 13:42:05.449 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4997 ms
+2025-06-16 13:42:05.514 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2884 ms
+2025-06-16 13:42:05.514 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.5017 ms
+2025-06-16 13:43:30.787 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4485 ms
+2025-06-16 13:43:30.789 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2913 ms
+2025-06-16 13:43:30.863 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9609 ms
+2025-06-16 13:43:30.863 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1767 ms
+2025-06-16 13:45:43.022 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1216 ms
+2025-06-16 13:45:43.024 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9563 ms
+2025-06-16 13:45:43.087 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.5796 ms
+2025-06-16 13:45:43.087 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.5897 ms
+2025-06-16 13:56:31.457 +02:00 [INF] HTTP DELETE /api/notes/61 responded 204 in 22.8556 ms
+2025-06-16 13:56:43.470 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1461 ms
+2025-06-16 13:56:43.529 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0139 ms
+2025-06-16 13:56:43.548 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9143 ms
+2025-06-16 13:56:43.550 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8448 ms
+2025-06-16 14:06:11.208 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.6617 ms
+2025-06-16 14:06:11.208 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5888 ms
+2025-06-16 14:07:17.828 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6980 ms
+2025-06-16 14:07:17.829 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.4504 ms
+2025-06-16 14:07:17.886 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8994 ms
+2025-06-16 14:07:17.886 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9040 ms
+2025-06-16 14:08:02.803 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9032 ms
+2025-06-16 14:08:02.804 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6859 ms
+2025-06-16 14:08:02.815 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6913 ms
+2025-06-16 14:08:02.819 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9061 ms
+2025-06-16 14:30:11.282 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0709 ms
+2025-06-16 14:30:11.296 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9485 ms
+2025-06-16 14:30:11.433 +02:00 [INF] HTTP GET /api/folders responded 200 in 152.8157 ms
+2025-06-16 14:30:11.436 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9600 ms
+2025-06-16 14:31:56.424 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8595 ms
+2025-06-16 14:31:56.426 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9138 ms
+2025-06-16 14:31:56.490 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6825 ms
+2025-06-16 14:31:56.490 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8265 ms
+2025-06-16 15:22:37.364 +02:00 [INF] Starting the application...
+2025-06-16 15:22:37.546 +02:00 [WRN] The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+2025-06-16 15:22:37.550 +02:00 [WRN] Overriding address(es) 'https://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-16 15:23:23.497 +02:00 [INF] HTTP GET /api/folders responded 200 in 642.0722 ms
+2025-06-16 15:23:23.538 +02:00 [INF] HTTP GET /api/folders responded 200 in 36.1736 ms
+2025-06-16 15:23:23.568 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 714.4917 ms
+2025-06-16 15:23:23.573 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.1610 ms
+2025-06-16 15:26:11.067 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 4.0274 ms
+2025-06-16 15:26:11.109 +02:00 [INF] HTTP GET /api/folders responded 200 in 4.0381 ms
+2025-06-16 15:26:11.145 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.9493 ms
+2025-06-16 15:26:11.153 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.3869 ms
+2025-06-16 15:50:30.680 +02:00 [INF] HTTP GET /api/folders responded 200 in 2.5955 ms
+2025-06-16 15:50:30.830 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 153.1681 ms
+2025-06-16 15:51:57.913 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2933 ms
+2025-06-16 15:51:57.913 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.3554 ms
+2025-06-16 15:51:57.917 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3619 ms
+2025-06-16 15:51:57.917 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3618 ms
+2025-06-16 15:58:49.808 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.9480 ms
+2025-06-16 15:58:49.812 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4563 ms
+2025-06-16 15:58:49.959 +02:00 [INF] HTTP GET /api/folders responded 200 in 152.1397 ms
+2025-06-16 15:58:49.963 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.4348 ms
+2025-06-16 15:59:50.736 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9393 ms
+2025-06-16 15:59:50.736 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4350 ms
+2025-06-16 15:59:50.739 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0229 ms
+2025-06-16 15:59:50.739 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0328 ms
+2025-06-16 16:00:15.507 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0924 ms
+2025-06-16 16:00:15.507 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6416 ms
+2025-06-16 16:00:15.511 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9862 ms
+2025-06-16 16:00:15.511 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0677 ms
+2025-06-16 16:02:35.378 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7807 ms
+2025-06-16 16:02:35.378 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1067 ms
+2025-06-16 16:02:35.382 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3008 ms
+2025-06-16 16:02:35.382 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3707 ms
+2025-06-16 16:03:17.140 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.2632 ms
+2025-06-16 16:03:17.140 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9006 ms
+2025-06-16 16:03:17.144 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9024 ms
+2025-06-16 16:03:17.145 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3185 ms
+2025-06-16 16:03:44.040 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.3689 ms
+2025-06-16 16:03:44.040 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7314 ms
+2025-06-16 16:03:44.044 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1538 ms
+2025-06-16 16:03:44.044 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1538 ms
+2025-06-16 16:03:52.038 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9732 ms
+2025-06-16 16:03:52.039 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9229 ms
+2025-06-16 16:03:52.043 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8740 ms
+2025-06-16 16:03:52.043 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8053 ms
+2025-06-16 16:04:19.636 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8510 ms
+2025-06-16 16:04:19.640 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0356 ms
+2025-06-16 16:04:19.641 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6335 ms
+2025-06-16 16:04:19.646 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2487 ms
+2025-06-16 16:04:56.023 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0973 ms
+2025-06-16 16:04:56.026 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2746 ms
+2025-06-16 16:04:56.031 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8912 ms
+2025-06-16 16:04:56.031 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5903 ms
+2025-06-16 16:06:44.590 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8849 ms
+2025-06-16 16:06:44.592 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8341 ms
+2025-06-16 16:06:44.595 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0598 ms
+2025-06-16 16:06:44.596 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9386 ms
+2025-06-16 16:06:52.676 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9539 ms
+2025-06-16 16:06:52.677 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6439 ms
+2025-06-16 16:06:52.681 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0700 ms
+2025-06-16 16:06:52.681 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0699 ms
+2025-06-16 16:07:41.913 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8426 ms
+2025-06-16 16:07:41.916 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.3472 ms
+2025-06-16 16:07:41.918 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0645 ms
+2025-06-16 16:07:41.922 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1865 ms
+2025-06-16 16:08:36.282 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1930 ms
+2025-06-16 16:08:36.283 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2694 ms
+2025-06-16 16:08:36.289 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9744 ms
+2025-06-16 16:08:36.289 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0271 ms
+2025-06-16 16:08:43.762 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1995 ms
+2025-06-16 16:08:43.764 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8585 ms
+2025-06-16 16:08:43.766 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7297 ms
+2025-06-16 16:08:43.768 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7372 ms
+2025-06-16 16:56:54.806 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.5914 ms
+2025-06-16 16:56:54.806 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8202 ms
+2025-06-16 16:56:54.814 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7147 ms
+2025-06-16 16:56:54.814 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7359 ms
+2025-06-16 16:56:57.288 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5212 ms
+2025-06-16 16:56:57.288 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7682 ms
+2025-06-16 16:56:57.303 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7850 ms
+2025-06-16 16:56:57.303 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8457 ms
+2025-06-16 16:57:36.191 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.4269 ms
+2025-06-16 16:57:36.191 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9293 ms
+2025-06-16 16:57:36.200 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6212 ms
+2025-06-16 16:57:36.200 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6384 ms
+2025-06-16 16:58:21.381 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6591 ms
+2025-06-16 16:58:21.383 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5654 ms
+2025-06-16 16:58:21.385 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.5722 ms
+2025-06-16 16:58:21.385 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.4422 ms
+2025-06-16 17:51:53.763 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.6003 ms
+2025-06-16 17:51:53.763 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0691 ms
+2025-06-16 17:51:53.767 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8180 ms
+2025-06-16 17:51:53.767 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8896 ms
+2025-06-16 17:51:54.492 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7915 ms
+2025-06-16 17:51:54.492 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8125 ms
+2025-06-16 17:51:54.497 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7897 ms
+2025-06-16 17:51:54.497 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8139 ms
+2025-06-16 17:51:59.257 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.0116 ms
+2025-06-16 17:51:59.260 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8460 ms
+2025-06-16 17:51:59.260 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.4721 ms
+2025-06-16 17:51:59.263 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1412 ms
+2025-06-16 17:53:56.269 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.1587 ms
+2025-06-16 17:53:56.275 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.9365 ms
+2025-06-16 17:53:56.276 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.4929 ms
+2025-06-16 17:53:56.279 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8026 ms
+2025-06-16 17:54:11.760 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6935 ms
+2025-06-16 17:54:11.764 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.2385 ms
+2025-06-16 17:54:11.765 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.5287 ms
+2025-06-16 17:54:11.767 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7852 ms
+2025-06-16 17:54:39.530 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8319 ms
+2025-06-16 17:54:39.532 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6140 ms
+2025-06-16 17:54:39.533 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7822 ms
+2025-06-16 17:54:39.535 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7247 ms
+2025-06-16 17:54:40.811 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8349 ms
+2025-06-16 17:54:40.812 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6052 ms
+2025-06-16 17:54:40.816 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6837 ms
+2025-06-16 17:54:40.816 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7251 ms
+2025-06-16 17:54:44.024 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9775 ms
+2025-06-16 17:54:44.024 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6897 ms
+2025-06-16 17:54:44.028 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7272 ms
+2025-06-16 17:54:44.028 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7712 ms
+2025-06-16 17:54:50.849 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8295 ms
+2025-06-16 17:54:50.852 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7266 ms
+2025-06-16 17:54:50.855 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.5646 ms
+2025-06-16 17:54:50.855 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.4423 ms
+2025-06-16 17:54:51.964 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6711 ms
+2025-06-16 17:54:51.966 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0239 ms
+2025-06-16 17:54:51.967 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.5824 ms
+2025-06-16 17:54:51.972 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0456 ms
+2025-06-16 17:55:07.949 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6766 ms
+2025-06-16 17:55:07.950 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.5459 ms
+2025-06-16 17:55:07.953 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7333 ms
+2025-06-16 17:55:07.953 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8352 ms

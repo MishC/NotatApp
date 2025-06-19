@@ -81,27 +81,30 @@ namespace NotatApp.Services
                 throw new ArgumentException("Content cannot exceed 1000 characters.");
             }
 
-            if (note?.Title.Length < 3 || note?.Title.Length > 100)
+            if (note?.Title.Length < 1 || note?.Title.Length > 100)
             {
-                throw new ArgumentException("Title must be between 3 and 100 characters.");
+                throw new ArgumentException("Title must have at least 1 character. Title cannot exceed 100 characters.");
             }
             await _noteRepository.AddNoteAsync(note!);
         }
-        public async Task UpdateNoteAsync(Note note)
-        {
-            var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id) ?? throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
-            if (note.Title?.Length < 1 || note.Title?.Length > 100)
-            {
-                throw new ArgumentException("Title cannot be null!");
-            }
+  public async Task UpdateNoteAsync(Note note)
+{
+    var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id) 
+        ?? throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
 
-            existingNote.Title = note.Title;
-            existingNote.Content = note.Content;
-            existingNote.IsArchived = note.IsArchived;
-            existingNote.FolderId = note.FolderId;
+    if (string.IsNullOrWhiteSpace(note.Title) || note.Title.Length > 100)
+    {
+        throw new ArgumentException("Title must be between 1 and 100 characters.");
+    }
 
-            await _noteRepository.UpdateNoteAsync(existingNote);
-        }
+    existingNote.Title = note.Title;
+    existingNote.Content = note.Content;
+    existingNote.IsArchived = note.IsArchived;
+    existingNote.FolderId = note.FolderId;
+
+    await _noteRepository.UpdateNoteAsync(existingNote);
+}
+
         public async Task DeleteNoteAsync(int id)
         {
 

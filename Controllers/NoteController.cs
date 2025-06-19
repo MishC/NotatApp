@@ -25,7 +25,7 @@ namespace NotatApp.Controllers
             return Ok(pending);
         }
         [HttpGet("done")]
-          public async Task<IActionResult> GetDoneNotes()
+        public async Task<IActionResult> GetDoneNotes()
         {
             var pending = await _noteService.GetDoneNotesAsync();
             return Ok(pending);
@@ -41,24 +41,30 @@ namespace NotatApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNote(Note note)
         {
+
             await _noteService.AddNoteAsync(note);
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
+
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateNote(int id, Note note)
         {
-            note.Id = id;
+            if (note.Id != id)
+            {
+                return BadRequest("Note ID in the body does not match the ID in the URL.");
+            }
+
             await _noteService.UpdateNoteAsync(note);
             return NoContent();
         }
-         
+
         [HttpPut("{folderId}/{id}")]
         public async Task<IActionResult> UpdateNoteFolder(int folderId, int id)
         {
             var note = await _noteService.GetNoteByIdAsync(id);
             if (note == null)
-            return NotFound();
+                return NotFound();
 
             note.FolderId = folderId;
             await _noteService.UpdateNoteAsync(note);
