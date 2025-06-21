@@ -99,7 +99,6 @@ namespace NotatApp.Services
 
     existingNote.Title = note.Title;
     existingNote.Content = note.Content;
-    existingNote.IsArchived = note.IsArchived;
     existingNote.FolderId = note.FolderId;
 
     await _noteRepository.UpdateNoteAsync(existingNote);

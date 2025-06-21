@@ -55,7 +55,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-builder.WebHost.UseUrls("https://localhost:5001");
+builder.WebHost.UseUrls("http://localhost:5001");
 
 
 
@@ -72,7 +72,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler(o => { });  
 app.UseSerilogRequestLogging();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();

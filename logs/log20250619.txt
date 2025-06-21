@@ -25,30 +25,37 @@
 2025-06-19 14:24:34.768 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 91.7517 ms
 2025-06-19 14:26:50.910 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 16.6095 ms
 2025-06-19 14:33:47.786 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 20.3658 ms
-verImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
---- End of stack trace from previous location ---
-   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
-   --- End of inner exception stack trace ---
-   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
-   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
-   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
-   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
-   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
-   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
-   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
-   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
-   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
-2025-06-19 14:21:32.045 +02:00 [FTL] Application failed to start!
-System.IO.IOException: Failed to bind to address http://127.0.0.1:5152: address already in use.
- ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
- ---> System.Net.Sockets.SocketException (98): Address already in use
-   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
-   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
-   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
-   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
-   --- End of inner exception stack trace ---
-   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
-   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+2025-06-19 14:37:13.557 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6381 ms
+2025-06-19 14:37:13.557 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.4445 ms
+2025-06-19 14:37:13.560 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.4318 ms
+2025-06-19 14:37:13.560 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6379 ms
+2025-06-19 14:37:22.883 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 15.7755 ms
+2025-06-19 14:39:46.620 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 16.0213 ms
+2025-06-19 14:42:48.005 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7330 ms
+2025-06-19 14:42:48.010 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8320 ms
+2025-06-19 14:42:48.016 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.6962 ms
+2025-06-19 14:42:48.016 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7070 ms
+2025-06-19 14:43:35.846 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6665 ms
+2025-06-19 14:43:35.847 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.7780 ms
+2025-06-19 14:43:35.849 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.5038 ms
+2025-06-19 14:43:35.849 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.4981 ms
+2025-06-19 14:43:40.117 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9239 ms
+2025-06-19 14:43:40.122 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0482 ms
+2025-06-19 14:43:40.126 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7633 ms
+2025-06-19 14:43:40.128 +02:00 [INF] HTTP GET /api/folders responded 200 in 0.8511 ms
+2025-06-19 14:43:46.930 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 17.2057 ms
+2025-06-19 14:43:46.940 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.6352 ms
+2025-06-19 14:43:59.639 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 20.3073 ms
+2025-06-19 14:43:59.646 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7202 ms
+2025-06-19 14:48:32.789 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.0221 ms
+2025-06-19 14:48:32.790 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.5521 ms
+2025-06-19 14:48:32.798 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.8329 ms
+2025-06-19 14:48:32.798 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.1499 ms
+2025-06-19 14:48:38.195 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 16.8882 ms
+2025-06-19 14:48:38.202 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.9632 ms
+2025-06-19 14:48:56.253 +02:00 [INF] HTTP PUT /api/notes/1/47 responded 204 in 15.2378 ms
+2025-06-19 14:48:56.260 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 0.7023 ms
+oken)
    at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
    at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
 --- End of stack trace from previous location ---

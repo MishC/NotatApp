@@ -48,7 +48,7 @@ namespace NotatApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNote(int id, Note note)
+        public async Task<IActionResult> UpdateNote(int id, [FromBody] Note note)
         {
             if (note.Id != id)
             {
@@ -58,16 +58,14 @@ namespace NotatApp.Controllers
             await _noteService.UpdateNoteAsync(note);
             return NoContent();
         }
-
         [HttpPut("{folderId}/{id}")]
-        public async Task<IActionResult> UpdateNoteFolder(int folderId, int id)
+        public async Task<IActionResult> UpdateNoteFolder(int folderId, int id, [FromBody] Note updatedNote)
         {
-            var note = await _noteService.GetNoteByIdAsync(id);
-            if (note == null)
-                return NotFound();
+            if (updatedNote == null || updatedNote.Id != id)
+                return BadRequest("Invalid note data.");
 
-            note.FolderId = folderId;
-            await _noteService.UpdateNoteAsync(note);
+
+            await _noteService.UpdateNoteAsync(updatedNote);
             return NoContent();
         }
 
