@@ -13,6 +13,25 @@ Folders have following properties: id, name. Default names are "Work", "Personal
 
 One Folder can have many notes. One to many relationship between folders table and notes table in SQL.
 
+```mermaid
+erDiagram
+    Folders {
+      int id PK
+      string name
+    }
+    Notes {
+      int id PK
+      string title
+      string content
+      bool isArchived
+      int folderId FK
+    }
+    Folders ||--o{ Notes : contains
+```
+
+
+
+
 ## Documentation
 
 Swagger: http://localhost:5001/swagger/index.html
