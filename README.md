@@ -5,8 +5,11 @@ This is the backend solution for NotatAppFrontend repository. It exposes API end
 ## Architecture
 
 This is Restfull API build in ASP.NET Core with 2 main api routes:
+
 /api/notes
+
 /api/folders
+
 
 Notes have following properties: id, title, content, isArchived, folderId (foreign key).
 Folders have following properties: id, name. Default names are "Work", "Personal", "Ideas", "Done"
