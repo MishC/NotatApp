@@ -19,6 +19,8 @@ Folders have following properties: id, name. Default names are "Work", "Personal
 
 One Folder can have many notes. One to many relationship between folders table and notes table in SQL.
 
+
+
 ```mermaid
 erDiagram
     Folders {
@@ -37,6 +39,20 @@ erDiagram
 
 
 
+## How to run 
+
+In development
+
+``` dotnet run ```
+
+In production
+
+``` 
+    dotnet build 
+    dotnet publish -c Release -o out
+    cd out
+    dotnet NotatApp.dll
+ ```
 
 ## Documentation
 
