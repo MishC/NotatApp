@@ -41,7 +41,7 @@ erDiagram
 
 ## How to run 
 
-In development (locally)
+In development 
 
 ``` dotnet run ```
 
