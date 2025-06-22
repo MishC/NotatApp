@@ -12,7 +12,10 @@ This is Restfull API build in ASP.NET Core with 2 main api routes:
 
 
 Notes have following properties: id, title, content, isArchived, folderId (foreign key).
+
+
 Folders have following properties: id, name. Default names are "Work", "Personal", "Ideas", "Done"
+
 
 One Folder can have many notes. One to many relationship between folders table and notes table in SQL.
 
