@@ -1,0 +1,69 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider/VS Code/VS config
+.vscode/
+.idea/
+*.swp
+
+# Dotnet tool settings
+*.dbmdl
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored if you use package restore
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Publish output
+publish/
+*.Publish.xml
+
+# Visual Studio 2015 cache/options directory
+.vs/
+
+# Local history for Visual Studio
+.localhistory/
+
+# Windows image file caches
+*.wci
+
+# User secrets
+secrets.json
+
+# Resharper files
+*.resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# DotCover is a code coverage tool
+*.dotCover
+
+# Others
+project.lock.json
+project.fragment.lock.json
+
+# Entity Framework Migrations
+Migrations/
+
+
+# Logs
+*.log
+
+
