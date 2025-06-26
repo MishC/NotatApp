@@ -1,0 +1,18 @@
+2025-06-26 15:39:38.572 +02:00 [INF] Starting the application...
+2025-06-26 15:39:38.659 +02:00 [WRN] Overriding address(es) 'http://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-06-26 15:39:56.412 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 514.6460 ms
+2025-06-26 15:39:56.452 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 33.9387 ms
+2025-06-26 15:39:56.456 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.5337 ms
+2025-06-26 15:39:56.456 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.2841 ms
+2025-06-26 15:39:56.520 +02:00 [INF] HTTP GET /api/folders responded 200 in 624.2168 ms
+2025-06-26 15:39:56.525 +02:00 [INF] HTTP GET /api/folders responded 200 in 3.4175 ms
+2025-06-26 15:39:58.605 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 3.5911 ms
+2025-06-26 15:39:59.349 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.8554 ms
+2025-06-26 15:40:00.066 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.7206 ms
+2025-06-26 15:40:00.802 +02:00 [INF] HTTP GET /api/notes/done responded 200 in 14.0103 ms
+2025-06-26 15:40:03.146 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.7974 ms
+2025-06-26 15:40:03.153 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 2.2851 ms
+2025-06-26 15:40:03.158 +02:00 [INF] HTTP GET /api/folders responded 200 in 5.8504 ms
+2025-06-26 15:40:03.158 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.9311 ms
+2025-06-26 15:40:03.165 +02:00 [INF] HTTP GET /api/notes/pending responded 200 in 1.4677 ms
+2025-06-26 15:40:03.165 +02:00 [INF] HTTP GET /api/folders responded 200 in 1.9931 ms
