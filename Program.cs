@@ -5,7 +5,7 @@ using NotatApp.Services;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 using Serilog;
-using Microsoft.AspNetCore.Builder;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
