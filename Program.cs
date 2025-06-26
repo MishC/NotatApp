@@ -16,7 +16,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp", policy =>
     {
         policy.WithOrigins("http://localhost:5173", "http://51.20.51.192:5173",
-        "https://51.20.51.192:5173", "https://localhost:5173") // Allow frontend
+        "https://51.20.51.192:5173", "https://localhost:5173", 
+        "https://noteappsolutions.com", "https://www.noteappsolutions.com") // Allow frontend
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials(); // Allow credentials (optional)
