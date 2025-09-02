@@ -72,17 +72,25 @@ namespace NotatApp.Controllers
             return NoContent();
         }
 
-        // Swap two notes (fast path)
-        [HttpPost("swap")]
-        public async Task<IActionResult> Swap([FromBody] int[] ids)
-        {
-            if (ids.Length != 2 || ids[0] <= 0 || ids[1] <= 0)
-                return BadRequest("Invalid payload.");
+        // Request model for swapping notes
 
-            await _noteService.SwapOrderAsync(ids[0], ids[1]);
-            return NoContent();
+        public class SwapRequest
+        {
+            public int SourceId { get; set; }
+            public int TargetId { get; set; }
         }
 
+
+        // Swap two notes (fast path)
+        [HttpPost("swap")]
+public async Task<IActionResult> Swap([FromBody] SwapRequest request)
+{
+    if (request.SourceId <= 0 || request.TargetId <= 0)
+        return BadRequest("Invalid payload.");
+
+    await _noteService.SwapOrderAsync(request.SourceId, request.TargetId);
+    return Ok(new { success = true }); // <= JSON body instead of 204
+}
         // Delete a note
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNote(int id)
