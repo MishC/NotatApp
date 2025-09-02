@@ -72,14 +72,14 @@ namespace NotatApp.Controllers
             return NoContent();
         }
 
-          // Swap two notes (fast path)
+        // Swap two notes (fast path)
         [HttpPost("swap")]
-    public async Task<IActionResult> Swap(int source, int target)
-    {
-    
-        await _noteService.SwapOrderAsync(source,target);
-        return NoContent();
-    }
+        public async Task<IActionResult> Swap(int source, int target)
+        {
+
+            await _noteService.SwapOrderAsync(source, target);
+            return NoContent();
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNote(int id)
         {
