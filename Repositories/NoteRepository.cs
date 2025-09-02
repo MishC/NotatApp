@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+//using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NotatApp.Data;
 using NotatApp.Models;
 
@@ -12,8 +13,17 @@ namespace NotatApp.Repositories
         {
             _context = context;
         }
+        public async Task<List<Note>> GetAllNotesAsync()
+        {
+            var notes = _context.Notes
+        .Where(n => n.FolderId == folderId)
+        .OrderBy(n => n.OrderIndex)
+        .ToList();
 
-        public async Task<List<Note>> GetAllNotesAsync() => await _context.Notes.ToListAsync();
+        return notes;
+
+        }
+
 
         public async Task<Note?> GetNoteByIdAsync(int id)
         {

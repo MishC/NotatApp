@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NotatApp.Models;
 using NotatApp.Data;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 public class FolderRepository : IFolderRepository
 {
@@ -18,11 +19,13 @@ public class FolderRepository : IFolderRepository
         return await _context.Folders.Include(f => f.Notes).ToListAsync();
     }
 
-    public async Task<Folder?> GetFolderByIdAsync(int id)
+    public async Task<Folder> GetFolderByIdAsync(int id)
     {
-        return await _context.Folders.Include(f => f.Notes).FirstOrDefaultAsync(f => f.Id == id);
+        var folder = await _context.Folders.Include(f => f.Notes).FirstOrDefaultAsync(f => f.Id == id) ?? throw new KeyNotFoundException($"Folder with ID {id} not found.");
+        return folder;
     }
-
+    
+    
     public async Task<Folder> AddFolderAsync(Folder folder)
     {
         _context.Folders.Add(folder);

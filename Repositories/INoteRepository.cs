@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NotatApp.Models;
 
 namespace NotatApp.Repositories

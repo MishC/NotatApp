@@ -25,5 +25,7 @@ namespace NotatApp.Models
         [ValidateNever]
         [JsonIgnore]
         public Folder? Folder { get; set; }
+
+        public int OrderIndex { get; set; } = 0;
     }
 }

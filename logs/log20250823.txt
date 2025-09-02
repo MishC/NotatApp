@@ -1,0 +1,4 @@
+2025-08-23 16:14:01.288 +02:00 [INF] Starting the application...
+2025-08-23 16:14:01.379 +02:00 [WRN] Overriding address(es) 'http://localhost:5001'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-08-23 16:33:10.125 +02:00 [INF] HTTP GET / responded 404 in 7.0040 ms
+2025-08-23 16:33:12.443 +02:00 [INF] HTTP GET / responded 404 in 0.1704 ms

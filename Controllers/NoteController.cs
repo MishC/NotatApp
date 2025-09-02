@@ -18,6 +18,9 @@ namespace NotatApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllNotes() => Ok(await _noteService.GetAllNotesAsync());
 
+         [HttpGet("health")]
+        public IActionResult HealthCheck() => Ok("Note Service is running.");
+
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingNotes()
         {
