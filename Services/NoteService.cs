@@ -123,6 +123,21 @@ namespace NotatApp.Services
             await _noteRepository.UpdateNoteAsync(existingNote);
         }
 
+        public async Task SwapOrderAsync(int sourceId, int targetId)
+        {
+            var a = await _noteRepository.GetNoteByIdAsync(sourceId)
+            ?? throw new KeyNotFoundException($"Note {sourceId} not found");
+            var b = await _noteRepository.GetNoteByIdAsync(targetId)
+                ?? throw new KeyNotFoundException($"Note {targetId} not found");
+
+            // swap
+            (a.OrderIndex, b.OrderIndex) = (b.OrderIndex, a.OrderIndex);
+
+        await _noteRepository.UpdateNoteAsync(a);
+        await _noteRepository.UpdateNoteAsync(b);
+
+        }   
+
         public async Task DeleteNoteAsync(int id)
         {
 
