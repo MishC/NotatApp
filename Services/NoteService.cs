@@ -19,7 +19,8 @@ namespace NotatApp.Services
             {
                 throw new ArgumentNullException(nameof(_noteRepository));
             }
-            return await _noteRepository.GetAllNotesAsync();
+            var notes = await _noteRepository.GetAllNotesAsync();
+            return notes.OrderBy(n => n.OrderIndex).ToList();
 
         }
         // NoteService.cs
@@ -30,7 +31,7 @@ namespace NotatApp.Services
                 throw new ArgumentNullException(nameof(_noteRepository));
             }
             var allNotes = await _noteRepository.GetAllNotesAsync();
-            return allNotes.Where(n => n.FolderId != 4);
+            return allNotes.Where(n => n.FolderId != 4).OrderBy(n => n.OrderIndex);
         }
 
         public async Task<IEnumerable<Note>> GetDoneNotesAsync()
@@ -40,7 +41,7 @@ namespace NotatApp.Services
                 throw new ArgumentNullException(nameof(_noteRepository));
             }
             var allNotes = await _noteRepository.GetAllNotesAsync();
-            return allNotes.Where(n => n.FolderId == 4);
+            return allNotes.Where(n => n.FolderId == 4).OrderBy(n => n.OrderIndex);
         }
 
         public async Task<Note?> GetNoteByIdAsync(int id)
@@ -106,21 +107,21 @@ namespace NotatApp.Services
             }
         }
         public async Task UpdateNoteAsync(Note note)
-{
-    var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id) 
-        ?? throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
+        {
+            var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id)
+                ?? throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
 
-    if (string.IsNullOrWhiteSpace(note.Title) || note.Title.Length > 100)
-    {
-        throw new ArgumentException("Title must be between 1 and 100 characters.");
-    }
+            if (string.IsNullOrWhiteSpace(note.Title) || note.Title.Length > 100)
+            {
+                throw new ArgumentException("Title must be between 1 and 100 characters.");
+            }
 
-    existingNote.Title = note.Title;
-    existingNote.Content = note.Content;
-    existingNote.FolderId = note.FolderId;
+            existingNote.Title = note.Title;
+            existingNote.Content = note.Content;
+            existingNote.FolderId = note.FolderId;
 
-    await _noteRepository.UpdateNoteAsync(existingNote);
-}
+            await _noteRepository.UpdateNoteAsync(existingNote);
+        }
 
         public async Task DeleteNoteAsync(int id)
         {
