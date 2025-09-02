@@ -69,7 +69,10 @@ namespace NotatApp.Services
         {
 
 
-            ArgumentNullException.ThrowIfNull(note);
+            if (note == null)
+            {
+                throw new ArgumentNullException(nameof(note), "Note cannot be null.");
+            }
 
             if (string.IsNullOrWhiteSpace(note.Title))
 
@@ -85,9 +88,24 @@ namespace NotatApp.Services
             {
                 throw new ArgumentException("Title must have at least 1 character. Title cannot exceed 100 characters.");
             }
-            await _noteRepository.AddNoteAsync(note!);
+            var allNotes = await _noteRepository.GetAllNotesAsync();
+            var maxIndex = allNotes
+                .Where(n => n.FolderId == note?.FolderId)
+                .Select(n => (int?)n.OrderIndex)
+                .DefaultIfEmpty(-1)
+                .Max() ?? -1;
+
+            if (note != null)
+            {
+                note.OrderIndex = maxIndex + 1;
+                await _noteRepository.AddNoteAsync(note);
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(note), "Note cannot be null.");
+            }
         }
-  public async Task UpdateNoteAsync(Note note)
+        public async Task UpdateNoteAsync(Note note)
 {
     var existingNote = await _noteRepository.GetNoteByIdAsync(note.Id) 
         ?? throw new KeyNotFoundException($"Note with ID {note.Id} not found.");
