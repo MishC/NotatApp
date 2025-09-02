@@ -18,7 +18,7 @@ namespace NotatApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllNotes() => Ok(await _noteService.GetAllNotesAsync());
 
-         [HttpGet("health")]
+        [HttpGet("health")]
         public IActionResult HealthCheck() => Ok("Note Service is running.");
 
         [HttpGet("pending")]
@@ -74,10 +74,12 @@ namespace NotatApp.Controllers
 
         // Swap two notes (fast path)
         [HttpPost("swap")]
-        public async Task<IActionResult> Swap(int source, int target)
+        public async Task<IActionResult> Swap([FromBody] int[] ids)
         {
+            if (ids.Length != 2 || ids[0] <= 0 || ids[1] <= 0)
+                return BadRequest("Invalid payload.");
 
-            await _noteService.SwapOrderAsync(source, target);
+            await _noteService.SwapOrderAsync(ids[0], ids[1]);
             return NoContent();
         }
 
