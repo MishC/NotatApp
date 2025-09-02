@@ -9,20 +9,12 @@ namespace NotatApp.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public NoteRepository(ApplicationDbContext context)
+        public NoteRepository(ApplicationDbContext context) //Dependency Injection
         {
             _context = context;
         }
-        public async Task<List<Note>> GetAllNotesAsync()
-        {
-            var notes = _context.Notes
-        .Where(n => n.FolderId == folderId)
-        .OrderBy(n => n.OrderIndex)
-        .ToList();
-
-        return notes;
-
-        }
+        public async Task<List<Note>> GetAllNotesAsync() => await _context.Notes.ToListAsync();
+ 
 
 
         public async Task<Note?> GetNoteByIdAsync(int id)
