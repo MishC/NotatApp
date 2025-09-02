@@ -25,8 +25,6 @@ namespace NotatApp.Data
         .Property(n => n.Id)
         .ValueGeneratedOnAdd();
 
-         for (int i = 0; i < notes.Count; i++)
-        notes[i].OrderIndex = i;
 
         base.OnModelCreating(modelBuilder);
         
