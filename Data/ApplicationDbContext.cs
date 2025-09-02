@@ -20,9 +20,13 @@ namespace NotatApp.Data
             modelBuilder.Entity<Note>()
             .HasKey(n => n.Id);
 
+
          modelBuilder.Entity<Note>()
         .Property(n => n.Id)
         .ValueGeneratedOnAdd();
+
+         for (int i = 0; i < notes.Count; i++)
+        notes[i].OrderIndex = i;
 
         base.OnModelCreating(modelBuilder);
         

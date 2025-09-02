@@ -70,6 +70,9 @@ namespace NotatApp.Migrations
                     b.Property<bool>("IsArchived")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -88,6 +91,7 @@ namespace NotatApp.Migrations
                             Content = "Discuss Q1 roadmap",
                             FolderId = 1,
                             IsArchived = false,
+                            OrderIndex = 0,
                             Title = "Meeting Notes"
                         },
                         new
@@ -96,6 +100,7 @@ namespace NotatApp.Migrations
                             Content = "Milk, Eggs, Bread",
                             FolderId = 2,
                             IsArchived = false,
+                            OrderIndex = 0,
                             Title = "Grocery List"
                         },
                         new
@@ -104,6 +109,7 @@ namespace NotatApp.Migrations
                             Content = "Build a note-taking app",
                             FolderId = 3,
                             IsArchived = false,
+                            OrderIndex = 0,
                             Title = "App Idea"
                         });
                 });
