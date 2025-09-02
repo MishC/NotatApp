@@ -80,6 +80,8 @@ namespace NotatApp.Controllers
             await _noteService.SwapOrderAsync(source, target);
             return NoContent();
         }
+
+        // Delete a note
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNote(int id)
         {
