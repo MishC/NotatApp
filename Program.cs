@@ -75,9 +75,16 @@ app.UseExceptionHandler(o => { });
 app.UseSerilogRequestLogging();
 //app.UseHttpsRedirection();
 app.UseRouting();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
+app.MapFallbackToFile("index.html");
 
 try
 {
@@ -95,6 +102,5 @@ finally
 
 
 
-app.Run();
 
 
