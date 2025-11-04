@@ -9,4 +9,5 @@ public interface IFolderRepository
     Task<Folder> AddFolderAsync(Folder folder);
     Task<bool> UpdateFolderAsync(Folder folder);
     Task<bool> DeleteFolderAsync(int id);
+    Task<Folder> GetFolderByNameAsync(string name);
 }
