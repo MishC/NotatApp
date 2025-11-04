@@ -30,10 +30,10 @@ public class GlobalExceptionHandler : IExceptionHandler
         }
         else
         {
-            Log.Error("❌ Error: {Message}", exception.Message);
+            Log.Error(" Error: {Message}", exception.Message);
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"❌ ERROR: {exception.Message}");
+            Console.WriteLine($" ERROR: {exception.Message}");
             Console.ResetColor();
         }
 
