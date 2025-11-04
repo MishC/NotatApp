@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace NotatApp.Models
 {
+    [Microsoft.EntityFrameworkCore.Index(nameof(Name), IsUnique = true)]
     public class Folder
     {
         [Key]

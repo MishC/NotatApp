@@ -47,4 +47,14 @@ public class FolderRepository : IFolderRepository
         _context.Folders.Remove(folder);
         return await _context.SaveChangesAsync() > 0;
     }
+
+ public async Task<Folder?> GetFolderByNameAsync(string name)
+{
+    // Normalize for case-insensitive comparison
+    var normalized = name.Trim().ToLowerInvariant();
+    return await _context.Folders
+        .Include(f => f.Notes)
+        .FirstOrDefaultAsync(f => f.Name!.ToLower() == normalized);
+}
+   
 }
