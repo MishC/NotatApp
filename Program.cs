@@ -84,7 +84,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallbackToFile("/");
+app.MapFallbackToFile("index.html");
 
 try
 {
