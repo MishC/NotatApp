@@ -73,7 +73,12 @@ Migrations/
 
 # Logs
 *.log
+logs/
 
+# Database
+*.db
+*.sqlite
+*.log
 
 
 .fake
