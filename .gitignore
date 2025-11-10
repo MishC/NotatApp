@@ -1,7 +1,15 @@
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+
+.env
+.env.*
 # Build results
 bin/
 obj/
 out/
+
+appsettings.json
 
 # User-specific files
 *.user
