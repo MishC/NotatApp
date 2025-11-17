@@ -81,6 +81,7 @@ logs/
 *.db
 *.sqlite
 *.log
+notes.db
 
 
 .fake
