@@ -52,8 +52,16 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
         var user = await _users.FindByEmailAsync(dto.Email);
-        if (user is null || !await _users.CheckPasswordAsync(user, dto.Password))
+        if (user is null)
+        {
+        
+            return BadRequest(new { message = "Wrong user name!" }); // <-- The source of the error
+        }
+        if  (!await _users.CheckPasswordAsync(user, dto.Password))
+        {
+            Console.WriteLine("Wrong password!");
             return Unauthorized();
+        }
 
         var provider = dto.Channel?.ToLower() == "sms" ? "Phone" : "Email";
 
