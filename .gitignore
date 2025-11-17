@@ -1,6 +1,8 @@
 appsettings.json
 appsettings.Development.json
 appsettings.Production.json
+*appsettings*
+../appsettings.json
 
 .env
 .env.*
@@ -82,3 +84,5 @@ logs/
 
 
 .fake
+appsettings.json
+appsettings.json
