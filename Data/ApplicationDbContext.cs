@@ -14,6 +14,8 @@ namespace NotatApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+              base.OnModelCreating(modelBuilder); //First identity
+
             modelBuilder.Entity<Note>()
                 .HasOne(n => n.Folder)
                 .WithMany(f => f.Notes)
@@ -28,7 +30,6 @@ namespace NotatApp.Data
         .ValueGeneratedOnAdd();
 
 
-        base.OnModelCreating(modelBuilder);
         
         // Seed 3 folders
         modelBuilder.Entity<Folder>().HasData(
