@@ -20,6 +20,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Microsoft ASP.NET Identity handler
+// ASP.NET Core Identity (uses ApplicationDbContext)
+
+
+builder.Services
+    .AddIdentityCore<User>(opt =>
+    {
+        opt.User.RequireUniqueEmail = true;
+        opt.Password.RequiredLength = 8;
+        opt.SignIn.RequireConfirmedEmail = false;
+        opt.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+    })
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
 //Frontend CORS header
 builder.Services.AddCors(options =>
 {
@@ -32,18 +49,7 @@ builder.Services.AddCors(options =>
               .AllowCredentials(); // Allow credentials (optional)
     });
 });
-//Microsoft ASP.NET Identity handler
-// ASP.NET Core Identity (uses ApplicationDbContext)
-builder.Services
-    .AddIdentityCore<User>(opt => {
-        opt.User.RequireUniqueEmail = true;
-        opt.Password.RequiredLength = 8;
-        opt.SignIn.RequireConfirmedEmail = false; // flip to true in prod
-        opt.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-    })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+
 
 //Check Token validity
 
@@ -102,8 +108,6 @@ builder.Services.AddScoped<IFolderService, FolderService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // external API
 builder.Services.AddSingleton<IEmailSender, SendGridEmailSender>();
