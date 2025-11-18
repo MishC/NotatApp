@@ -121,6 +121,14 @@ builder.WebHost.UseUrls("http://localhost:5001");
 
 var app = builder.Build();
 
+// APPLY MIGRATIONS ON STARTUP
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();   // ← vytvorí notes.db a aplikuje migrácie
+}
+
+
 // Enable CORS middleware
 app.UseCors("AllowReactApp");
 
