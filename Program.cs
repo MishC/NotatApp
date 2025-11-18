@@ -126,10 +126,18 @@ builder.WebHost.UseUrls("http://localhost:5001");
 var app = builder.Build();
 
 // APPLY MIGRATIONS ON STARTUP
-using (var scope = app.Services.CreateScope())
+try
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();   
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        db.Database.Migrate();
+    }
+}
+catch (Exception ex)
+{
+       Log.Error(ex, " Migration failed. ");
+
 }
 
 
