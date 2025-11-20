@@ -106,4 +106,6 @@ public class AuthController : ControllerBase
 
         return Ok(new { accessToken = token });
     }
+
+   
 }

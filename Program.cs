@@ -105,7 +105,11 @@ builder.Services.AddScoped<INoteService, NoteService>();
 
 builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IFolderService, FolderService>();
+
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 

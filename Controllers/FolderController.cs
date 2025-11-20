@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NotatApp.Models;
 
+namespace NotatApp.Controllers {
 [Route("api/folders")]
 [ApiController]
 public class FolderController : ControllerBase
@@ -14,7 +15,6 @@ public class FolderController : ControllerBase
         _folderService = folderService;
     }
 
-    // Get all folders
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Folder>>> GetFolders()
     {
@@ -62,4 +62,5 @@ public class FolderController : ControllerBase
         if (!success) return NotFound();
         return NoContent();
     }
+}
 }
