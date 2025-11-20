@@ -4,7 +4,7 @@ using NotatApp.Models;
 
 namespace NotatApp.Services;
 
-public class UserService : IUserService
+public class UserService : IUserService //Implementation of IUserService
 {
     private readonly UserManager<User> _userManager;
 
