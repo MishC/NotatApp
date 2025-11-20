@@ -10,7 +10,7 @@ public class UserService : IUserService
 
     public UserService(UserManager<User> userManager)
     {
-        _userManager = userManager; //Dependency Injection
+        _userManager = userManager; //Dependency Injection for User, will have this cotructor
     }
 
     public Task<User?> GetCurrentUserAsync(ClaimsPrincipal principal)
