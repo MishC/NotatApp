@@ -7,7 +7,7 @@ public class FolderService : IFolderService
 
     public FolderService(IFolderRepository folderRepository)
     {
-        _folderRepository = folderRepository ?? throw new ArgumentNullException(nameof(folderRepository));
+        _folderRepository = folderRepository ?? throw new ArgumentNullException(nameof(folderRepository)); //DI
     }
 
     public async Task<IEnumerable<Folder>> GetAllFoldersAsync()

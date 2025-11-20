@@ -9,9 +9,9 @@ namespace NotatApp.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public NoteRepository(ApplicationDbContext context) //Dependency Injection
+        public NoteRepository(ApplicationDbContext context) //Dependency Injection of context
         {
-            _context = context;
+            _context = context; 
         }
         public async Task<List<Note>> GetAllNotesAsync() => await _context.Notes.ToListAsync();
  

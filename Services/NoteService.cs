@@ -10,7 +10,7 @@ namespace NotatApp.Services
 
         public NoteService(INoteRepository noteRepository)
         {
-            _noteRepository = noteRepository;
+            _noteRepository = noteRepository; //DI of repository
         }
 
         public async Task<List<Note>> GetAllNotesAsync()
