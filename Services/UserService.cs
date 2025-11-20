@@ -13,8 +13,12 @@ public class UserService : IUserService //Implementation of IUserService
         _userManager = userManager; //Dependency Injection of UserManager<User>
     }
 
-    public Task<User?> GetCurrentUserAsync(ClaimsPrincipal principal)
-    {
-        return _userManager.GetUserAsync(principal);
-    }
+   public Task<User?> GetCurrentUserAsync(ClaimsPrincipal principal)
+{
+    if (principal == null)
+        throw new ArgumentNullException(nameof(principal));
+
+    return _userManager.GetUserAsync(principal); //could be return async
+}
+
 }
