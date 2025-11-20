@@ -13,17 +13,21 @@ public class AuthController : ControllerBase
     private readonly IEmailSender _emailSender;
     private readonly ISmsSender _smsSender;
     private readonly IJwtTokenService _jwtTokenService;
+    private readonly SignInManager<User> _signInManager;
+
 
     public AuthController(
         UserManager<User> users,
         IEmailSender emailSender,
         ISmsSender smsSender,
-        IJwtTokenService jwtTokenService)
+        IJwtTokenService jwtTokenService,
+        SignInManager<User> signInManager)
     {
         _users = users;
-        _emailSender = emailSender;
+        _emailSender = emailSender;                       //DI
         _smsSender = smsSender;
         _jwtTokenService = jwtTokenService;
+         _signInManager = signInManager;
     }
 
     // POST /api/auth/register
@@ -106,6 +110,14 @@ public class AuthController : ControllerBase
 
         return Ok(new { accessToken = token });
     }
+
+
+   [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return Ok(new { message = "Logged out successfully" });
+    }  
 
    
 }
