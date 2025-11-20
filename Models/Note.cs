@@ -27,5 +27,13 @@ namespace NotatApp.Models
         public Folder? Folder { get; set; }
 
         public int OrderIndex { get; set; } = 0;
+
+        [Required]
+        [ForeignKey("User")]
+        public string UserId { get; set; } = default!;
+
+        [ValidateNever]
+        [JsonIgnore]
+        public User User { get; set; } = default!;
     }
 }

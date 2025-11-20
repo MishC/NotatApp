@@ -210,40 +210,17 @@ namespace NotatApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FolderId");
 
-                    b.ToTable("Notes");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "Discuss Q1 roadmap",
-                            FolderId = 1,
-                            IsArchived = false,
-                            OrderIndex = 0,
-                            Title = "Meeting Notes"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "Milk, Eggs, Bread",
-                            FolderId = 2,
-                            IsArchived = false,
-                            OrderIndex = 0,
-                            Title = "Grocery List"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "Build a note-taking app",
-                            FolderId = 3,
-                            IsArchived = false,
-                            OrderIndex = 0,
-                            Title = "App Idea"
-                        });
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("NotatApp.Models.User", b =>
@@ -369,10 +346,23 @@ namespace NotatApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("NotatApp.Models.User", "User")
+                        .WithMany("Notes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Folder");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NotatApp.Models.Folder", b =>
+                {
+                    b.Navigation("Notes");
+                });
+
+            modelBuilder.Entity("NotatApp.Models.User", b =>
                 {
                     b.Navigation("Notes");
                 });
