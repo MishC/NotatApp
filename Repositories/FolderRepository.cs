@@ -54,7 +54,7 @@ public class FolderRepository : IFolderRepository
     var normalized = name.Trim().ToLowerInvariant();
     return await _context.Folders
         .Include(f => f.Notes)
-        .FirstOrDefaultAsync(f => f.Name!.ToLower() == normalized);
+        .FirstOrDefaultAsync(f => (f.Name ?? string.Empty).ToLower() == normalized);
 }
    
 }
