@@ -1,49 +1,47 @@
-using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;  //JwtSecurityToken, JwtSecurityTokenHandler //this have classes for token creation
 using System.Security.Claims;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
+using System.Text; //Encoding
+using Microsoft.IdentityModel.Tokens; //SignInCredentials, SymmetricSecurityKey
 using NotatApp.Models;
 
-namespace NotatApp.Services;
-
-public interface IJwtTokenService
-{
-    string GenerateToken(User user);
-}
 
 public class JwtTokenService : IJwtTokenService
 {
-    private readonly IConfiguration _configuration;
+    private readonly IConfiguration _config;
 
-    public JwtTokenService(IConfiguration configuration)
+    public JwtTokenService(IConfiguration config)
     {
-        _configuration = configuration;
+        _config = config;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateAccessToken(User user)
     {
-        var jwt = _configuration.GetSection("Jwt");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Email, user.Email ?? "")
+            new(JwtRegisteredClaimNames.Sub, user.Id), 
+            new(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+            new("name", user.UserName ?? "")
         };
 
         var token = new JwtSecurityToken(
-            issuer: jwt["Issuer"],
-            audience: jwt["Audience"],
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
             claims: claims,
-            notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddMinutes(30),
-            signingCredentials: creds
+            expires: DateTime.UtcNow.AddMinutes(15), 
+            signingCredentials: creds //credentials of this app
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        return new JwtSecurityTokenHandler().WriteToken(token); //Create token in the right format
+    }
+
+    public string GenerateRefreshToken()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(64);
+        return Convert.ToBase64String(bytes);
     }
 }
