@@ -4,7 +4,10 @@ namespace NotatApp.Models
 {
     public class User : IdentityUser
     {
-            public ICollection<Note> Notes { get; set; } = new List<Note>();
+        public ICollection<Note> Notes { get; set; } = new List<Note>();
+
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiresAt { get; set; }
 
     }
 }
