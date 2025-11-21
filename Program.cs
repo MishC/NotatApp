@@ -51,13 +51,13 @@ builder.Services.AddCors(options =>
 });
 
 
-//Check Token validity
+//Check JWT Token validity
 
 var jwt = builder.Configuration.GetSection("Jwt");
 
 builder.Services.AddAuthentication(o =>
 {
-    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //using of [Authorize]
     o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(o =>
@@ -106,6 +106,7 @@ builder.Services.AddScoped<INoteService, NoteService>();
 builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IFolderService, FolderService>();
 
+//Tokens
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 
