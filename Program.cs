@@ -12,6 +12,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Amazon.SimpleEmail;
+using Amazon.Extensions.NETCore.Setup;
+
+
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,7 +58,7 @@ builder.Services.AddCors(options =>
 
 
 //Check JWT Token validity
-
+//AddJwtBearer is a middleware which verify and validate tokens
 var jwt = builder.Configuration.GetSection("Jwt");
 
 builder.Services.AddAuthentication(o =>
@@ -115,8 +121,19 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 // external API
-builder.Services.AddSingleton<IEmailSender, SendGridEmailSender>();
 builder.Services.AddSingleton<ISmsSender, TwilioSmsSender>();
+
+
+// AWS options – načíta AWS:Region 
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+
+// Registration of SES client
+builder.Services.AddAWSService<IAmazonSimpleEmailService>();
+
+// Email Service
+builder.Services.AddScoped<IEmailSender, SesEmailSender>();
+
+
 
 
 
