@@ -120,18 +120,22 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 
-// external API
+// external API SMS
 builder.Services.AddSingleton<ISmsSender, TwilioSmsSender>();
 
 
-// AWS options – načíta AWS:Region 
-builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
-
-// Registration of SES client
-builder.Services.AddAWSService<IAmazonSimpleEmailService>();
-
-// Email Service
-builder.Services.AddScoped<IEmailSender, SesEmailSender>();
+if (builder.Environment.IsDevelopment())
+{
+    // LOCALLY
+    builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
+}
+else
+{
+    // EC2 / PROD: SES
+    builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+    builder.Services.AddAWSService<IAmazonSimpleEmailService>();
+    builder.Services.AddScoped<IEmailSender, SesEmailSender>();
+}
 
 
 
