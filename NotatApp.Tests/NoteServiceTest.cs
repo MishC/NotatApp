@@ -1,154 +1,260 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xunit;
 using Moq;
 using NotatApp.Models;
-using NotatApp.Services;
 using NotatApp.Repositories;
+using NotatApp.Services;
+using Xunit;
 
-public class NoteServiceTests
+namespace NotatApp.Tests
 {
-    private readonly Mock<INoteRepository> _mockRepo;
-    private readonly NoteService _noteService;
-
-    public NoteServiceTests()
+    public class NoteServiceTests
     {
-        _mockRepo = new Mock<INoteRepository>();
-        _noteService = new NoteService(_mockRepo.Object);
-    }
+        private readonly Mock<INoteRepository> _mockRepo;
+        private readonly NoteService _noteService;
+        private const string UserId = "user-123";
 
-    [Fact]
-    public async Task CreateNote_ValidNote_ReturnsCreatedNote()
-    {
-        // Arrange
-        var note = new Note { Id = 1, Title = "Test Note", Content = "Test Content", FolderId = 1 };
+        public NoteServiceTests()
+        {
+            _mockRepo = new Mock<INoteRepository>();
+            _noteService = new NoteService(_mockRepo.Object);
+        }
 
-        _mockRepo.Setup(repo => repo.AddNoteAsync(It.IsAny<Note>()))
-                 .Returns(Task.FromResult(note));
+        // ---------- CREATE ----------
 
-        // Act
-        await _noteService.AddNoteAsync(note);
-        var result = note;
+        [Fact]
+        public async Task CreateNote_ValidInput_CreatesNoteWithUserId_AndCallsRepository()
+        {
+            // Arrange
+            var dto = new CreateNoteDto
+            {
+                Title = "Test Note",
+                Content = "Test Content",
+                FolderId = 1
+            };
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(note.Id, result.Id);
-        Assert.Equal(note.Title, result.Title);
-    }
+            _mockRepo
+                .Setup(r => r.AddNoteAsync(It.IsAny<Note>()))
+                .Returns(Task.CompletedTask);
 
-    [Fact]
-    public async Task CreateNote_EmptyTitle_ThrowsArgumentException()
-    {
-        // Arrange
-        var note = new Note { Id = 1, Title = "", Content = "Test Content", FolderId = 1 };
+            // Act
+            var result = await _noteService.CreateNoteAsync(dto, UserId);
 
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => _noteService.AddNoteAsync(note));
-    }
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(dto.Title, result.Title);
+            Assert.Equal(dto.Content, result.Content);
+            Assert.Equal(dto.FolderId, result.FolderId);
+            Assert.Equal(UserId, result.UserId);
 
-    // Test 3: Creating a note with null object
-    [Fact]
-    public async Task CreateNote_NullNote_ThrowsArgumentNullException()
-    {
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _noteService.AddNoteAsync(null!));
-    }
+            _mockRepo.Verify(
+                r => r.AddNoteAsync(It.Is<Note>(n =>
+                    n.Title == dto.Title &&
+                    n.Content == dto.Content &&
+                    n.FolderId == dto.FolderId &&
+                    n.UserId == UserId
+                )),
+                Times.Once);
+        }
 
-    [Fact]
-    public async Task CreateNote_TitleTooLong_ThrowsArgumentException()
-    {
-        // Arrange
-        var note = new Note { Id = 1, Title = new string('A', 150), Content = "Test Content", FolderId = 1 };
+        [Fact]
+        public async Task CreateNote_EmptyTitle_ThrowsArgumentException()
+        {
+            // Arrange
+            var dto = new CreateNoteDto
+            {
+                Title = "",
+                Content = "Test Content",
+                FolderId = 1
+            };
 
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => _noteService.AddNoteAsync(note));
-    }
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(
+                () => _noteService.CreateNoteAsync(dto, UserId));
+        }
 
-    [Fact]
-    public async Task GetNoteById_ValidId_ReturnsNote()
-    {
-        // Arrange
-        var note = new Note { Id = 1, Title = "Valid Note", Content = "Test Content", FolderId = 1 };
+        [Fact]
+        public async Task CreateNote_NullDto_ThrowsArgumentNullException()
+        {
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(
+                () => _noteService.CreateNoteAsync(null!, UserId));
+        }
 
-        _mockRepo.Setup(repo => repo.GetNoteByIdAsync(1))
-                 .ReturnsAsync(note);
+        [Fact]
+        public async Task CreateNote_TitleTooLong_ThrowsArgumentException()
+        {
+            // Arrange
+            var dto = new CreateNoteDto
+            {
+                Title = new string('A', 150), // > 100
+                Content = "Test Content",
+                FolderId = 1
+            };
 
-        // Act
-        var result = await _noteService.GetNoteByIdAsync(1);
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(
+                () => _noteService.CreateNoteAsync(dto, UserId));
+        }
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(1, result.Id);
-    }
+        // ---------- GET BY ID ----------
 
-    [Fact]
-    public async Task GetNoteById_InvalidId_ThrowsKeyNotFoundException()
-    {
-        // Arrange
-        _mockRepo.Setup(repo => repo.GetNoteByIdAsync(It.IsAny<int>()))
-                 .ReturnsAsync((Note?)null);
+        [Fact]
+        public async Task GetNoteById_ValidIdAndUser_ReturnsNote()
+        {
+            // Arrange
+            var note = new Note
+            {
+                Id = 1,
+                Title = "Valid Note",
+                Content = "Test Content",
+                FolderId = 1,
+                UserId = UserId
+            };
 
-        // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _noteService.GetNoteByIdAsync(99));
-    }
+            _mockRepo
+                .Setup(r => r.GetNoteByIdAsync(1, UserId))
+                .ReturnsAsync(note);
 
-    [Fact]
-    public async Task UpdateNote_ValidNote_ReturnsUpdatedNote()
-    {
-        // Arrange
-        var existingNote = new Note { Id = 1, Title = "Old Title", Content = "Old Content", FolderId = 1 };
-        var updatedNote = new Note { Id = 1, Title = "New Title", Content = "New Content", FolderId = 1 };
+            // Act
+            var result = await _noteService.GetNoteByIdAsync(1, UserId);
 
-        _mockRepo.Setup(repo => repo.GetNoteByIdAsync(1)).ReturnsAsync(existingNote);
-        _mockRepo.Setup(repo => repo.UpdateNoteAsync(updatedNote)).Returns(Task.FromResult(updatedNote));
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result!.Id);
+            Assert.Equal(UserId, result.UserId);
+        }
 
-        // Act
-        await _noteService.UpdateNoteAsync(updatedNote);
-        var result = await _noteService.GetNoteByIdAsync(updatedNote.Id);
+        [Fact]
+        public async Task GetNoteById_NotFound_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            _mockRepo
+                .Setup(r => r.GetNoteByIdAsync(It.IsAny<int>(), UserId))
+                .ReturnsAsync((Note?)null);
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal("New Title", result.Title);
-    }
+            // Act & Assert
+            await Assert.ThrowsAsync<KeyNotFoundException>(
+                () => _noteService.GetNoteByIdAsync(99, UserId));
+        }
 
-    [Fact]
-    public async Task UpdateNote_NonExistentNote_ThrowsKeyNotFoundException()
-    {
-        // Arrange
-        var updatedNote = new Note { Id = 1, Title = "Updated Title", Content = "Updated Content", FolderId = 1 };
+        // ---------- UPDATE ----------
 
-        _mockRepo.Setup(repo => repo.GetNoteByIdAsync(1)).ReturnsAsync((Note?)null);
+        [Fact]
+        public async Task UpdateNote_ValidNote_UpdatesAndReturnsTrue()
+        {
+            // Arrange
+            var existing = new Note
+            {
+                Id = 1,
+                Title = "Old Title",
+                Content = "Old Content",
+                FolderId = 1,
+                UserId = UserId
+            };
 
-        // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _noteService.UpdateNoteAsync(updatedNote));
-    }
+            var dto = new UpdateNoteDto
+            {
+                Title = "New Title",
+                Content = "New Content",
+                FolderId = 2,
+                IsDone = true
+            };
 
-    // ✅ Test 9: Deleting a valid note
-    [Fact]
-    public async Task DeleteNote_ValidId_ReturnsTrue()
-    {
-        // Arrange
-        _mockRepo.Setup(repo => repo.GetNoteByIdAsync(1))
-                 .ReturnsAsync(new Note { Id = 1, Title = "Note to delete" });
+            _mockRepo
+                .Setup(r => r.GetNoteByIdAsync(1, UserId))
+                .ReturnsAsync(existing);
 
-        _mockRepo.Setup(repo => repo.DeleteNoteAsync(1))
-                 .Returns(Task.FromResult(true));
+            _mockRepo
+                .Setup(r => r.UpdateNoteAsync(It.IsAny<Note>()))
+                .Returns(Task.CompletedTask);
 
-        // Act
-        await _noteService.DeleteNoteAsync(1);
+            // Act
+            var updated = await _noteService.UpdateNoteAsync(1, dto, UserId);
 
-        // Assert
-        _mockRepo.Verify(repo => repo.DeleteNoteAsync(1), Times.Once);
-    }
+            // Assert
+            Assert.True(updated);
 
-    [Fact]
-    public async Task DeleteNote_NonExistentNote_ThrowsKeyNotFoundException()
-    {
-        // Arrange
-        _mockRepo.Setup(repo => repo.GetNoteByIdAsync(It.IsAny<int>())).ReturnsAsync((Note?)null);
+            _mockRepo.Verify(
+                r => r.UpdateNoteAsync(It.Is<Note>(n =>
+                    n.Id == 1 &&
+                    n.Title == dto.Title &&
+                    n.Content == dto.Content &&
+                    n.FolderId == dto.FolderId &&
+                    n.IsArchived == false || n.IsArchived == existing.IsArchived &&
+                    n.UserId == UserId
+                )),
+                Times.Once);
+        }
 
-        // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _noteService.DeleteNoteAsync(99));
+        [Fact]
+        public async Task UpdateNote_NonExistingNote_ReturnsFalse()
+        {
+            // Arrange
+            var dto = new UpdateNoteDto
+            {
+                Title = "Updated Title",
+                Content = "Updated Content",
+                FolderId = 1,
+                IsDone = false
+            };
+
+            _mockRepo
+                .Setup(r => r.GetNoteByIdAsync(It.IsAny<int>(), UserId))
+                .ReturnsAsync((Note?)null);
+
+            // Act
+            var updated = await _noteService.UpdateNoteAsync(1, dto, UserId);
+
+            // Assert
+            Assert.False(updated);
+            _mockRepo.Verify(r => r.UpdateNoteAsync(It.IsAny<Note>()), Times.Never);
+        }
+
+        // ---------- DELETE ----------
+
+        [Fact]
+        public async Task DeleteNote_ExistingNote_ReturnsTrueAndCallsRepository()
+        {
+            // Arrange
+            var note = new Note
+            {
+                Id = 1,
+                Title = "Note to delete",
+                UserId = UserId
+            };
+
+            _mockRepo
+                .Setup(r => r.GetNoteByIdAsync(1, UserId))
+                .ReturnsAsync(note);
+
+            _mockRepo
+                .Setup(r => r.DeleteNoteAsync(1, UserId))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var deleted = await _noteService.DeleteNoteAsync(1, UserId);
+
+            // Assert
+            Assert.True(deleted);
+            _mockRepo.Verify(r => r.DeleteNoteAsync(1, UserId), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteNote_NonExistingNote_ReturnsFalse()
+        {
+            // Arrange
+            _mockRepo
+                .Setup(r => r.GetNoteByIdAsync(It.IsAny<int>(), UserId))
+                .ReturnsAsync((Note?)null);
+
+            // Act
+            var deleted = await _noteService.DeleteNoteAsync(99, UserId);
+
+            // Assert
+            Assert.False(deleted);
+            _mockRepo.Verify(r => r.DeleteNoteAsync(It.IsAny<int>(), UserId), Times.Never);
+        }
     }
 }
