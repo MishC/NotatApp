@@ -44,28 +44,30 @@ public class AuthController : ControllerBase
     }
 
     // POST /api/auth/register
- [HttpPost("register")]
-public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
-{
-    if (dto == null)
-        return BadRequest("Invalid request body");
-
-    if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
-        return BadRequest("Email and password are required");
-
-    var user = new User
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
     {
-        UserName = dto.Email,
-        Email = dto.Email,
-        PhoneNumber = dto.PhoneNumber
-    };
+        /* if (dto == null)
+            return BadRequest("Invalid request body");
 
-    var res = await _users.CreateAsync(user, dto.Password);
-    if (!res.Succeeded)
-        return BadRequest(res.Errors);
+        if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
+            return BadRequest("Email and password are required");
 
-    return Ok(new { message = "Registered" });
-}
+        var user = new User
+        {
+            UserName = dto.Email,
+            Email = dto.Email,
+            PhoneNumber = dto.PhoneNumber
+        };
+
+        var res = await _users.CreateAsync(user, dto.Password);
+        if (!res.Succeeded)
+            return BadRequest(res.Errors); */
+
+       // return Ok(new { message = "Registered" });
+            return Ok(dto);
+
+    }
 
 
     // POST /api/auth/login
@@ -147,7 +149,7 @@ public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
             return Unauthorized();
 
         if (user.RefreshTokenExpiresAt < DateTime.UtcNow)
-            return Unauthorized(); 
+            return Unauthorized();
 
         var newAccessToken = _jwtTokenService.GenerateAccessToken(user);
 
