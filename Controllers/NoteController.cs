@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotatApp.Models;
 using NotatApp.Services;
@@ -6,6 +8,7 @@ namespace NotatApp.Controllers
 {
     [ApiController]
     [Route("api/notes")]
+    [Authorize] 
     public class NoteController : ControllerBase
     {
         private readonly INoteService _noteService;
@@ -15,64 +18,92 @@ namespace NotatApp.Controllers
             _noteService = noteService;
         }
 
+        private string? GetUserId() =>
+            User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         [HttpGet]
-        public async Task<IActionResult> GetAllNotes() => Ok(await _noteService.GetAllNotesAsync());
+        public async Task<IActionResult> GetAllNotes()
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var notes = await _noteService.GetAllNotesAsync(userId);
+            return Ok(notes);
+        }
 
         [HttpGet("health")]
+        [AllowAnonymous]
         public IActionResult HealthCheck() => Ok("Note Service is running.");
 
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingNotes()
         {
-            var pending = await _noteService.GetPendingNotesAsync();
-            return Ok(pending);
-        }
-        [HttpGet("done")]
-        public async Task<IActionResult> GetDoneNotes()
-        {
-            var pending = await _noteService.GetDoneNotesAsync();
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var pending = await _noteService.GetPendingNotesAsync(userId);
             return Ok(pending);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("done")]
+        public async Task<IActionResult> GetDoneNotes()
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var done = await _noteService.GetDoneNotesAsync(userId);
+            return Ok(done);
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetNoteById(int id)
         {
-            var note = await _noteService.GetNoteByIdAsync(id);
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var note = await _noteService.GetNoteByIdAsync(id, userId);
             return note == null ? NotFound() : Ok(note);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNote(Note note)
+        public async Task<IActionResult> CreateNote([FromBody] CreateNoteDto dto)
         {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
 
-            await _noteService.AddNoteAsync(note);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var note = await _noteService.CreateNoteAsync(dto, userId);
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
-
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNote(int id, [FromBody] Note note)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateNote(int id, [FromBody] UpdateNoteDto dto)
         {
-            if (note.Id != id)
-            {
-                return BadRequest("Note ID in the body does not match the ID in the URL.");
-            }
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
 
-            await _noteService.UpdateNoteAsync(note);
-            return NoContent();
-        }
-        [HttpPut("{folderId}/{id}")]
-        public async Task<IActionResult> UpdateNoteFolder(int folderId, int id, [FromBody] Note updatedNote)
-        {
-            if (updatedNote == null || updatedNote.Id != id)
-                return BadRequest("Invalid note data.");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            var updated = await _noteService.UpdateNoteAsync(id, dto, userId);
+            if (!updated) return NotFound();
 
-            await _noteService.UpdateNoteAsync(updatedNote);
             return NoContent();
         }
 
-        // Request model for swapping notes
+        [HttpPut("{folderId:int}/{id:int}")]
+        public async Task<IActionResult> UpdateNoteFolder(int folderId, int id)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var updated = await _noteService.UpdateNoteFolderAsync(id, folderId, userId);
+            if (!updated) return NotFound();
+
+            return NoContent();
+        }
 
         public class SwapRequest
         {
@@ -80,19 +111,25 @@ namespace NotatApp.Controllers
             public int TargetId { get; set; }
         }
 
-
         [HttpPost("swap")]
         public async Task<IActionResult> Swap([FromBody] SwapRequest req)
         {
-            await _noteService.SwapOrderAsync(req.SourceId, req.TargetId);
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            await _noteService.SwapOrderAsync(req.SourceId, req.TargetId, userId);
             return Ok();
         }
 
-        // Delete a note
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteNote(int id)
         {
-            await _noteService.DeleteNoteAsync(id);
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var deleted = await _noteService.DeleteNoteAsync(id, userId);
+            if (!deleted) return NotFound();
+
             return NoContent();
         }
     }
