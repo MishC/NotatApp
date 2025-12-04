@@ -69,10 +69,6 @@ _ReSharper*/
 project.lock.json
 project.fragment.lock.json
 
-# Entity Framework Migrations
-Migrations/
-
-
 # Logs
 *.log
 logs/
