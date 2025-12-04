@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
     {
-        /* if (dto == null)
+        if (dto == null)
             return BadRequest("Invalid request body");
 
         if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
@@ -62,11 +62,9 @@ public class AuthController : ControllerBase
 
         var res = await _users.CreateAsync(user, dto.Password);
         if (!res.Succeeded)
-            return BadRequest(res.Errors); */
+            return BadRequest(res.Errors);
 
-       // return Ok(new { message = "Registered" });
-            return Ok(dto);
-
+        return Ok(new { message = "Registered" });
     }
 
 
