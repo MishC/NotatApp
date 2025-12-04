@@ -44,22 +44,29 @@ public class AuthController : ControllerBase
     }
 
     // POST /api/auth/register
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+ [HttpPost("register")]
+public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
+{
+    if (dto == null)
+        return BadRequest("Invalid request body");
+
+    if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
+        return BadRequest("Email and password are required");
+
+    var user = new User
     {
-        var user = new User
-        {
-            UserName = dto.Email,
-            Email = dto.Email,
-            PhoneNumber = dto.PhoneNumber
-        };
+        UserName = dto.Email,
+        Email = dto.Email,
+        PhoneNumber = dto.PhoneNumber
+    };
 
-        var res = await _users.CreateAsync(user, dto.Password);
-        if (!res.Succeeded)
-            return BadRequest(res.Errors);
+    var res = await _users.CreateAsync(user, dto.Password);
+    if (!res.Succeeded)
+        return BadRequest(res.Errors);
 
-        return Ok(new { message = "Registered" });
-    }
+    return Ok(new { message = "Registered" });
+}
+
 
     // POST /api/auth/login
     [HttpPost("login")]
