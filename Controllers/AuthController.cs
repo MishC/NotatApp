@@ -60,11 +60,23 @@ public class AuthController : ControllerBase
             PhoneNumber = dto.PhoneNumber
         };
 
+        try
+    {
         var res = await _users.CreateAsync(user, dto.Password);
+
         if (!res.Succeeded)
             return BadRequest(res.Errors);
 
         return Ok(new { message = "Registered" });
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, new
+        {
+            error = ex.Message,
+            detail = ex.ToString()
+        });
+    }
     }
 
 
