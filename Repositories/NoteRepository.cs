@@ -85,5 +85,15 @@ namespace NotatApp.Repositories
                 .ToListAsync();
         }
 
+        public async Task<int> GetNextOrderIndexAsync(string userId)
+        {
+            int? maxIndex = await _context.Notes
+                .Where(n => n.UserId == userId)
+                .MaxAsync(n => (int?)n.OrderIndex);
+
+            return (maxIndex ?? -1) + 1;
+        }
+
+
     }
 }

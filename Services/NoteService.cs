@@ -1,5 +1,6 @@
 using NotatApp.Models;
 using NotatApp.Repositories;
+using Xunit.Sdk;
 
 namespace NotatApp.Services
 {
@@ -26,19 +27,22 @@ namespace NotatApp.Services
 
         public async Task<Note> CreateNoteAsync(CreateNoteDto dto, string userId)
         {
+            var nextIndex = await _repository.GetNextOrderIndexAsync(userId);
+
             var note = new Note
             {
                 Title = dto.Title,
                 Content = dto.Content,
-                FolderId = dto.FolderId,
+                FolderId = dto.FolderId ?? 0,
                 UserId = userId,
                 IsArchived = false,
-                OrderIndex = 0 // alebo nejaké max+1, podľa tvojej logiky
+                OrderIndex = nextIndex
             };
 
             await _repository.AddNoteAsync(note);
             return note;
         }
+
 
         public async Task<bool> UpdateNoteAsync(int id, UpdateNoteDto dto, string userId)
         {
