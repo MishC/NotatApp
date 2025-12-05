@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,8 @@ namespace NotatApp.Controllers
         }
 
         private string? GetUserId() =>
-            User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User.FindFirstValue(ClaimTypes.NameIdentifier)??
+           User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
