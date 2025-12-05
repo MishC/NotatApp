@@ -9,7 +9,7 @@ namespace NotatApp.Controllers
 {
     [ApiController]
     [Route("api/notes")]
-    [Authorize] 
+    [Authorize]
     public class NoteController : ControllerBase
     {
         private readonly INoteService _noteService;
@@ -20,8 +20,7 @@ namespace NotatApp.Controllers
         }
 
         private string? GetUserId() =>
-            User.FindFirstValue(ClaimTypes.NameIdentifier)??
-           User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            User.FindFirstValue(ClaimTypes.NameIdentifier)??User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
@@ -41,11 +40,13 @@ namespace NotatApp.Controllers
         public async Task<IActionResult> GetPendingNotes()
         {
             var userId = GetUserId();
-            if (userId is null) return Unauthorized();
+            if (userId == null)
+                return Unauthorized();
 
-            var pending = await _noteService.GetPendingNotesAsync(userId);
-            return Ok(pending);
+            var notes = await _noteService.GetPendingNotesAsync(userId);
+            return Ok(notes);
         }
+
 
         [HttpGet("done")]
         public async Task<IActionResult> GetDoneNotes()
