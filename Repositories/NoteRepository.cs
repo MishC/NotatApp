@@ -20,7 +20,7 @@ namespace NotatApp.Repositories
                 .OrderBy(n => n.OrderIndex)
                 .ToListAsync();
 
-       
+
         public async Task<List<Note>> GetDoneNotesAsync(string userId) =>
             await _context.Notes
                 .Where(n => n.UserId == userId && n.IsArchived)
@@ -74,9 +74,16 @@ namespace NotatApp.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<Note>> GetPendingNotesAsync(string userId)
+        public async Task<List<Note>> GetPendingNotesAsync(string userId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            return await _context.Notes
+                .Where(n => n.UserId == userId && !n.IsArchived)
+                .OrderBy(n => n.OrderIndex)
+                .ToListAsync();
         }
+
     }
 }
