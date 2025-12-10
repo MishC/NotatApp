@@ -13,10 +13,8 @@ using System.Text;
 using Amazon.SimpleEmail;
 //using Amazon.Extensions.NETCore.Setup;
 using Amazon.SimpleNotificationService;
-
-
-
-
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +38,7 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+    builder.Services.AddLogging();
 
 
 //Frontend CORS header
@@ -81,11 +80,6 @@ builder.Services.AddAuthentication(o =>
 
 builder.Services.AddAuthorization();
 
-
-
-
-
-
 // Serilog
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -113,13 +107,7 @@ builder.Services.AddScoped<IFolderService, FolderService>();
 
 //Tokens
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-
-
 builder.Services.AddScoped<IUserService, UserService>();
-
-
-
-
 
 
 if (builder.Environment.IsDevelopment())
@@ -129,6 +117,7 @@ if (builder.Environment.IsDevelopment())
 }
 else  //PRODUCTION ONLY
 {
+   
     // EMAIL:::::::  EC2 / PROD: SES -Emails
     builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
     builder.Services.AddAWSService<IAmazonSimpleEmailService>();
@@ -142,7 +131,16 @@ else  //PRODUCTION ONLY
 }
 
 
-
+ builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("login", opt =>
+    {
+        opt.Window = TimeSpan.FromMinutes(1); // 1 minute window
+        opt.PermitLimit = 5;                  // max 5 login tries/minute
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 0;                   // 429
+    });
+});
 
 
 builder.Services.AddControllers();
@@ -193,6 +191,8 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRateLimiter();
 
 app.MapControllers();
 

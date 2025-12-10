@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.RateLimiting;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using NotatApp.Models;
 using NotatApp.Services;
+
 
 namespace NotatApp.Controllers;
 
@@ -16,17 +19,21 @@ public class AuthController : ControllerBase
     private readonly IEmailSender _emailSender;
     private readonly ISmsSender _smsSender;
     private readonly IJwtTokenService _jwtTokenService;
+        private readonly ILogger<AuthController> _logger;
 
-    public AuthController(
+//constructor asks 
+     public AuthController(                             //DI 
         UserManager<User> users,
         IEmailSender emailSender,
         ISmsSender smsSender,
-        IJwtTokenService jwtTokenService)
+        IJwtTokenService jwtTokenService,
+        ILogger<AuthController> logger)    //ILogger from ASP.NET Core
     {
         _users = users;
         _emailSender = emailSender;
         _smsSender = smsSender;
         _jwtTokenService = jwtTokenService;
+        _logger = logger;
     }
 
     // Helper for creating of HttpOnly refresh cookie
@@ -81,7 +88,9 @@ public class AuthController : ControllerBase
 
 
     // POST /api/auth/login
-    [HttpPost("login")]
+   [HttpPost("login")]   
+   [EnableRateLimiting("login")]
+
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
         var user = await _users.FindByEmailAsync(dto.Email);
@@ -92,7 +101,6 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = "Wrong password!" });
 
         var provider = dto.Channel?.ToLower() == "sms" ? "Phone" : "Email";
-
         var code = await _users.GenerateTwoFactorTokenAsync(user, provider);
 
         if (provider == "Email")
@@ -100,19 +108,37 @@ public class AuthController : ControllerBase
             if (string.IsNullOrWhiteSpace(user.Email))
                 return BadRequest(new { message = "No email set" });
 
-            await _emailSender.SendAsync(user.Email!, "Your login code", $"Your code: {code}");
+            await _emailSender.SendAsync(
+                user.Email!,
+                "Your login code",
+                $"Your code: {code}"
+            );
+
+            return Ok(new { flowId = user.Id, message = "Code sent" });
         }
-        else
+
+        // == SMS ==
+        if (string.IsNullOrWhiteSpace(user.PhoneNumber))
+            return BadRequest(new { message = "No phone set" });
+
+        try
         {
-            if (string.IsNullOrWhiteSpace(user.PhoneNumber))
-                return BadRequest(new { message = "No phone set" });
+            await _smsSender.SendAsync(
+                user.PhoneNumber!,
+                $"Your NoteApp login code: {code}"
+            );
 
-            await _smsSender.SendAsync(user.PhoneNumber!, $"Your NoteApp login code: {code}");
+            return Ok(new { flowId = user.Id, message = "Code sent" });
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Failed to send SMS 2FA code to {Phone} for user {UserId}",
+                user.PhoneNumber, user.Id);
 
-        return Ok(new { flowId = user.Id, message = "Code sent" });
+            return StatusCode(500, new { message = "Could not deliver verification code." });
+        }
     }
-
     // POST /api/auth/verify-2fa -> JWT + refresh token
     [HttpPost("verify-2fa")]
     public async Task<IActionResult> Verify2Fa([FromBody] Verify2FaDto dto)
