@@ -4,16 +4,15 @@ using NotatApp.Repositories;
 using NotatApp.Services;
 using NotatApp.Models;
 using Serilog.Events;
-using Serilog.Formatting.Compact;
 using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+
 using System.Text;
 using Amazon.SimpleEmail;
-using Amazon.Extensions.NETCore.Setup;
+//using Amazon.Extensions.NETCore.Setup;
+using Amazon.SimpleNotificationService;
 
 
 
@@ -92,13 +91,13 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .WriteTo.Console(outputTemplate:
-        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")  
-    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)  
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
     .Enrich.WithThreadId()
     .Enrich.WithProcessId()
-    .CreateLogger();    
+    .CreateLogger();
 
-builder.Host.UseSerilog(); 
+builder.Host.UseSerilog();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -120,8 +119,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 
-// external API SMS
-builder.Services.AddSingleton<ISmsSender, TwilioSmsSender>();
+
 
 
 if (builder.Environment.IsDevelopment())
@@ -129,12 +127,18 @@ if (builder.Environment.IsDevelopment())
     // LOCALLY
     builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
 }
-else
+else  //PRODUCTION ONLY
 {
-    // EC2 / PROD: SES
+    // EMAIL:::::::  EC2 / PROD: SES -Emails
     builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
     builder.Services.AddAWSService<IAmazonSimpleEmailService>();
     builder.Services.AddScoped<IEmailSender, SesEmailSender>();
+
+    // SMS::::: external API SMS -//EC2 SNS
+
+    builder.Services.AddAWSService<IAmazonSimpleNotificationService>();
+
+    builder.Services.AddScoped<ISmsSender, SmsSender>();
 }
 
 
@@ -162,7 +166,7 @@ try
 }
 catch (Exception ex)
 {
-       Log.Error(ex, " Migration failed. ");
+    Log.Error(ex, " Migration failed. ");
 
 }
 
@@ -179,7 +183,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.UseExceptionHandler(o => { });  
+app.UseExceptionHandler(o => { });
 app.UseSerilogRequestLogging();
 //app.UseHttpsRedirection();
 app.UseRouting();

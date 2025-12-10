@@ -1,3 +1,8 @@
 
-namespace NotatApp.Services;
-public interface ISmsSender   { Task SendAsync(string to, string body); }
+namespace NotatApp.Services
+{
+    public interface ISmsSender
+    {
+        Task SendAsync(string phoneNumber, string message);
+    }
+}
