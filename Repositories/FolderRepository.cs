@@ -26,7 +26,7 @@ public class FolderRepository : IFolderRepository
     }
     
     
-    public async Task<Folder> AddFolderAsync(Folder folder)
+    public async Task<Folder> AddFolderAsync(Folder folder) //create folder
     {
         _context.Folders.Add(folder);
         await _context.SaveChangesAsync();

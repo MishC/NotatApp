@@ -36,7 +36,7 @@ namespace NotatApp.Repositories
                 .Include(n => n.Folder)
                 .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
 
-        public async Task AddNoteAsync(Note note)
+        public async Task AddNoteAsync(Note note) //create Note
         {
             _context.Notes.Add(note);
             await _context.SaveChangesAsync();
