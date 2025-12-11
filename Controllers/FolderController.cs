@@ -1,66 +1,108 @@
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NotatApp.Models;
 
-namespace NotatApp.Controllers {
-[Route("api/folders")]
-[ApiController]
-public class FolderController : ControllerBase
+namespace NotatApp.Controllers
 {
-    private readonly IFolderService _folderService;
-
-    public FolderController(IFolderService folderService)
+    [ApiController]
+    [Route("api/folders")]
+    public class FolderController : ControllerBase
     {
-        _folderService = folderService;
-    }
+        private readonly IFolderService _folderService;
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Folder>>> GetFolders()
-    {
-        return Ok(await _folderService.GetAllFoldersAsync());
-    }
-
-    // Get folder by id
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Folder>> GetFolder(int id)
-    {
-        var folder = await _folderService.GetFolderByIdAsync(id);
-        if (folder == null) return NotFound();
-        return Ok(folder);
-    }
-
-    // Create folder
-    [HttpPost]
-    public async Task<ActionResult<Folder>> CreateFolder(Folder folder)
-    {
-        if (string.IsNullOrWhiteSpace(folder.Name) || folder.Name.Length < 3)
+        public FolderController(IFolderService folderService)
         {
-            return BadRequest("Folder name must be at least 3 characters long.");
+            _folderService = folderService;
         }
 
-        var createdFolder = await _folderService.AddFolderAsync(folder);
-        return CreatedAtAction(nameof(GetFolder), new { id = createdFolder.Id }, createdFolder);
-    }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Folder>>> GetFolders()
+        {
+            var folders = await _folderService.GetAllFoldersAsync();
+            return Ok(folders);
+        }
 
-    // Update folder
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateFolder(int id, Folder folder)
-    {
-        if (id != folder.Id) return BadRequest();
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Folder>> GetFolder(int id)
+        {
+            try
+            {
+                var folder = await _folderService.GetFolderByIdAsync(id);
+                return Ok(folder);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        var success = await _folderService.UpdateFolderAsync(folder);
-        if (!success) return NotFound();
-        return NoContent();
-    }
+        [HttpPost]
+        public async Task<ActionResult<Folder>> CreateFolder([FromBody] Folder folder)
+        {
+            try
+            {
+                var createdFolder = await _folderService.AddFolderAsync(folder);
+                return CreatedAtAction(nameof(GetFolder), new { id = createdFolder.Id }, createdFolder);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-    // Delete folder
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteFolder(int id)
-    {
-        var success = await _folderService.DeleteFolderAsync(id);
-        if (!success) return NotFound();
-        return NoContent();
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateFolder(int id, [FromBody] Folder folder)
+        {
+            if (id != folder.Id)
+                return BadRequest("Route id and folder.Id must match.");
+
+            try
+            {
+                var success = await _folderService.UpdateFolderAsync(folder);
+                if (!success) return NotFound();
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteFolder(int id)
+        {
+            try
+            {
+                var success = await _folderService.DeleteFolderAsync(id);
+                if (!success) return NotFound();
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
-}
 }

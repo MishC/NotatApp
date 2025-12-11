@@ -20,7 +20,8 @@ namespace NotatApp.Controllers
         }
 
         private string? GetUserId() =>
-            User.FindFirstValue(ClaimTypes.NameIdentifier)??User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
@@ -40,13 +41,11 @@ namespace NotatApp.Controllers
         public async Task<IActionResult> GetPendingNotes()
         {
             var userId = GetUserId();
-            if (userId == null)
-                return Unauthorized();
+            if (userId is null) return Unauthorized();
 
             var notes = await _noteService.GetPendingNotesAsync(userId);
             return Ok(notes);
         }
-
 
         [HttpGet("done")]
         public async Task<IActionResult> GetDoneNotes()
@@ -74,9 +73,7 @@ namespace NotatApp.Controllers
             var userId = GetUserId();
             if (userId is null) return Unauthorized();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
+            // [ApiController] will already handle invalid ModelState → 400 BadRequest
             var note = await _noteService.CreateNoteAsync(dto, userId);
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
         }
@@ -86,9 +83,6 @@ namespace NotatApp.Controllers
         {
             var userId = GetUserId();
             if (userId is null) return Unauthorized();
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             var updated = await _noteService.UpdateNoteAsync(id, dto, userId);
             if (!updated) return NotFound();

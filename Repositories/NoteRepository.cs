@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NotatApp.Data;
 using NotatApp.Models;
@@ -13,79 +15,37 @@ namespace NotatApp.Repositories
             _context = context;
         }
 
-        public async Task<List<Note>> GetAllNotesAsync(string userId) =>
-            await _context.Notes
+        public async Task<List<Note>> GetUserNotesAsync(string userId)
+        {
+            return await _context.Notes
                 .Where(n => n.UserId == userId)
                 .Include(n => n.Folder)
-                .OrderBy(n => n.OrderIndex)
                 .ToListAsync();
+        }
 
-
-      public async Task<List<Note>> GetDoneNotesAsync(string userId) =>
-      await _context.Notes
-        .Include(n => n.Folder)
-        .Where(n => n.UserId == userId 
-                    && n.Folder != null 
-                    && n.Folder.Name == "Done")
-        .OrderBy(n => n.OrderIndex)
-        .ToListAsync();
-
-
-        public async Task<Note?> GetNoteByIdAsync(int id, string userId) =>
-            await _context.Notes
+        public async Task<Note?> GetByIdAsync(int id, string userId)
+        {
+            return await _context.Notes
                 .Include(n => n.Folder)
                 .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
+        }
 
-        public async Task AddNoteAsync(Note note) //create Note
+        public async Task AddAsync(Note note)
         {
             _context.Notes.Add(note);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateNoteAsync(Note note)
+        public async Task UpdateAsync(Note note)
         {
             _context.Notes.Update(note);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteNoteAsync(int id, string userId)
+        public async Task DeleteAsync(Note note)
         {
-            var note = await _context.Notes
-                .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
-
-            if (note != null)
-            {
-                _context.Notes.Remove(note);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task SwapOrderAsync(int sourceId, int targetId, string userId)
-        {
-            var source = await _context.Notes
-                .FirstOrDefaultAsync(n => n.Id == sourceId && n.UserId == userId);
-            var target = await _context.Notes
-                .FirstOrDefaultAsync(n => n.Id == targetId && n.UserId == userId);
-
-            if (source == null || target == null)
-                return;
-
-            var tmp = source.OrderIndex;
-            source.OrderIndex = target.OrderIndex;
-            target.OrderIndex = tmp;
-
+            _context.Notes.Remove(note);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<Note>> GetPendingNotesAsync(string userId)
-        {
-            if (string.IsNullOrWhiteSpace(userId))
-                throw new ArgumentException("userId is required", nameof(userId));
-
-            return await _context.Notes
-                .Where(n => n.UserId == userId && !n.IsArchived)
-                .OrderBy(n => n.OrderIndex)
-                .ToListAsync();
         }
 
         public async Task<int> GetNextOrderIndexAsync(string userId)
@@ -96,7 +56,5 @@ namespace NotatApp.Repositories
 
             return (maxIndex ?? -1) + 1;
         }
-
-
     }
 }

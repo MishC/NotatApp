@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NotatApp.Models;
 using NotatApp.Data;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 public class FolderRepository : IFolderRepository
 {
@@ -14,47 +13,35 @@ public class FolderRepository : IFolderRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Folder>> GetAllFoldersAsync()
+    public async Task<List<Folder>> GetAllAsync()
     {
-        return await _context.Folders.Include(f => f.Notes).ToListAsync();
+        return await _context.Folders
+            .Include(f => f.Notes)
+            .ToListAsync();
     }
 
-    public async Task<Folder> GetFolderByIdAsync(int id)
+    public async Task<Folder?> GetByIdAsync(int id)
     {
-        var folder = await _context.Folders.Include(f => f.Notes).FirstOrDefaultAsync(f => f.Id == id) ?? throw new KeyNotFoundException($"Folder with ID {id} not found.");
-        return folder;
+        return await _context.Folders
+            .Include(f => f.Notes)
+            .FirstOrDefaultAsync(f => f.Id == id);
     }
-    
-    
-    public async Task<Folder> AddFolderAsync(Folder folder) //create folder
+
+    public async Task AddAsync(Folder folder)
     {
         _context.Folders.Add(folder);
         await _context.SaveChangesAsync();
-        return folder;
     }
 
-    public async Task<bool> UpdateFolderAsync(Folder folder)
+    public async Task UpdateAsync(Folder folder)
     {
         _context.Folders.Update(folder);
-        return await _context.SaveChangesAsync() > 0;
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteFolderAsync(int id)
+    public async Task DeleteAsync(Folder folder)
     {
-        var folder = await _context.Folders.FindAsync(id);
-        if (folder == null) return false;
-
         _context.Folders.Remove(folder);
-        return await _context.SaveChangesAsync() > 0;
+        await _context.SaveChangesAsync();
     }
-
- public async Task<Folder?> GetFolderByNameAsync(string name)
-{
-    // Normalize for case-insensitive comparison
-    var normalized = name.Trim().ToLowerInvariant();
-    return await _context.Folders
-        .Include(f => f.Notes)
-        .FirstOrDefaultAsync(f => (f.Name ?? string.Empty).ToLower() == normalized);
-}
-   
 }

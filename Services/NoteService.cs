@@ -1,6 +1,5 @@
 using NotatApp.Models;
 using NotatApp.Repositories;
-using Xunit.Sdk;
 
 namespace NotatApp.Services
 {
@@ -13,40 +12,84 @@ namespace NotatApp.Services
             _repository = repository;
         }
 
-        public async Task<IReadOnlyList<Note>> GetAllNotesAsync(string userId) =>
-            await _repository.GetAllNotesAsync(userId);
+        // All
+        public async Task<List<Note>> GetAllNotesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
 
-        public async Task<IReadOnlyList<Note>> GetPendingNotesAsync(string userId) =>
-            await _repository.GetPendingNotesAsync(userId);
+            var notes = await _repository.GetUserNotesAsync(userId);
 
-        public async Task<IReadOnlyList<Note>> GetDoneNotesAsync(string userId) =>
-            await _repository.GetDoneNotesAsync(userId);
+            return [.. notes.OrderBy(n => n.OrderIndex)];
+        }
 
-        public Task<Note?> GetNoteByIdAsync(int id, string userId) =>
-            _repository.GetNoteByIdAsync(id, userId);
+        // Pending 
+        public async Task<List<Note>> GetPendingNotesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
 
+            var notes = await _repository.GetUserNotesAsync(userId);
+
+            return [.. notes
+                .Where(n => !n.IsArchived && ( n.Folder?.Name != "Done"))
+                .OrderBy(n => n.OrderIndex)];
+        }
+
+        // Done 
+        public async Task<List<Note>> GetDoneNotesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var notes = await _repository.GetUserNotesAsync(userId);
+
+            return [.. notes
+                .Where(n => n.Folder != null && n.Folder.Name == "Done")
+                .OrderBy(n => n.OrderIndex)];
+        }
+         
+
+        // Get one note 
+        public Task<Note?> GetNoteByIdAsync(int id, string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            return _repository.GetByIdAsync(id, userId);
+        }
+        
+        //Create Note
         public async Task<Note> CreateNoteAsync(CreateNoteDto dto, string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            if (string.IsNullOrWhiteSpace(dto.Title))
+                throw new ArgumentException("Title is required", nameof(dto.Title));
+
             var nextIndex = await _repository.GetNextOrderIndexAsync(userId);
 
             var note = new Note
             {
                 Title = dto.Title,
                 Content = dto.Content,
-                FolderId = dto.FolderId ?? 0,
+                FolderId = dto.FolderId,
                 UserId = userId,
                 IsArchived = false,
                 OrderIndex = nextIndex
             };
 
-            await _repository.AddNoteAsync(note);
+            await _repository.AddAsync(note);
             return note;
         }
 
-
         public async Task<bool> UpdateNoteAsync(int id, UpdateNoteDto dto, string userId)
         {
-            var note = await _repository.GetNoteByIdAsync(id, userId);
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var note = await _repository.GetByIdAsync(id, userId);
             if (note == null)
                 return false;
 
@@ -55,32 +98,54 @@ namespace NotatApp.Services
             note.FolderId = dto.FolderId;
             note.IsArchived = dto.IsDone;
 
-            await _repository.UpdateNoteAsync(note);
+            await _repository.UpdateAsync(note);
             return true;
         }
 
         public async Task<bool> UpdateNoteFolderAsync(int id, int folderId, string userId)
         {
-            var note = await _repository.GetNoteByIdAsync(id, userId);
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var note = await _repository.GetByIdAsync(id, userId);
             if (note == null)
                 return false;
 
             note.FolderId = folderId;
-            await _repository.UpdateNoteAsync(note);
+            await _repository.UpdateAsync(note);
             return true;
         }
 
         public async Task<bool> DeleteNoteAsync(int id, string userId)
         {
-            var existing = await _repository.GetNoteByIdAsync(id, userId);
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var existing = await _repository.GetByIdAsync(id, userId);
             if (existing == null)
                 return false;
 
-            await _repository.DeleteNoteAsync(id, userId);
+            await _repository.DeleteAsync(existing);
             return true;
         }
 
-        public Task SwapOrderAsync(int sourceId, int targetId, string userId) =>
-            _repository.SwapOrderAsync(sourceId, targetId, userId);
+        public async Task SwapOrderAsync(int sourceId, int targetId, string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var source = await _repository.GetByIdAsync(sourceId, userId);
+            var target = await _repository.GetByIdAsync(targetId, userId);
+
+            if (source == null || target == null)
+                return;
+
+            var tmp = source.OrderIndex;
+            source.OrderIndex = target.OrderIndex;
+            target.OrderIndex = tmp;
+
+            await _repository.UpdateAsync(source);
+            await _repository.UpdateAsync(target);
+        }
     }
 }
