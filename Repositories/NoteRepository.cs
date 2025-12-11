@@ -21,12 +21,15 @@ namespace NotatApp.Repositories
                 .ToListAsync();
 
 
-        public async Task<List<Note>> GetDoneNotesAsync(string userId) =>
-            await _context.Notes
-                .Where(n => n.UserId == userId && n.IsArchived)
-                .Include(n => n.Folder)
-                .OrderBy(n => n.OrderIndex)
-                .ToListAsync();
+      public async Task<List<Note>> GetDoneNotesAsync(string userId) =>
+      await _context.Notes
+        .Include(n => n.Folder)
+        .Where(n => n.UserId == userId 
+                    && n.Folder != null 
+                    && n.Folder.Name == "Done")
+        .OrderBy(n => n.OrderIndex)
+        .ToListAsync();
+
 
         public async Task<Note?> GetNoteByIdAsync(int id, string userId) =>
             await _context.Notes
