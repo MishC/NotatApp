@@ -35,7 +35,11 @@ namespace NotatApp.Tests
             };
 
             _mockRepo
-                .Setup(r => r.AddNoteAsync(It.IsAny<Note>()))
+                .Setup(r => r.GetNextOrderIndexAsync(UserId))
+                .ReturnsAsync(0);
+
+            _mockRepo
+                .Setup(r => r.AddAsync(It.IsAny<Note>()))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -47,13 +51,15 @@ namespace NotatApp.Tests
             Assert.Equal(dto.Content, result.Content);
             Assert.Equal(dto.FolderId, result.FolderId);
             Assert.Equal(UserId, result.UserId);
+            Assert.Equal(0, result.OrderIndex);
 
             _mockRepo.Verify(
-                r => r.AddNoteAsync(It.Is<Note>(n =>
+                r => r.AddAsync(It.Is<Note>(n =>
                     n.Title == dto.Title &&
                     n.Content == dto.Content &&
                     n.FolderId == dto.FolderId &&
-                    n.UserId == UserId
+                    n.UserId == UserId &&
+                    n.OrderIndex == 0
                 )),
                 Times.Once);
         }
@@ -114,7 +120,7 @@ namespace NotatApp.Tests
             };
 
             _mockRepo
-                .Setup(r => r.GetNoteByIdAsync(1, UserId))
+                .Setup(r => r.GetByIdAsync(1, UserId))
                 .ReturnsAsync(note);
 
             // Act
@@ -127,16 +133,18 @@ namespace NotatApp.Tests
         }
 
         [Fact]
-        public async Task GetNoteById_NotFound_ThrowsKeyNotFoundException()
+        public async Task GetNoteById_NotFound_ReturnsNull()
         {
             // Arrange
             _mockRepo
-                .Setup(r => r.GetNoteByIdAsync(It.IsAny<int>(), UserId))
+                .Setup(r => r.GetByIdAsync(It.IsAny<int>(), UserId))
                 .ReturnsAsync((Note?)null);
 
-            // Act & Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(
-                () => _noteService.GetNoteByIdAsync(99, UserId));
+            // Act
+            var result = await _noteService.GetNoteByIdAsync(99, UserId);
+
+            // Assert
+            Assert.Null(result);
         }
 
         // ---------- UPDATE ----------
@@ -151,7 +159,8 @@ namespace NotatApp.Tests
                 Title = "Old Title",
                 Content = "Old Content",
                 FolderId = 1,
-                UserId = UserId
+                UserId = UserId,
+                IsArchived = false
             };
 
             var dto = new UpdateNoteDto
@@ -163,11 +172,11 @@ namespace NotatApp.Tests
             };
 
             _mockRepo
-                .Setup(r => r.GetNoteByIdAsync(1, UserId))
+                .Setup(r => r.GetByIdAsync(1, UserId))
                 .ReturnsAsync(existing);
 
             _mockRepo
-                .Setup(r => r.UpdateNoteAsync(It.IsAny<Note>()))
+                .Setup(r => r.UpdateAsync(It.IsAny<Note>()))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -177,12 +186,12 @@ namespace NotatApp.Tests
             Assert.True(updated);
 
             _mockRepo.Verify(
-                r => r.UpdateNoteAsync(It.Is<Note>(n =>
+                r => r.UpdateAsync(It.Is<Note>(n =>
                     n.Id == 1 &&
                     n.Title == dto.Title &&
                     n.Content == dto.Content &&
                     n.FolderId == dto.FolderId &&
-                    n.IsArchived == false || n.IsArchived == existing.IsArchived &&
+                    n.IsArchived == dto.IsDone &&
                     n.UserId == UserId
                 )),
                 Times.Once);
@@ -201,7 +210,7 @@ namespace NotatApp.Tests
             };
 
             _mockRepo
-                .Setup(r => r.GetNoteByIdAsync(It.IsAny<int>(), UserId))
+                .Setup(r => r.GetByIdAsync(It.IsAny<int>(), UserId))
                 .ReturnsAsync((Note?)null);
 
             // Act
@@ -209,7 +218,7 @@ namespace NotatApp.Tests
 
             // Assert
             Assert.False(updated);
-            _mockRepo.Verify(r => r.UpdateNoteAsync(It.IsAny<Note>()), Times.Never);
+            _mockRepo.Verify(r => r.UpdateAsync(It.IsAny<Note>()), Times.Never);
         }
 
         // ---------- DELETE ----------
@@ -226,11 +235,11 @@ namespace NotatApp.Tests
             };
 
             _mockRepo
-                .Setup(r => r.GetNoteByIdAsync(1, UserId))
+                .Setup(r => r.GetByIdAsync(1, UserId))
                 .ReturnsAsync(note);
 
             _mockRepo
-                .Setup(r => r.DeleteNoteAsync(1, UserId))
+                .Setup(r => r.DeleteAsync(note))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -238,7 +247,7 @@ namespace NotatApp.Tests
 
             // Assert
             Assert.True(deleted);
-            _mockRepo.Verify(r => r.DeleteNoteAsync(1, UserId), Times.Once);
+            _mockRepo.Verify(r => r.DeleteAsync(It.Is<Note>(n => n.Id == 1 && n.UserId == UserId)), Times.Once);
         }
 
         [Fact]
@@ -246,7 +255,7 @@ namespace NotatApp.Tests
         {
             // Arrange
             _mockRepo
-                .Setup(r => r.GetNoteByIdAsync(It.IsAny<int>(), UserId))
+                .Setup(r => r.GetByIdAsync(It.IsAny<int>(), UserId))
                 .ReturnsAsync((Note?)null);
 
             // Act
@@ -254,7 +263,7 @@ namespace NotatApp.Tests
 
             // Assert
             Assert.False(deleted);
-            _mockRepo.Verify(r => r.DeleteNoteAsync(It.IsAny<int>(), UserId), Times.Never);
+            _mockRepo.Verify(r => r.DeleteAsync(It.IsAny<Note>()), Times.Never);
         }
     }
 }

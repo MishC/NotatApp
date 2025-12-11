@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 using NotatApp.Data;
 using NotatApp.Models;

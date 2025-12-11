@@ -11,7 +11,7 @@ namespace NotatApp.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 1)]
+        [StringLength(100, MinimumLength = 1)]  // Max 100 length
         public string Title { get; set; } =string.Empty;
 
         [StringLength(1000)]

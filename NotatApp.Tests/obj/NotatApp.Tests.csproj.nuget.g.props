@@ -19,11 +19,14 @@
     <Import Project="$(NuGetPackageRoot)microsoft.testplatform.testhost/17.13.0/build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testplatform.testhost/17.13.0/build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codecoverage/17.13.0/build/netstandard2.0/Microsoft.CodeCoverage.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codecoverage/17.13.0/build/netstandard2.0/Microsoft.CodeCoverage.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.test.sdk/17.13.0/build/netcoreapp3.1/Microsoft.NET.Test.Sdk.props" Condition="Exists('$(NuGetPackageRoot)microsoft.net.test.sdk/17.13.0/build/netcoreapp3.1/Microsoft.NET.Test.Sdk.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/9.0.2/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/9.0.2/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/8.0.0/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/8.0.0/buildTransitive/net8.0/Microsoft.EntityFrameworkCore.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Pkgxunit_analyzers Condition=" '$(Pkgxunit_analyzers)' == '' ">/home/michaelachovancova/.nuget/packages/xunit.analyzers/1.18.0</Pkgxunit_analyzers>
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/home/michaelachovancova/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
     <PkgMSTest_Analyzers Condition=" '$(PkgMSTest_Analyzers)' == '' ">/home/michaelachovancova/.nuget/packages/mstest.analyzers/3.8.2</PkgMSTest_Analyzers>
+    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">/home/michaelachovancova/.nuget/packages/awssdk.core/4.0.3.4</PkgAWSSDK_Core>
+    <PkgAWSSDK_SimpleNotificationService Condition=" '$(PkgAWSSDK_SimpleNotificationService)' == '' ">/home/michaelachovancova/.nuget/packages/awssdk.simplenotificationservice/4.0.2.8</PkgAWSSDK_SimpleNotificationService>
+    <PkgAWSSDK_SimpleEmail Condition=" '$(PkgAWSSDK_SimpleEmail)' == '' ">/home/michaelachovancova/.nuget/packages/awssdk.simpleemail/4.0.2.5</PkgAWSSDK_SimpleEmail>
   </PropertyGroup>
 </Project>

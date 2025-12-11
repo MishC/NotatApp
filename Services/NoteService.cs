@@ -48,7 +48,7 @@ namespace NotatApp.Services
                 .Where(n => n.Folder != null && n.Folder.Name == "Done")
                 .OrderBy(n => n.OrderIndex)];
         }
-         
+
 
         // Get one note 
         public Task<Note?> GetNoteByIdAsync(int id, string userId)
@@ -58,15 +58,22 @@ namespace NotatApp.Services
 
             return _repository.GetByIdAsync(id, userId);
         }
-        
+
         //Create Note
         public async Task<Note> CreateNoteAsync(CreateNoteDto dto, string userId)
         {
+            if (dto is null)
+                throw new ArgumentNullException(nameof(dto));
+
             if (string.IsNullOrWhiteSpace(userId))
-                throw new ArgumentException("userId is required", nameof(userId));
+                throw new ArgumentException("UserId is required.", nameof(userId));
 
             if (string.IsNullOrWhiteSpace(dto.Title))
-                throw new ArgumentException("Title is required", nameof(dto.Title));
+                throw new ArgumentException("Title is required.", nameof(dto.Title));
+
+            if (dto.Title.Length > 100)
+                throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(dto.Title));
+
 
             var nextIndex = await _repository.GetNextOrderIndexAsync(userId);
 
