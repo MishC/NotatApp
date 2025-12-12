@@ -188,7 +188,7 @@ public class AuthController : ControllerBase
 
         user.RefreshToken = refreshToken; 
         user.RefreshTokenExpiresAt = refreshExpires;
-        await _users.UpdateAsync(user);//inside db
+        await _users.UpdateAsync(user); //inside db
 
         // 3) save refresh token do HttpOnly cookie
         SetRefreshTokenCookie(refreshToken, refreshExpires);
@@ -199,7 +199,7 @@ public class AuthController : ControllerBase
 
 
 
-    // POST /api/auth/refresh !it checks if  401
+    // POST /api/auth/refresh !it checks when 401
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
