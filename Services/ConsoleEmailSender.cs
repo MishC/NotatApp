@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-
 namespace NotatApp.Services
 {
     public class ConsoleEmailSender : IEmailSender
@@ -19,7 +16,6 @@ namespace NotatApp.Services
                 to, subject, body
             );
 
-            // nič reálne neposielame v DEV
             return Task.CompletedTask;
         }
     }

@@ -32,7 +32,10 @@ builder.Services
     {
         opt.User.RequireUniqueEmail = true;
         opt.Password.RequiredLength = 8;
-        opt.SignIn.RequireConfirmedEmail = false;
+
+        // Dev
+        opt.SignIn.RequireConfirmedEmail = !builder.Environment.IsDevelopment();
+
         opt.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
     })
     .AddRoles<IdentityRole>()
@@ -41,17 +44,17 @@ builder.Services
     builder.Services.AddLogging();
 
 
-//Frontend CORS header
-builder.Services.AddCors(options =>
+builder.Services.AddCors(opt =>
 {
-    options.AddPolicy("AllowReactApp", policy =>
-    {
-        policy.WithOrigins(
-        "https://noteappsolutions.com", "https://www.noteappsolutions.com", "http://localhost:5173") // Allow frontend
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials(); // Allow credentials (optional)
-    });
+    opt.AddPolicy("dev", p =>
+        p.WithOrigins(
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+    );
 });
 
 
@@ -116,6 +119,13 @@ if (builder.Environment.IsDevelopment())
 {
     // LOCALLY
     builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
+        builder.Services.AddScoped<ISmsSender, ConsoleSmsSender>();         // ★ add this
+
+    builder.Services.Configure<IdentityOptions>(o =>
+    {
+        // No email confirmation requirement in local dev
+        o.SignIn.RequireConfirmedEmail = false;
+    });
 }
 else  //PRODUCTION ONLY
 {
@@ -181,7 +191,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+//
+//DEV ONLY
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("dev");
+}
 
 app.UseExceptionHandler(o => { });
 app.UseSerilogRequestLogging();
@@ -195,6 +210,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseRateLimiter();
+
+if (builder.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
 
 app.MapControllers();
 

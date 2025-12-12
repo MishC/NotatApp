@@ -11,6 +11,8 @@ using NotatApp.Services;
 
 namespace NotatApp.Controllers;
 
+
+//Service+Controller here
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
@@ -19,21 +21,25 @@ public class AuthController : ControllerBase
     private readonly IEmailSender _emailSender;
     private readonly ISmsSender _smsSender;
     private readonly IJwtTokenService _jwtTokenService;
-        private readonly ILogger<AuthController> _logger;
+    private readonly ILogger<AuthController> _logger;
+    private readonly IHostEnvironment _env;
 
-//constructor asks 
-     public AuthController(                             //DI 
-        UserManager<User> users,
-        IEmailSender emailSender,
-        ISmsSender smsSender,
-        IJwtTokenService jwtTokenService,
-        ILogger<AuthController> logger)    //ILogger from ASP.NET Core
+
+    //constructor asks 
+    public AuthController(                             //DI 
+       UserManager<User> users,
+       IEmailSender emailSender,
+       ISmsSender smsSender,
+       IJwtTokenService jwtTokenService,
+       ILogger<AuthController> logger,
+       IHostEnvironment env)    //ILogger from ASP.NET Core
     {
         _users = users;
         _emailSender = emailSender;
         _smsSender = smsSender;
         _jwtTokenService = jwtTokenService;
         _logger = logger;
+        _env = env;
     }
 
     // Helper for creating of HttpOnly refresh cookie
@@ -42,7 +48,7 @@ public class AuthController : ControllerBase
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,               
+            Secure = true,
             SameSite = SameSiteMode.Strict,
             Expires = expiresAt
         };
@@ -68,28 +74,28 @@ public class AuthController : ControllerBase
         };
 
         try
-    {
-        var res = await _users.CreateAsync(user, dto.Password);
-
-        if (!res.Succeeded)
-            return BadRequest(res.Errors);
-
-        return Ok(new { message = "Registered" });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new
         {
-            error = ex.Message,
-            detail = ex.ToString()
-        });
-    }
+            var res = await _users.CreateAsync(user, dto.Password);
+
+            if (!res.Succeeded)
+                return BadRequest(res.Errors);
+
+            return Ok(new { message = "Registered" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                error = ex.Message,
+                detail = ex.ToString()
+            });
+        }
     }
 
 
     // POST /api/auth/login
-   [HttpPost("login")]   
-   [EnableRateLimiting("login")]
+    [HttpPost("login")]
+    [EnableRateLimiting("login")]
 
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
@@ -103,55 +109,75 @@ public class AuthController : ControllerBase
         var provider = dto.Channel?.ToLower() == "sms" ? "Phone" : "Email";
         var code = await _users.GenerateTwoFactorTokenAsync(user, provider);
 
-        if (provider == "Email")
+
+
+        if (!_env.IsDevelopment())
         {
-            if (string.IsNullOrWhiteSpace(user.Email))
-                return BadRequest(new { message = "No email set" });
+            if (provider == "Email")
+            {
+                if (string.IsNullOrWhiteSpace(user.Email))
+                    return BadRequest(new { message = "No email set" });
 
-            await _emailSender.SendAsync(
-                user.Email!,
-                "Your login code",
-                $"Your code: {code}"
-            );
+                await _emailSender.SendAsync(
+                    user.Email!,
+                    "Your login code",
+                    $"Your code: {code}"
+                );
 
-            return Ok(new { flowId = user.Id, message = "Code sent" });
+                return Ok(new { flowId = user.Id, message = "Code sent" });
+            }
+
+            // == SMS ==
+            if (string.IsNullOrWhiteSpace(user.PhoneNumber))
+                return BadRequest(new { message = "No phone set" });
+
+            try
+            {
+                await _smsSender.SendAsync(
+                    user.PhoneNumber!,
+                    $"Your NoteApp login code: {code}"
+                );
+
+                return Ok(new { flowId = user.Id, message = "Code sent" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,
+                    "Failed to send SMS 2FA code to {Phone} for user {UserId}",
+                    user.PhoneNumber, user.Id);
+
+                return StatusCode(500, new { message = "Could not deliver verification code." });
+            }
         }
-
-        // == SMS ==
-        if (string.IsNullOrWhiteSpace(user.PhoneNumber))
-            return BadRequest(new { message = "No phone set" });
-
-        try
+        else
         {
-            await _smsSender.SendAsync(
-                user.PhoneNumber!,
-                $"Your NoteApp login code: {code}"
-            );
-
-            return Ok(new { flowId = user.Id, message = "Code sent" });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex,
-                "Failed to send SMS 2FA code to {Phone} for user {UserId}",
-                user.PhoneNumber, user.Id);
-
-            return StatusCode(500, new { message = "Could not deliver verification code." });
+            _logger.LogInformation("DEV LOGIN CODE for {Email}: {Code} via {Provider}", user.Email, code, provider);
+            // Optionally: return { code } for local UI; keep it dev-only
+            return Ok(new { flowId = user.Id, message = "Code sent (dev)", code });
         }
     }
     // POST /api/auth/verify-2fa -> JWT + refresh token
     [HttpPost("verify-2fa")]
     public async Task<IActionResult> Verify2Fa([FromBody] Verify2FaDto dto)
     {
+
+
         var user = await _users.FindByIdAsync(dto.FlowId);
         if (user is null)
             return Unauthorized();
 
         var provider = dto.Channel?.ToLower() == "sms" ? "Phone" : "Email";
+        bool valid;
 
-        var valid = await _users.VerifyTwoFactorTokenAsync(user, provider, dto.Code);
+        if (!_env.IsDevelopment())
+        {
+
+            valid = await _users.VerifyTwoFactorTokenAsync(user, provider, dto.Code);
+        }
+
+        else { valid = dto.Code == "123456"; }
         if (!valid)
-            return Unauthorized();
+            return Unauthorized(new { message = "Invalid code." });
 
         // 1) access token
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
@@ -170,6 +196,8 @@ public class AuthController : ControllerBase
         // 4) access token in body
         return Ok(new { accessToken });
     }
+
+
 
     // POST /api/auth/refresh
     [HttpPost("refresh")]
@@ -193,7 +221,7 @@ public class AuthController : ControllerBase
 
         return Ok(new { accessToken = newAccessToken });
     }
-
+    
     // POST /api/auth/logout
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
