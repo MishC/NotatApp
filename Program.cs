@@ -1,188 +1,184 @@
-using Microsoft.EntityFrameworkCore;
-using NotatApp.Data;
-using NotatApp.Repositories;
-using NotatApp.Services;
-using NotatApp.Models;
-using Serilog.Events;
-using Serilog;
+using System.Text;
+using System.Threading.RateLimiting;
+using Amazon.SimpleEmail;
+using Amazon.SimpleNotificationService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-
-using System.Text;
-using Amazon.SimpleEmail;
-//using Amazon.Extensions.NETCore.Setup;
-using Amazon.SimpleNotificationService;
 using Microsoft.AspNetCore.RateLimiting;
-using System.Threading.RateLimiting;
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using NotatApp.Data;
+using NotatApp.Models;
+using NotatApp.Repositories;
+using NotatApp.Services;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//DB
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// ---------------------------
+// 1) Infrastructure / Logging
+// ---------------------------
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .Enrich.WithThreadId()
+    .Enrich.WithProcessId()
+    .CreateLogger();
+builder.Host.UseSerilog();
 
-//Microsoft ASP.NET Identity handler
-// ASP.NET Core Identity (uses ApplicationDbContext)
+// ---------------------------
+// 2) Database
+// ---------------------------
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+// ---------------------------
+// 3) Identity
+// ---------------------------
 builder.Services
     .AddIdentityCore<User>(opt =>
     {
         opt.User.RequireUniqueEmail = true;
         opt.Password.RequiredLength = 8;
-
-        // Dev
+        // Require email confirmation in prod; allow instant login in dev
         opt.SignIn.RequireConfirmedEmail = !builder.Environment.IsDevelopment();
-
         opt.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-    builder.Services.AddLogging();
 
+builder.Services.AddLogging();
 
+// ---------------------------
+/* 4) CORS
+ * Dev SPA on Vite (5173) -> API (5001)
+ * Use this policy only in Development.
+ */
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("dev", p =>
-        p.WithOrigins(
-            "http://localhost:5173",
-            "http://127.0.0.1:5173"
-        )
+    opt.AddPolicy("dev", p => p
+        .WithOrigins("http://localhost:5173", "http://127.0.0.1:5173")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
     );
 });
 
-
-//Check JWT Token validity
-//AddJwtBearer is a middleware which verify and validate tokens
+// ---------------------------
+// 5) JWT Auth
+// ---------------------------
 var jwt = builder.Configuration.GetSection("Jwt");
-
-builder.Services.AddAuthentication(o =>
-{
-    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //using of [Authorize]
-    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(o =>
-{
-    o.TokenValidationParameters = new TokenValidationParameters
+builder.Services
+    .AddAuthentication(o =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwt["Issuer"],
-        ValidAudience = jwt["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!)),
-        ClockSkew = TimeSpan.Zero,
-        ValidateLifetime = true,
-
-    };
-});
+        o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(o =>
+    {
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidIssuer = jwt["Issuer"],
+            ValidAudience = jwt["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!)),
+            ClockSkew = TimeSpan.Zero,
+        };
+    });
 
 builder.Services.AddAuthorization();
 
-// Serilog
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-    .WriteTo.Console(outputTemplate:
-        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
-    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
-    .Enrich.WithThreadId()
-    .Enrich.WithProcessId()
-    .CreateLogger();
-
-builder.Host.UseSerilog();
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer(); //for Swagger only
+// ---------------------------
+// 6) Swagger (dev only UI)
+// ---------------------------
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//End of Swagger config
 
+// ---------------------------
+// 7) App Services / DI
+// ---------------------------
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<INoteService, NoteService>();
 
 builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IFolderService, FolderService>();
 
-//Tokens
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-
 if (builder.Environment.IsDevelopment())
 {
-    // LOCALLY
+    // Local dev senders
     builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
-        builder.Services.AddScoped<ISmsSender, ConsoleSmsSender>();         // ★ add this
+    builder.Services.AddScoped<ISmsSender, ConsoleSmsSender>();
 
+    // Ensure no email confirm required in dev (explicit too)
     builder.Services.Configure<IdentityOptions>(o =>
     {
-        // No email confirmation requirement in local dev
         o.SignIn.RequireConfirmedEmail = false;
     });
 }
-else  //PRODUCTION ONLY
+else
 {
-   
-    // EMAIL:::::::  EC2 / PROD: SES -Emails
+    // Production: AWS SES/SNS
     builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
     builder.Services.AddAWSService<IAmazonSimpleEmailService>();
     builder.Services.AddScoped<IEmailSender, SesEmailSender>();
 
-    // SMS::::: external API SMS -//EC2 SNS
-
     builder.Services.AddAWSService<IAmazonSimpleNotificationService>();
-
     builder.Services.AddScoped<ISmsSender, SmsSender>();
 }
 
-
- builder.Services.AddRateLimiter(options =>
+// ---------------------------
+// 8) Rate limiting (login)
+// ---------------------------
+builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter("login", opt =>
     {
-        opt.Window = TimeSpan.FromMinutes(1); // 1 minute window
-        opt.PermitLimit = 5;                  // max 5 login tries/minute
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.PermitLimit = 5;
         opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        opt.QueueLimit = 0;                   // 429
+        opt.QueueLimit = 0; // immediately 429 if exceeded
     });
 });
 
-
+// ---------------------------
+// 9) MVC / Errors
+// ---------------------------
 builder.Services.AddControllers();
-
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+// Bind URL (dev)
 builder.WebHost.UseUrls("http://localhost:5001");
-
-
 
 var app = builder.Build();
 
-// APPLY MIGRATIONS ON STARTUP
+// ---------------------------
+// 10) Migrations on startup
+// ---------------------------
 try
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        db.Database.Migrate();
-    }
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
 }
 catch (Exception ex)
 {
-    Log.Error(ex, " Migration failed. ");
-
+    Log.Error(ex, "Migration failed.");
 }
 
-
-// Enable CORS middleware
-app.UseCors("AllowReactApp");
+// ---------------------------
+// 11) Middleware pipeline
+// ---------------------------
 
 // Swagger
 if (app.Environment.IsDevelopment())
@@ -191,36 +187,39 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//
-//DEV ONLY
+// CORS (dev only)
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("dev");
 }
 
-app.UseExceptionHandler(o => { });
+app.UseExceptionHandler(_ => { }); // uses GlobalExceptionHandler + ProblemDetails
 app.UseSerilogRequestLogging();
-//app.UseHttpsRedirection();
-app.UseRouting();
+
+// Static files for SPA
+// app.UseHttpsRedirection(); // enable when serving HTTPS locally
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-
+// AuthZ
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseRateLimiter();
 
-if (builder.Environment.IsDevelopment())
+// Dev exception page (optional, on top of ProblemDetails)
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
 
-
+// Endpoints
 app.MapControllers();
-
 app.MapFallbackToFile("index.html");
 
+// ---------------------------
+// 12) Run
+// ---------------------------
 try
 {
     Log.Information("Starting the application...");
@@ -234,8 +233,3 @@ finally
 {
     Log.CloseAndFlush();
 }
-
-
-
-
-
