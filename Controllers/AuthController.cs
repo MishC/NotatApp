@@ -179,27 +179,27 @@ public class AuthController : ControllerBase
         if (!valid)
             return Unauthorized(new { message = "Invalid code." });
 
-        // 1) access token
+        // 1) access token generate
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
 
-      /*   // 2) refresh token 
-       // var refreshToken = _jwtTokenService.GenerateRefreshToken();
+        // 2) refresh token generate
+        var refreshToken = _jwtTokenService.GenerateRefreshToken();
         var refreshExpires = DateTime.UtcNow.AddDays(7);
 
-        user.RefreshToken = refreshToken;
+        user.RefreshToken = refreshToken; 
         user.RefreshTokenExpiresAt = refreshExpires;
-        await _users.UpdateAsync(user);
+        await _users.UpdateAsync(user);//inside db
 
         // 3) save refresh token do HttpOnly cookie
         SetRefreshTokenCookie(refreshToken, refreshExpires);
- */
+ 
         // 4) access token in body
         return Ok(new { accessToken });
     }
 
 
 
-    // POST /api/auth/refresh !!!NOT USED
+    // POST /api/auth/refresh !it checks if  401
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
@@ -219,7 +219,7 @@ public class AuthController : ControllerBase
 
         // (generation of new refresh token)
 
-        return Ok(new { accessToken = newAccessToken });
+        return Ok(new { accessToken = newAccessToken }); //if 
     }
     
     // POST /api/auth/logout
