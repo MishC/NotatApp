@@ -84,7 +84,8 @@ namespace NotatApp.Services
                 FolderId = dto.FolderId,
                 UserId = userId,
                 IsArchived = false,
-                OrderIndex = nextIndex
+                OrderIndex = nextIndex,
+                ScheduledAt = dto.ScheduledAt
             };
 
             await _repository.AddAsync(note);
@@ -104,6 +105,7 @@ namespace NotatApp.Services
             note.Content = dto.Content;
             note.FolderId = dto.FolderId;
             note.IsArchived = dto.IsDone;
+            note.ScheduledAt = dto.ScheduledAt;
 
             await _repository.UpdateAsync(note);
             return true;

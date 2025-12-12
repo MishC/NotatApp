@@ -19,6 +19,9 @@ namespace NotatApp.Models
 
         public bool IsArchived { get; set; } = false;
 
+        public DateOnly? ScheduledAt { get; set; }
+
+
         [ForeignKey("Folder")]
         public int? FolderId  { get; set; }
 
@@ -44,6 +47,9 @@ namespace NotatApp.Models
         public string Title { get; set; } = string.Empty;
         public string? Content { get; set; }
         public int? FolderId { get; set; }
+
+        public DateOnly?  ScheduledAt {get;set;} 
+
     }
 
     public class UpdateNoteDto
@@ -52,5 +58,7 @@ namespace NotatApp.Models
         public string? Content { get; set; }
         public int? FolderId { get; set; }
         public bool IsDone { get; set; }
+        public DateOnly?  ScheduledAt {get;set;} 
+
     }
 }

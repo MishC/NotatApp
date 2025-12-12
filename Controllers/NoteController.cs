@@ -73,7 +73,6 @@ namespace NotatApp.Controllers
             var userId = GetUserId();
             if (userId is null) return Unauthorized();
 
-            // [ApiController] will already handle invalid ModelState → 400 BadRequest
             var note = await _noteService.CreateNoteAsync(dto, userId);
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
         }

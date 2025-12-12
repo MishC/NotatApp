@@ -12,7 +12,7 @@ namespace NotatApp.Services
 
         Task<Note?> GetNoteByIdAsync(int id, string userId);
 
-        Task<Note> CreateNoteAsync(CreateNoteDto dto, string userId);
+        Task<Note> CreateNoteAsync( CreateNoteDto dto, string userId);
         Task<bool> UpdateNoteAsync(int id, UpdateNoteDto dto, string userId);
         Task<bool> UpdateNoteFolderAsync(int id, int folderId, string userId);
         Task<bool> DeleteNoteAsync(int id, string userId);
