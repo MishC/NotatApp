@@ -182,8 +182,8 @@ public class AuthController : ControllerBase
         // 1) access token
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
 
-        // 2) refresh token
-        var refreshToken = _jwtTokenService.GenerateRefreshToken();
+      /*   // 2) refresh token 
+       // var refreshToken = _jwtTokenService.GenerateRefreshToken();
         var refreshExpires = DateTime.UtcNow.AddDays(7);
 
         user.RefreshToken = refreshToken;
@@ -192,14 +192,14 @@ public class AuthController : ControllerBase
 
         // 3) save refresh token do HttpOnly cookie
         SetRefreshTokenCookie(refreshToken, refreshExpires);
-
+ */
         // 4) access token in body
         return Ok(new { accessToken });
     }
 
 
 
-    // POST /api/auth/refresh
+    // POST /api/auth/refresh !!!NOT USED
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
