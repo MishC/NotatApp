@@ -188,7 +188,7 @@ public class AuthController : ControllerBase
 
         user.RefreshToken = refreshToken; 
         user.RefreshTokenExpiresAt = refreshExpires;
-        await _users.UpdateAsync(user); //inside db
+        await _users.UpdateAsync(user); //inside db, new refresh token, everytime you generate access token
 
         // 3) save refresh token do HttpOnly cookie
         SetRefreshTokenCookie(refreshToken, refreshExpires);
@@ -199,7 +199,7 @@ public class AuthController : ControllerBase
 
 
 
-    // POST /api/auth/refresh !it checks when 401
+    // POST /api/auth/refresh !it checks when accesstoken is expired, 401
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
@@ -215,9 +215,11 @@ public class AuthController : ControllerBase
         if (user.RefreshTokenExpiresAt < DateTime.UtcNow)
             return Unauthorized();
 
+        // (generation of new  accesstoken, refresh token is not expired)
+    
+
         var newAccessToken = _jwtTokenService.GenerateAccessToken(user);
 
-        // (generation of new refresh token)
 
         return Ok(new { accessToken = newAccessToken }); //if 
     }
