@@ -160,7 +160,16 @@ builder.Services.AddProblemDetails();
 // Bind URL (dev)
 builder.WebHost.UseUrls("http://localhost:5001");
 
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler(_ => { });  // enables IExceptionHandler pipeline
+
+
+
 
 // ---------------------------
 // 10) Migrations on startup

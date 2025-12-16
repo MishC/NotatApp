@@ -1,9 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using System.Net;
 using System.Security.Authentication;
-using System.Text.Json;
-using System.Linq;
-using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -40,7 +37,7 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
         // Surface validation errors from DataAnnotations.ValidationException (if present)
         if (exception is System.ComponentModel.DataAnnotations.ValidationException dae && dae.ValidationResult != null)
         {
-            var memberNames = dae.ValidationResult.MemberNames?.ToArray() ?? Array.Empty<string>();
+            var memberNames = dae.ValidationResult.MemberNames?.ToArray() ?? [];
             var errors = memberNames.Length > 0
                 ? memberNames.ToDictionary(m => m, m => new[] { dae.ValidationResult.ErrorMessage ?? string.Empty })
                 : new Dictionary<string, string[]> { { string.Empty, new[] { dae.ValidationResult.ErrorMessage ?? string.Empty } } };
@@ -51,7 +48,7 @@ public sealed class GlobalExceptionHandler : IExceptionHandler
         context.Response.ContentType = "application/problem+json";
 
         await context.Response.WriteAsJsonAsync(problem, cancellationToken);
-        return true; // we handled it
+        return true; 
     }
 
     private static (int status, string type, string title, string detail) MapException(Exception ex)
