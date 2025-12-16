@@ -1,56 +1,118 @@
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Security.Authentication;
+using System.Text.Json;
+using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using SendGrid.Helpers.Errors.Model;
+using Serilog;
 
-public class GlobalExceptionHandler : IExceptionHandler
+public sealed class GlobalExceptionHandler : IExceptionHandler
 {
-    public async Task<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
     {
-        context.Response.ContentType = "application/json";
-        var statusCode = exception switch
-        {
-            ValidationException => StatusCodes.Status400BadRequest, // Validation Error
-            KeyNotFoundException => StatusCodes.Status404NotFound,  // Not Found
-            _ => StatusCodes.Status500InternalServerError           // General Server Error
-        };
+        // Choose status + machine-readable "type"
+        var (status, type, title, detail) = MapException(exception);
 
-        if (exception is ValidationException)
-        {
-            Log.Warning("Validation Error: {Message}", exception.Message);
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine($"Validation Issue: {exception.Message}");
-            Console.ResetColor();
-        }
+        // Log appropriately
+        if (status >= 500)
+            Log.Error(exception, "Unhandled server error: {Message}", exception.Message);
         else
-        {
-            Log.Error(" Error: {Message}", exception.Message);
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($" ERROR: {exception.Message}");
-            Console.ResetColor();
-        }
+            Log.Warning(exception, "Handled error {Status}: {Message}", status, exception.Message);
 
-         var problemDetails = new ProblemDetails
+        // Build RFC 7807 ProblemDetails
+        var problem = new ProblemDetails
         {
-            Title = "An error occurred",
-            Status = statusCode,
-            Detail = exception.Message
+            Type   = type,
+            Title  = title,
+            Status = status,
+            Detail = detail,
+            Instance = context.Request?.Path.Value
         };
 
-        context.Response.StatusCode = statusCode;
-        await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails));
-        return true;
+        // Add trace id for correlation
+        // Surface validation errors from DataAnnotations.ValidationException (if present)
+        if (exception is System.ComponentModel.DataAnnotations.ValidationException dae && dae.ValidationResult != null)
+        {
+            var memberNames = dae.ValidationResult.MemberNames?.ToArray() ?? Array.Empty<string>();
+            var errors = memberNames.Length > 0
+                ? memberNames.ToDictionary(m => m, m => new[] { dae.ValidationResult.ErrorMessage ?? string.Empty })
+                : new Dictionary<string, string[]> { { string.Empty, new[] { dae.ValidationResult.ErrorMessage ?? string.Empty } } };
+            problem.Extensions["errors"] = errors;
+        }
+
+        context.Response.StatusCode  = status;
+        context.Response.ContentType = "application/problem+json";
+
+        await context.Response.WriteAsJsonAsync(problem, cancellationToken);
+        return true; // we handled it
     }
 
-    ValueTask<bool> IExceptionHandler.TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    private static (int status, string type, string title, string detail) MapException(Exception ex)
     {
-        throw new NotImplementedException();
+        // 401 Unauthorized
+        if (ex is AuthenticationException ||
+            ex is UnauthorizedAccessException ||
+            ex is SecurityTokenException)
+        {
+            var expired = ex is SecurityTokenExpiredException;
+            return (
+                StatusCodes.Status401Unauthorized,
+                expired
+                    ? "https://httpstatuses.com/401#token-expired"
+                    : "https://httpstatuses.com/401",
+                expired ? "Unauthorized (token expired)" : "Unauthorized",
+                expired ? "Your access token has expired." : ex.Message
+            );
+        }
+
+        // 403 Forbidden
+        if (ex is ForbiddenException) // <- custom if you have one
+        {
+            return (
+                StatusCodes.Status403Forbidden,
+                "https://httpstatuses.com/403",
+                "Forbidden",
+                ex.Message
+            );
+        }
+
+        // 404 Not Found
+        if (ex is KeyNotFoundException || ex is NotFoundException) // custom optional
+        {
+            return (
+                StatusCodes.Status404NotFound,
+                "https://httpstatuses.com/404",
+                "Not Found",
+                ex.Message
+            );
+        }
+
+        // 400 Bad Request (validation, argument issues)
+        if (ex is ValidationException ||
+            ex is ArgumentException ||
+            ex is FormatException)
+        {
+            return (
+                StatusCodes.Status400BadRequest,
+                "https://httpstatuses.com/400",
+                "Bad Request",
+                ex.Message
+            );
+        }
+
+        // default 500
+        return (
+            StatusCodes.Status500InternalServerError,
+            "https://httpstatuses.com/500",
+            "Server Error",
+            "An unexpected error occurred."
+        );
     }
 }

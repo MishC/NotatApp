@@ -121,6 +121,7 @@ namespace NotatApp.Services
                 return false;
 
             note.FolderId = folderId;
+            
             await _repository.UpdateAsync(note);
             return true;
         }
