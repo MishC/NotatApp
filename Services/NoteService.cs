@@ -101,12 +101,18 @@ namespace NotatApp.Services
             if (note == null)
                 return false;
 
-            note.Title = dto.Title;
-            note.Content = dto.Content;
-            note.FolderId = dto.FolderId;
-            note.IsArchived = dto.IsDone;
-            note.ScheduledAt = dto.ScheduledAt;
+            if (dto.Title != null)
+                note.Title = dto.Title;
 
+            if (dto.Content != null)
+                note.Content = dto.Content;
+
+            if (dto.FolderId.HasValue)
+                note.FolderId = dto.FolderId;
+
+
+            if (dto.ScheduledAt.HasValue)
+                note.ScheduledAt = dto.ScheduledAt;
             await _repository.UpdateAsync(note);
             return true;
         }
@@ -121,7 +127,7 @@ namespace NotatApp.Services
                 return false;
 
             note.FolderId = folderId;
-            
+
             await _repository.UpdateAsync(note);
             return true;
         }

@@ -12,7 +12,7 @@ namespace NotatApp.Models
 
         [Required]
         [StringLength(100, MinimumLength = 1)]  // Max 100 length
-        public string Title { get; set; } =string.Empty;
+        public string Title { get; set; } = string.Empty;
 
         [StringLength(1000)]
         public string? Content { get; set; }
@@ -23,7 +23,7 @@ namespace NotatApp.Models
 
 
         [ForeignKey("Folder")]
-        public int? FolderId  { get; set; }
+        public int? FolderId { get; set; }
 
         [ValidateNever]
         [JsonIgnore]
@@ -39,26 +39,29 @@ namespace NotatApp.Models
         [JsonIgnore]
         public User User { get; set; } = default!;
     }
-     
-     //From Body Frontend
 
-     public class CreateNoteDto
+    //From Body Frontend
+
+    public class CreateNoteDto
     {
+        [Required, StringLength(100, MinimumLength = 1)]
         public string Title { get; set; } = string.Empty;
-        public string? Content { get; set; }
-        public int? FolderId { get; set; }
 
-        public DateOnly?  ScheduledAt {get;set;} 
+        [StringLength(1000)]
+        public string? Content { get; set; }
+
+        public int? FolderId { get; set; }
+        public DateOnly? ScheduledAt { get; set; }
 
     }
 
     public class UpdateNoteDto
     {
-        public string Title { get; set; } = string.Empty;
+        public string? Title { get; set; }
         public string? Content { get; set; }
         public int? FolderId { get; set; }
-        public bool IsDone { get; set; }
-        public DateOnly?  ScheduledAt {get;set;} 
+        public bool? IsDone { get; set; }
+        public DateOnly? ScheduledAt { get; set; }
 
     }
 }
