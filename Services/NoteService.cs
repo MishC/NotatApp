@@ -78,6 +78,14 @@ namespace NotatApp.Services
             if (dto.Title.Length > 100)
                 throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(dto.Title));
 
+             if (dto.ScheduledAt.HasValue)
+            {
+                var today = DateOnly.FromDateTime(DateTime.Now);
+                if (dto.ScheduledAt.Value < today)
+                    throw new ArgumentException("Deadline must be today or in the future");
+
+            }    
+
 
             var nextIndex = await _repository.GetNextOrderIndexAsync(userId);
 
@@ -91,6 +99,8 @@ namespace NotatApp.Services
                 OrderIndex = nextIndex,
                 ScheduledAt = dto.ScheduledAt
             };
+
+           
 
             await _repository.AddAsync(note);
             return note;
