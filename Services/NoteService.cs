@@ -1,5 +1,9 @@
+using System.Xml.Serialization;
+using Microsoft.AspNetCore.Identity;
 using NotatApp.Models;
 using NotatApp.Repositories;
+
+
 
 namespace NotatApp.Services
 {
@@ -111,8 +115,14 @@ namespace NotatApp.Services
                 note.FolderId = dto.FolderId;
 
 
-            if (dto.ScheduledAt.HasValue)
-                note.ScheduledAt = dto.ScheduledAt;
+        if (dto.ScheduledAt.HasValue)
+        {
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            if (dto.ScheduledAt.Value < today)
+                note.ScheduledAt = note.ScheduledAt;
+
+            note.ScheduledAt = dto.ScheduledAt;
+        }
             await _repository.UpdateAsync(note);
             return true;
         }
