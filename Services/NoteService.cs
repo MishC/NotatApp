@@ -53,6 +53,19 @@ namespace NotatApp.Services
                 .OrderBy(n => n.OrderIndex)];
         }
 
+        public async Task<List<Note>> GetOverdueNotesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var notes = await _repository.GetUserNotesAsync(userId);
+            var today = DateOnly.FromDateTime(DateTime.Now);
+
+
+            return [.. notes
+                .Where(n => n.ScheduledAt.HasValue && n.ScheduledAt.Value < today)
+                .OrderBy(n => n.OrderIndex)];
+        }
 
         // Get one note 
         public Task<Note?> GetNoteByIdAsync(int id, string userId)
@@ -78,13 +91,13 @@ namespace NotatApp.Services
             if (dto.Title.Length > 100)
                 throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(dto.Title));
 
-             if (dto.ScheduledAt.HasValue)
+            if (dto.ScheduledAt.HasValue)
             {
                 var today = DateOnly.FromDateTime(DateTime.Now);
                 if (dto.ScheduledAt.Value < today)
                     throw new ArgumentException("Deadline must be today or in the future");
 
-            }    
+            }
 
 
             var nextIndex = await _repository.GetNextOrderIndexAsync(userId);
@@ -100,7 +113,7 @@ namespace NotatApp.Services
                 ScheduledAt = dto.ScheduledAt
             };
 
-           
+
 
             await _repository.AddAsync(note);
             return note;
@@ -125,14 +138,14 @@ namespace NotatApp.Services
                 note.FolderId = dto.FolderId;
 
 
-        if (dto.ScheduledAt.HasValue)
-        {
-            var today = DateOnly.FromDateTime(DateTime.Now);
-            if (dto.ScheduledAt.Value < today)
-                note.ScheduledAt = note.ScheduledAt;
+            if (dto.ScheduledAt.HasValue)
+            {
+                var today = DateOnly.FromDateTime(DateTime.Now);
+                if (dto.ScheduledAt.Value < today)
+                    note.ScheduledAt = note.ScheduledAt;
 
-            note.ScheduledAt = dto.ScheduledAt;
-        }
+                note.ScheduledAt = dto.ScheduledAt;
+            }
             await _repository.UpdateAsync(note);
             return true;
         }
@@ -183,5 +196,20 @@ namespace NotatApp.Services
             await _repository.UpdateAsync(source);
             await _repository.UpdateAsync(target);
         }
+
+
+        public async Task<bool> IsOverdueAsync(int id, string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var note = await _repository.GetByIdAsync(id, userId);
+            if (note == null)
+                return false;
+
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            return note.ScheduledAt.HasValue && note.ScheduledAt.Value < today;
+        }
+
     }
 }

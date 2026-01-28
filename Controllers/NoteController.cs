@@ -128,5 +128,25 @@ namespace NotatApp.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("overdue/{id:int}")]
+        public async Task<IActionResult> IsOverdue(int id)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var isOverdue = await _noteService.IsOverdueAsync(id, userId);
+            return Ok(isOverdue);
+        }
+
+        [HttpGet("overdues")]
+        public async Task<IActionResult> GetOverdueNotes()
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var notes = await _noteService.GetOverdueNotesAsync(userId);
+            return Ok(notes);
+        }   
     }
 }
