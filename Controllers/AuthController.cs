@@ -111,14 +111,31 @@ public class AuthController : ControllerBase
     {
         var user = await _users.FindByEmailAsync(dto.Email);
         if (user is null)
-            return BadRequest(new { message = "Wrong user name!" });
+            return  Unauthorized(new { message = "Invalid email or password." });
 
         if (!await _users.CheckPasswordAsync(user, dto.Password))
             return Unauthorized(new { message = "Wrong password!" });
 
+        if (await _users.IsLockedOutAsync(user))
+            return StatusCode(403, new { message = "Account is temporarily locked. Try again later." });
+
+        if (!await _users.CheckPasswordAsync(user, dto.Password))
+        {
+            // Increment access failed count for lockout protection
+            await _users.AccessFailedAsync(user);
+            return Unauthorized(new { message = "Invalid email or password." });
+        }
+
+        // Reset failed count on successful password check
+        await _users.ResetAccessFailedCountAsync(user);
+
+
+        // Check if account is locked out (if you have lockout enabled)
+        if (await _users.IsLockedOutAsync(user))
+            return StatusCode(403, new { message = "Account is temporarily locked. Try again later." });
+
         var provider = dto.Channel?.ToLower() == "sms" ? "Phone" : "Email";
         var code = await _users.GenerateTwoFactorTokenAsync(user, provider);
-
 
 
         if (!_env.IsDevelopment())
