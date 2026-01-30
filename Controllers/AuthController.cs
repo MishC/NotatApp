@@ -54,7 +54,11 @@ public class AuthController : ControllerBase
         };
 
         Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+
     }
+
+    [HttpGet("health")]
+    public IActionResult HealthCheck() => Ok("Auth service is running.");
 
     // POST /api/auth/register
     [HttpPost("register")]
