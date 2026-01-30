@@ -14,7 +14,7 @@ namespace NotatApp.Controllers;
 
 //Service+Controller here
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly UserManager<User> _users;
@@ -60,11 +60,14 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
     {
+        if (!ModelState.IsValid)
+            return ValidationProblem(ModelState);
+
         if (dto == null)
-            return BadRequest("Invalid request body");
+            return BadRequest(new { message = "Invalid request body" });
 
         if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
-            return BadRequest("Email and password are required");
+            return BadRequest(new { message = "Email and password are required" });
 
         var user = new User
         {
@@ -78,7 +81,18 @@ public class AuthController : ControllerBase
             var res = await _users.CreateAsync(user, dto.Password);
 
             if (!res.Succeeded)
-                return BadRequest(res.Errors);
+            {
+                var errors = res.Errors
+                    .Select(e => new { code = e.Code, description = e.Description })
+                    .ToArray();
+
+                // Return structured 400 with error codes and descriptions
+                return BadRequest(new
+                {
+                    message = "Registration failed",
+                    errors
+                });
+            }
 
             return Ok(new { message = "Registered" });
         }
@@ -205,6 +219,7 @@ public class AuthController : ControllerBase
     {
         if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
             return Unauthorized();
+    
 
         var user = await _users.Users
             .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
