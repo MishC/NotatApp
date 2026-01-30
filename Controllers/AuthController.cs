@@ -64,18 +64,15 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto? dto)
     {
-        if (!ModelState.IsValid)
-            return ValidationProblem(ModelState);
-
         if (dto == null)
-            return BadRequest(new { message = "Invalid request body" });
+            return BadRequest(new { message = "Registration data is missing." });
 
-        if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
-            return BadRequest(new { message = "Email and password are required" });
+        if (!ModelState.IsValid)
+            return BadRequest(new { message = "The data provided is not valid." });
 
         var user = new User
         {
-            UserName = dto.Email,
+            UserName = dto.Email, // Identity usually uses Email as Username
             Email = dto.Email,
             PhoneNumber = dto.PhoneNumber
         };
@@ -86,30 +83,25 @@ public class AuthController : ControllerBase
 
             if (!res.Succeeded)
             {
-                var errors = res.Errors
-                    .Select(e => new { code = e.Code, description = e.Description })
-                    .ToArray();
-
-                // Return structured 400 with error codes and descriptions
-                return BadRequest(new
+                // Check for specific Identity error codes
+                if (res.Errors.Any(e => e.Code == "DuplicateUserName" || e.Code == "DuplicateEmail"))
                 {
-                    message = "Registration failed",
-                    errors
-                });
+                    return Conflict(new { message = "This email address is already registered." });
+                }
+
+                // Fallback for other errors (e.g., Password too weak)
+                var firstError = res.Errors.FirstOrDefault()?.Description ?? "Registration failed.";
+                return BadRequest(new { message = firstError });
             }
 
-            return Ok(new { message = "Registered" });
+            return Ok(new { message = "Account created successfully." });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new
-            {
-                error = ex.Message,
-                detail = ex.ToString()
-            });
+            _logger.LogError(ex, "Registration crash");
+            return StatusCode(500, new { message = "A server error occurred. Please try again later." });
         }
     }
-
 
     // POST /api/auth/login
     [HttpPost("login")]
@@ -204,13 +196,13 @@ public class AuthController : ControllerBase
         var refreshToken = _jwtTokenService.GenerateRefreshToken();
         var refreshExpires = DateTime.UtcNow.AddDays(7);
 
-        user.RefreshToken = refreshToken; 
+        user.RefreshToken = refreshToken;
         user.RefreshTokenExpiresAt = refreshExpires;
         await _users.UpdateAsync(user); //inside db, new refresh token, everytime you generate access token
 
         // 3) save refresh token do HttpOnly cookie
         SetRefreshTokenCookie(refreshToken, refreshExpires);
- 
+
         // 4) access token in body
         return Ok(new { accessToken });
     }
@@ -223,7 +215,7 @@ public class AuthController : ControllerBase
     {
         if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
             return Unauthorized();
-    
+
 
         var user = await _users.Users
             .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
@@ -235,14 +227,14 @@ public class AuthController : ControllerBase
             return Unauthorized();
 
         // (generation of new  accesstoken, refresh token is not expired)
-    
+
 
         var newAccessToken = _jwtTokenService.GenerateAccessToken(user);
 
 
         return Ok(new { accessToken = newAccessToken }); //if 
     }
-    
+
     // POST /api/auth/logout
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
