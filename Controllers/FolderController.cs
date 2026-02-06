@@ -4,7 +4,7 @@ using NotatApp.Models;
 
 namespace NotatApp.Controllers
 {
-    [ApiController]
+[ApiController]
 [Route("api/folders")]
 public class FolderController : ControllerBase
 {
