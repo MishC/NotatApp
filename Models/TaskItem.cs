@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
 
 namespace NotatApp.Models
 {
@@ -20,8 +19,6 @@ public class TaskItem
     public DateTime EndTimeUtc { get; set; }
 
     public bool IsDone { get; set; } = false;
-
-    public bool IsArchived { get; set; } = false;
 
     [Required]
     [ForeignKey(nameof(User))]

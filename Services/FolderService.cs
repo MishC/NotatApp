@@ -86,4 +86,10 @@ public class FolderService : IFolderService
         await _folderRepository.DeleteAsync(folder);
         return true;
     }
+
+    public async Task<string> GetFolderNameByIdAsync(int id)
+    {
+        var folder = await _folderRepository.GetByIdAsync(id);
+        return folder?.Name ?? string.Empty;
+    }
 }

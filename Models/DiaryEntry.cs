@@ -32,6 +32,7 @@ namespace NotatApp.Models
         [StringLength(5000)]
         public string? Content { get; set; }
 
+        [Required]
         public DateOnly Date { get; set; }
     }
 

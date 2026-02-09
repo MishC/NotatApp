@@ -11,4 +11,5 @@ public interface IFolderService
     Task<Folder> AddFolderAsync(Folder folder);
     Task<bool> UpdateFolderAsync(Folder folder);
     Task<bool> DeleteFolderAsync(int id);
+    Task<string> GetFolderNameByIdAsync(int id);
 }
