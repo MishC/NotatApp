@@ -160,7 +160,7 @@ namespace NotatApp.Tests
                 Content = "Old Content",
                 FolderId = 1,
                 UserId = UserId,
-                IsArchived = false
+                IsDone = false
             };
 
             var dto = new UpdateNoteDto
@@ -191,7 +191,7 @@ namespace NotatApp.Tests
                     n.Title == dto.Title &&
                     n.Content == dto.Content &&
                     n.FolderId == dto.FolderId &&
-                    n.IsArchived == dto.IsDone &&
+                    n.IsDone  == dto.IsDone &&
                     n.UserId == UserId
                 )),
                 Times.Once);

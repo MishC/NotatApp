@@ -13,7 +13,8 @@ namespace NotatApp.Data
         public DbSet<Folder> Folders { get; set; }
 
         public DbSet<TaskItem> TaskItems { get; set; }
-
+        public DbSet<DiaryEntry> DiaryEntries { get; set; }
+    
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
     base.OnModelCreating(modelBuilder);
@@ -25,16 +26,23 @@ namespace NotatApp.Data
         .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<Note>()
-        .HasOne(n => n.User)
+        .HasOne<User>() 
         .WithMany()
         .HasForeignKey(n => n.UserId)
         .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<TaskItem>()
-        .HasOne(t => t.User)
+        .HasOne<User>() 
         .WithMany()
         .HasForeignKey(t => t.UserId)
         .OnDelete(DeleteBehavior.Cascade);
+
+    
+    modelBuilder.Entity<DiaryEntry>()
+        .HasOne<User>() 
+        .WithMany()
+        .HasForeignKey(t => t.UserId)
+        .OnDelete(DeleteBehavior.Cascade);    
 
     modelBuilder.Entity<Folder>().HasData(
         new Folder { Id = 1, Name = "Work" },

@@ -11,40 +11,36 @@ namespace NotatApp.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 1)]  // Max 100 length
+        [StringLength(100, MinimumLength = 1)]
         public string Title { get; set; } = string.Empty;
 
         [StringLength(1000)]
         public string? Content { get; set; }
 
-        public bool IsArchived { get; set; } = false;
-
+        // Represents whether the note is archived/completed
+        public bool IsDone { get; set; } = false; 
         public DateOnly? ScheduledAt { get; set; }
 
-
-        [ForeignKey("Folder")]
+        [ForeignKey(nameof(Folder))]
         public int? FolderId { get; set; }
 
         [ValidateNever]
         [JsonIgnore]
-        public Folder? Folder { get; set; } //EF Navigation Object
+        public Folder? Folder { get; set; }
 
         public int OrderIndex { get; set; } = 0;
 
         [Required]
-        [ForeignKey("User")]
+        [ForeignKey(nameof(User))]
         public string UserId { get; set; } = default!;
-
-        [ValidateNever]
-        [JsonIgnore]
-        public User User { get; set; } = default!;
     }
 
-    //From Body Frontend
+    // DTOs used for incoming request bodies
 
     public class CreateNoteDto
     {
-        [Required, StringLength(100, MinimumLength = 1)]
+        [Required]
+        [StringLength(100, MinimumLength = 1)]
         public string Title { get; set; } = string.Empty;
 
         [StringLength(1000)]
@@ -52,16 +48,22 @@ namespace NotatApp.Models
 
         public int? FolderId { get; set; }
         public DateOnly? ScheduledAt { get; set; }
-
     }
 
     public class UpdateNoteDto
     {
+        // Optional for partial updates; if provided must be 1..100 chars
+        [StringLength(100, MinimumLength = 1)]
         public string? Title { get; set; }
-        public string? Content { get; set; }
-        public int? FolderId { get; set; }
-        public bool? IsDone { get; set; }
-        public DateOnly? ScheduledAt { get; set; }
 
+        [StringLength(1000)]
+        public string? Content { get; set; }
+
+        public int? FolderId { get; set; }
+
+        // Use the same terminology as the entity
+        public bool? IsDone { get; set; }
+
+        public DateOnly? ScheduledAt { get; set; }
     }
 }

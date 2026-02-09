@@ -36,7 +36,7 @@ namespace NotatApp.Services
             var notes = await _repository.GetUserNotesAsync(userId);
 
             return [.. notes
-                .Where(n => !n.IsArchived && ( n.Folder?.Name != "Done"))
+                .Where(n => !n.IsDone && ( n.Folder?.Name != "Done"))
                 .OrderBy(n => n.OrderIndex)];
         }
 
@@ -108,7 +108,7 @@ namespace NotatApp.Services
                 Content = dto.Content,
                 FolderId = dto.FolderId,
                 UserId = userId,
-                IsArchived = false,
+                IsDone = false,
                 OrderIndex = nextIndex,
                 ScheduledAt = dto.ScheduledAt
             };

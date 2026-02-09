@@ -13,7 +13,7 @@ public class TaskItem
     [Required, StringLength(100, MinimumLength = 1)]
     public string Title { get; set; } = string.Empty;
 
-    [StringLength(2000)]
+    [StringLength(50)]
     public string? Content { get; set; }
 
     public DateTime StartTimeUtc { get; set; }
@@ -24,12 +24,8 @@ public class TaskItem
     public bool IsArchived { get; set; } = false;
 
     [Required]
-    [ForeignKey("User")]
+    [ForeignKey(nameof(User))]
     public string UserId { get; set; } = default!;
-
-    [ValidateNever]
-    [JsonIgnore]
-    public User User { get; set; } = default!;
 }
 
 public class CreateTaskDto
