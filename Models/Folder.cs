@@ -18,6 +18,6 @@ namespace NotatApp.Models
         
         [ValidateNever]
         [JsonIgnore]   
-        public List<Note> Notes { get; set; } = new List<Note>();
+        public List<Note> Notes { get; set; } = new List<Note>(); //EF Navigation Object, you can use it to include related notes
     }
 }

@@ -172,7 +172,7 @@ app.UseExceptionHandler(_ => { });  // enables IExceptionHandler pipeline
 
 
 // ---------------------------
-// 10) Migrations on startup
+// 10) Migrations on startup- for dev
 // ---------------------------
 try
 {

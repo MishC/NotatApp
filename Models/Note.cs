@@ -27,7 +27,7 @@ namespace NotatApp.Models
 
         [ValidateNever]
         [JsonIgnore]
-        public Folder? Folder { get; set; }
+        public Folder? Folder { get; set; } //EF Navigation Object
 
         public int OrderIndex { get; set; } = 0;
 
