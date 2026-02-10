@@ -44,7 +44,7 @@ public class FolderService : IFolderService
             f.Name.Trim().ToLowerInvariant() == normalized);
     }
 
-    public async Task<Folder> AddFolderAsync(Folder folder)
+    public async Task<Folder> AddFolderAsync(Folder folder, string userId)
     {
         if (folder == null)
             throw new ArgumentNullException(nameof(folder), "Folder cannot be null.");
@@ -52,11 +52,11 @@ public class FolderService : IFolderService
         if (string.IsNullOrWhiteSpace(folder.Name) || folder.Name.Length < 3 || folder.Name.Length > 50)
             throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folder.Name));
 
-        await _folderRepository.AddFolderAsync(folder);
+        await _folderRepository.AddFolderAsync(folder, userId);
         return folder;
     }
 
-    public async Task<bool> UpdateFolderAsync(Folder folder)
+    public async Task<bool> UpdateFolderAsync(Folder folder, string userId)
     {
         if (folder == null)
             throw new ArgumentNullException(nameof(folder), "Folder cannot be null.");
@@ -69,12 +69,12 @@ public class FolderService : IFolderService
             throw new KeyNotFoundException($"Folder with ID {folder.Id} not found.");
 
         existingFolder.Name = folder.Name;
-        existingFolder.Notes = folder.Notes;        
-        await _folderRepository.UpdateFolderAsync(existingFolder);
+        existingFolder.Notes = folder.Notes;
+        await _folderRepository.UpdateFolderAsync(existingFolder, userId);
         return true;
     }
 
-    public async Task<bool> DeleteFolderAsync(int id)
+    public async Task<bool> DeleteFolderByIdAsync(int id, string userId)
     {
         if (id <= 0)
             throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
@@ -83,7 +83,7 @@ public class FolderService : IFolderService
         if (folder == null)
             throw new KeyNotFoundException($"Folder with ID {id} not found.");
 
-        await _folderRepository.DeleteFolderAsync(folder);
+        await _folderRepository.DeleteFolderByIdAsync(id, userId);
         return true;
     }
 

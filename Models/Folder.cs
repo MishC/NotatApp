@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -15,6 +15,10 @@ namespace NotatApp.Models
         [Required]
         [StringLength(20, MinimumLength = 2)]
         public string? Name { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; } = default!;  //update: added userId, as user can make a new folder
         
         [ValidateNever]
         [JsonIgnore]   
