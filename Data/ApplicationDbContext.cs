@@ -45,6 +45,7 @@ namespace NotatApp.Data
         .OnDelete(DeleteBehavior.Cascade);    
 
     modelBuilder.Entity<Folder>().HasData(
+        new Folder { Id = 0, Name = "Overdue" },
         new Folder { Id = 1, Name = "Work" },
         new Folder { Id = 2, Name = "Personal" },
         new Folder { Id = 3, Name = "Ideas" },
