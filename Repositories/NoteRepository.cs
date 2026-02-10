@@ -37,19 +37,19 @@ namespace NotatApp.Repositories
                 .ToListAsync();
         }
 
-        public async Task AddAsync(Note note)
+        public async Task AddNoteAsync(Note note)
         {
             _context.Notes.Add(note);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Note note)
+        public async Task UpdateNoteAsync(Note note)
         {
             _context.Notes.Update(note);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Note note)
+        public async Task DeleteNoteAsync(Note note)
         {
             _context.Notes.Remove(note);
             await _context.SaveChangesAsync();

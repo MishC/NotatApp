@@ -123,7 +123,7 @@ namespace NotatApp.Services
 
 
 
-            await _repository.AddAsync(note);
+            await _repository.AddNoteAsync(note);
             return note;
         }
 
@@ -154,7 +154,7 @@ namespace NotatApp.Services
 
                 note.ScheduledAt = dto.ScheduledAt;
             }
-            await _repository.UpdateAsync(note);
+            await _repository.UpdateNoteAsync(note);
             return true;
         }
 
@@ -169,7 +169,7 @@ namespace NotatApp.Services
 
             note.FolderId = folderId;
 
-            await _repository.UpdateAsync(note);
+            await _repository.UpdateNoteAsync(note);
             return true;
         }
 
@@ -182,7 +182,7 @@ namespace NotatApp.Services
             if (existing == null)
                 return false;
 
-            await _repository.DeleteAsync(existing);
+            await _repository.DeleteNoteAsync(existing);
             return true;
         }
 
@@ -201,8 +201,8 @@ namespace NotatApp.Services
             source.OrderIndex = target.OrderIndex;
             target.OrderIndex = tmp;
 
-            await _repository.UpdateAsync(source);
-            await _repository.UpdateAsync(target);
+            await _repository.UpdateNoteAsync(source);
+            await _repository.UpdateNoteAsync(target);
         }
 
 

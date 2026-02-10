@@ -10,9 +10,9 @@ namespace NotatApp.Repositories
         Task<Note?> GetNoteByIdAsync(int id, string userId);
         Task<List<Note?>> GetNotesByFolderIdAsync(int folderId, string userId);
 
-        Task AddAsync(Note note);
-        Task UpdateAsync(Note note);
-        Task DeleteAsync(Note note);
+        Task AddNoteAsync(Note note);
+        Task UpdateNoteAsync(Note note);
+        Task DeleteNoteAsync(Note note);
 
         Task<int> GetNextOrderIndexAsync(string userId);
     }
