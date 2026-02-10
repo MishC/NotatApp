@@ -28,7 +28,8 @@ namespace NotatApp.Controllers
         [AllowAnonymous]
         public IActionResult HealthCheck() => Ok("Note Service is running.");
     
-
+        //Get All notes 
+        //API=> GET /api/notes
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
         {
@@ -39,6 +40,8 @@ namespace NotatApp.Controllers
             return Ok(notes);
         }
 
+        //Get Pending notes
+        //API=> GET /api/notes/pending
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingNotes()
         {
@@ -49,6 +52,8 @@ namespace NotatApp.Controllers
             return Ok(notes);
         }
 
+        //Get Done notes
+        //API=> GET /api/notes/done
         [HttpGet("done")]
         public async Task<IActionResult> GetDoneNotes()
         {
@@ -59,6 +64,8 @@ namespace NotatApp.Controllers
             return Ok(done);
         }
 
+        //Get Note by Id
+        //API=> GET /api/notes/{id}
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetNoteById(int id)
         {
@@ -70,6 +77,22 @@ namespace NotatApp.Controllers
         }
 
 
+        //Get All Notes by Folder Id
+        //API=> GET /api/notes/folder/{folderId}
+        [HttpGet("folder/{folderId:int}")]
+        public async Task<IActionResult> GetNotesByFolderId(int folderId)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var notes = await _noteService.GetNotesByFolderIdAsync(folderId, userId);
+            return Ok(notes);
+        }
+
+
+        //Create Note
+        //API=> POST /api/notes 
+        // body: { "title": "Note Title", "scheduledAt": "2023-01-01T00:00:00Z", "content": "Note Content", "folderId": 1 }
         [HttpPost]
         public async Task<IActionResult> CreateNote([FromBody] CreateNoteDto dto)
         {
