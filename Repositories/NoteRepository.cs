@@ -22,11 +22,19 @@ namespace NotatApp.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Note?> GetByIdAsync(int id, string userId)
+        public async Task<Note?> GetNoteByIdAsync(int id, string userId)
         {
             return await _context.Notes
                 .Include(n => n.Folder)
                 .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
+        }
+
+        public async Task<List<Note>> GetNotesByFolderIdAsync(int folderId, string userId)
+        {
+            return await _context.Notes
+                .Where(n => n.FolderId == folderId && n.UserId == userId)
+                .OrderBy(n => n.OrderIndex)
+                .ToListAsync();
         }
 
         public async Task AddAsync(Note note)

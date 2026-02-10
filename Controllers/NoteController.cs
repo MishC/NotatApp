@@ -67,6 +67,10 @@ namespace NotatApp.Controllers
             return note == null ? NotFound() : Ok(note);
         }
 
+        
+
+
+
         [HttpPost]
         public async Task<IActionResult> CreateNote([FromBody] CreateNoteDto dto)
         {

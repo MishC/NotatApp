@@ -4,10 +4,10 @@ using NotatApp.Models;
 
 public interface IFolderRepository
 {
-    Task<List<Folder>> GetAllAsync();
-    Task<Folder?> GetByIdAsync(int id);
+    Task<List<Folder>> GetAllFoldersAsync();
+    Task<Folder?> GetFolderByIdAsync(int id);
 
-    Task AddAsync(Folder folder);
-    Task UpdateAsync(Folder folder);
-    Task DeleteAsync(Folder folder);
+    Task AddFolderAsync(Folder folder);
+    Task UpdateFolderAsync(Folder folder);
+    Task DeleteFolderAsync(Folder folder);
 }

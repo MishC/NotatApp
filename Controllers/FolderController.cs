@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using NotatApp.Models;
@@ -6,6 +7,7 @@ namespace NotatApp.Controllers
 {
 [ApiController]
 [Route("api/folders")]
+[Authorize]
 public class FolderController : ControllerBase
 {
     private readonly IFolderService _folderService;
@@ -28,6 +30,20 @@ public class FolderController : ControllerBase
         return folder == null ? NotFound() : Ok(folder);
     }
 
+    [HttpGet("{id:int}/notes")]
+    public async Task<IActionResult> GetNotesForFolder(int id)
+    {
+        var notes = await _folderService.GetNotesForFolderAsync(id);
+        return notes == null ? NotFound() : Ok(notes);
+    }
+    [HttpGet("title/{id:int}")]
+    public async Task<IActionResult> GetFolderTitle(int id)
+    {
+        var title = await _folderService.GetFolderNameByIdAsync(id);
+        return title == null ? NotFound() : Ok(title);
+    }
+
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateFolder([FromBody] Folder folder)
     {

@@ -13,33 +13,33 @@ public class FolderRepository : IFolderRepository
         _context = context;
     }
 
-    public async Task<List<Folder>> GetAllAsync()
+    public async Task<List<Folder>> GetAllFoldersAsync()
     {
         return await _context.Folders
             .Include(f => f.Notes)
             .ToListAsync();
     }
 
-    public async Task<Folder?> GetByIdAsync(int id)
+    public async Task<Folder?> GetFolderByIdAsync(int id)
     {
         return await _context.Folders
             .Include(f => f.Notes)
-            .FirstOrDefaultAsync(f => f.Id == id);
+            .FirstOrDefaultAsync(f => f.Id == id); //Returns the folder and its notes
     }
 
-    public async Task AddAsync(Folder folder)
+    public async Task AddFolderAsync(Folder folder)
     {
         _context.Folders.Add(folder);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Folder folder)
+    public async Task UpdateFolderAsync(Folder folder)
     {
         _context.Folders.Update(folder);
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Folder folder)
+    public async Task DeleteFolderAsync(Folder folder)
     {
         _context.Folders.Remove(folder);
         await _context.SaveChangesAsync();

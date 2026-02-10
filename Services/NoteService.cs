@@ -73,8 +73,16 @@ namespace NotatApp.Services
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
-            return _repository.GetByIdAsync(id, userId);
+            return _repository.GetNoteByIdAsync(id, userId);
         }
+
+        public Task<List<Note?>> GetNotesByFolderIdAsync(int folderId, string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            return _repository.GetNotesByFolderIdAsync(folderId, userId);
+        }   
 
         //Create Note
         public async Task<Note> CreateNoteAsync(CreateNoteDto dto, string userId)
@@ -124,7 +132,7 @@ namespace NotatApp.Services
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
-            var note = await _repository.GetByIdAsync(id, userId);
+            var note = await _repository.GetNoteByIdAsync(id, userId);
             if (note == null)
                 return false;
 
@@ -155,7 +163,7 @@ namespace NotatApp.Services
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
-            var note = await _repository.GetByIdAsync(id, userId);
+            var note = await _repository.GetNoteByIdAsync(id, userId);
             if (note == null)
                 return false;
 
@@ -170,7 +178,7 @@ namespace NotatApp.Services
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
-            var existing = await _repository.GetByIdAsync(id, userId);
+            var existing = await _repository.GetNoteByIdAsync(id, userId);
             if (existing == null)
                 return false;
 
@@ -183,8 +191,8 @@ namespace NotatApp.Services
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
-            var source = await _repository.GetByIdAsync(sourceId, userId);
-            var target = await _repository.GetByIdAsync(targetId, userId);
+            var source = await _repository.GetNoteByIdAsync(sourceId, userId);
+            var target = await _repository.GetNoteByIdAsync(targetId, userId);
 
             if (source == null || target == null)
                 return;
@@ -203,7 +211,7 @@ namespace NotatApp.Services
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
-            var note = await _repository.GetByIdAsync(id, userId);
+            var note = await _repository.GetNoteByIdAsync(id, userId);
             if (note == null)
                 return false;
 
