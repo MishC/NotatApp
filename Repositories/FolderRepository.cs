@@ -16,8 +16,8 @@ public class FolderRepository : IFolderRepository
     public async Task<List<Folder>> GetAllFoldersAsync()
     {
         return await _context.Folders
-            .Include(f => f.Notes)
-            .ToListAsync();
+            .Include(f => f.Notes) //this is JSON ignore
+            .ToListAsync(); //returns all folders with their parameters
     }
 
     public async Task<Folder?> GetFolderByIdAsync(int id)
