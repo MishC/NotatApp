@@ -23,7 +23,7 @@ public class FolderRepository : IFolderRepository
     public async Task<Folder?> GetFolderByIdAsync(int id)
     {
         return await _context.Folders
-            .Include(f => f.Notes)
+            .Include(f => f.Notes) //this is JSON ignore -> can be deleted in final code
             .FirstOrDefaultAsync(f => f.Id == id); //Returns the folder and its notes
     }
 
