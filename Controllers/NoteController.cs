@@ -23,6 +23,12 @@ namespace NotatApp.Controllers
             User.FindFirstValue(ClaimTypes.NameIdentifier)
             ?? User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
+        
+        [HttpGet("health")]
+        [AllowAnonymous]
+        public IActionResult HealthCheck() => Ok("Note Service is running.");
+    
+
         [HttpGet]
         public async Task<IActionResult> GetAllNotes()
         {
@@ -32,10 +38,6 @@ namespace NotatApp.Controllers
             var notes = await _noteService.GetAllNotesAsync(userId);
             return Ok(notes);
         }
-
-        [HttpGet("health")]
-        [AllowAnonymous]
-        public IActionResult HealthCheck() => Ok("Note Service is running.");
 
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingNotes()
@@ -66,9 +68,6 @@ namespace NotatApp.Controllers
             var note = await _noteService.GetNoteByIdAsync(id, userId);
             return note == null ? NotFound() : Ok(note);
         }
-
-        
-
 
 
         [HttpPost]
@@ -139,7 +138,7 @@ namespace NotatApp.Controllers
             var userId = GetUserId();
             if (userId is null) return Unauthorized();
 
-            var isOverdue = await _noteService.IsOverdueAsync(id, userId);
+            var isOverdue = await _noteService.IsNoteOverdueAsync(id, userId);
             return Ok(isOverdue);
         }
 

@@ -18,7 +18,7 @@ namespace NotatApp.Services
         Task<bool> UpdateNoteFolderAsync(int id, int folderId, string userId);
         Task<bool> DeleteNoteAsync(int id, string userId);
 
-        Task<bool> IsOverdueAsync(int id, string userId);
+        Task<bool> IsNoteOverdueAsync(int id, string userId);
         Task<List<Note>> GetOverdueNotesAsync(string userId);
 
         Task SwapOrderAsync(int sourceId, int targetId, string userId);

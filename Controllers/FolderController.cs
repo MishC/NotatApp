@@ -30,12 +30,7 @@ public class FolderController : ControllerBase
         return folder == null ? NotFound() : Ok(folder);
     }
 
-    [HttpGet("{id:int}/notes")]
-    public async Task<IActionResult> GetNotesForFolder(int id)
-    {
-        var notes = await _folderService.GetNotesForFolderAsync(id);
-        return notes == null ? NotFound() : Ok(notes);
-    }
+   
     [HttpGet("title/{id:int}")]
     public async Task<IActionResult> GetFolderTitle(int id)
     {

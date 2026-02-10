@@ -206,7 +206,7 @@ namespace NotatApp.Services
         }
 
 
-        public async Task<bool> IsOverdueAsync(int id, string userId)
+        public async Task<bool> IsNoteOverdueAsync(int id, string userId)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
