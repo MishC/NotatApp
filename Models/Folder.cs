@@ -16,7 +16,6 @@ namespace NotatApp.Models
         [StringLength(20, MinimumLength = 2)]
         public string? Name { get; set; }
 
-        [ForeignKey(nameof(User))]
         public string? UserId { get; set; } = null;  //update: added userId, as user can make a new folder
         
         [ValidateNever]
