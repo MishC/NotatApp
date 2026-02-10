@@ -31,6 +31,12 @@ namespace NotatApp.Data
         .HasForeignKey(n => n.UserId)
         .OnDelete(DeleteBehavior.Cascade);
 
+    modelBuilder.Entity<Folder>()
+        .HasOne<User>()
+        .WithMany()
+        .HasForeignKey(f => f.UserId)
+        .OnDelete(DeleteBehavior.Cascade);
+
     modelBuilder.Entity<TaskItem>()
         .HasOne<User>() 
         .WithMany()
@@ -45,11 +51,11 @@ namespace NotatApp.Data
         .OnDelete(DeleteBehavior.Cascade);    
 
     modelBuilder.Entity<Folder>().HasData(
-        new Folder { Id = 0, Name = "Overdue" },
-        new Folder { Id = 1, Name = "Work" },
-        new Folder { Id = 2, Name = "Personal" },
-        new Folder { Id = 3, Name = "Ideas" },
-        new Folder { Id = 4, Name = "Done" }
+        new Folder { Id = 1, Name = "Overdue", UserId = null },
+        new Folder { Id = 2, Name = "Work", UserId = null },
+        new Folder { Id = 3, Name = "Personal", UserId = null },
+        new Folder { Id = 4, Name = "Ideas", UserId = null },
+        new Folder { Id = 5, Name = "Done", UserId = null }
     );
 }
     }
