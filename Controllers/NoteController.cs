@@ -78,7 +78,7 @@ namespace NotatApp.Controllers
 
 
         //Get All Notes by Folder Id
-        //API=> GET /api/notes/folder/{folderId}
+        //API=> GET /api/notes/folders/{folderId}
         [HttpGet("folder/{folderId:int}")]
         public async Task<IActionResult> GetNotesByFolderId(int folderId)
         {
