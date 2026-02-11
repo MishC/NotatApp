@@ -17,9 +17,21 @@ namespace NotatApp.Models
         public string? Name { get; set; }
 
         public string? UserId { get; set; } = null;  //update: added userId, as user can make a new folder
-        
+
         [ValidateNever]
-        [JsonIgnore]   
+        [JsonIgnore]
         public List<Note> Notes { get; set; } = new List<Note>(); //EF Navigation Object, you can use it to include related notes
+    }
+
+    public class CreateFolderDto
+    {
+        [Required, StringLength(20, MinimumLength = 2)]
+        public string Name { get; set; } = string.Empty;
+    }
+
+    public class UpdateFolderDto
+    {
+        [Required, StringLength(20, MinimumLength = 2)]
+        public string Name { get; set; } = string.Empty;
     }
 }
