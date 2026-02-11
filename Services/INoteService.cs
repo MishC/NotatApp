@@ -10,6 +10,8 @@ namespace NotatApp.Services
         Task<List<Note>> GetPendingNotesAsync(string userId);
         Task<List<Note>> GetDoneNotesAsync(string userId);
 
+        Task<List<Note>> GetOverdueNotesAsync(string userId);
+
         Task<Note?> GetNoteByIdAsync(int id, string userId);
         Task<List<Note?>> GetNotesByFolderIdAsync(int folderId, string userId);
 
@@ -19,7 +21,6 @@ namespace NotatApp.Services
         Task<bool> DeleteNoteAsync(int id, string userId);
 
         Task<bool> IsNoteOverdueAsync(int id, string userId);
-        Task<List<Note>> GetOverdueNotesAsync(string userId);
 
         Task SwapOrderAsync(int sourceId, int targetId, string userId);
     }
