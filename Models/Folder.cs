@@ -25,13 +25,13 @@ namespace NotatApp.Models
 
     public class CreateFolderDto
     {
-        [Required, StringLength(20, MinimumLength = 2)]
+        [Required, StringLength(20, MinimumLength = 1)]
         public string Name { get; set; } = string.Empty;
     }
 
     public class UpdateFolderDto
     {
-        [Required, StringLength(20, MinimumLength = 2)]
+        [Required, StringLength(20, MinimumLength = 1)]
         public string Name { get; set; } = string.Empty;
     }
 }
