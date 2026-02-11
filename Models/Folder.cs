@@ -13,7 +13,7 @@ namespace NotatApp.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(20, MinimumLength = 1)]
         public string? Name { get; set; }
 
         public string? UserId { get; set; } = null;  //update: added userId, as user can make a new folder
