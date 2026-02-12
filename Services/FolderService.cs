@@ -1,4 +1,5 @@
 
+using Moq;
 using NotatApp.Models;
 
 public class FolderService : IFolderService
@@ -44,52 +45,78 @@ public class FolderService : IFolderService
             f.Name.Trim().ToLowerInvariant() == normalized);
     }
 
-    public async Task<Folder> AddFolderAsync(Folder folder, string userId)
+    public async Task<Folder> AddFolderAsync(CreateFolderDto folderDto, string userId)
     {
-        if (folder == null)
-            throw new ArgumentNullException(nameof(folder), "Folder cannot be null.");
+        if (folderDto == null)
+            throw new ArgumentNullException(nameof(folderDto), "Folder cannot be null.");
 
-        if (string.IsNullOrWhiteSpace(folder.Name) || folder.Name.Length < 3 || folder.Name.Length > 50)
-            throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folder.Name));
+        if (string.IsNullOrWhiteSpace(folderDto.Name) || folderDto.Name.Length < 3 || folderDto.Name.Length > 50)
+            throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folderDto.Name));
+
+        var folder = new Folder
+        {
+            Name = folderDto.Name,
+            UserId = userId
+        };
 
         await _folderRepository.AddFolderAsync(folder, userId);
         return folder;
     }
 
-    public async Task<bool> UpdateFolderAsync(Folder folder, string userId)
+    public async Task<bool> UpdateFolderAsync(int id, UpdateFolderDto folderDto, string userId)
     {
-        if (folder == null)
-            throw new ArgumentNullException(nameof(folder), "Folder cannot be null.");
+        try
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+            if (folderDto?.Name == null)
+                throw new ArgumentNullException(nameof(folderDto), "Folder cannot be null.");
 
-        if (string.IsNullOrWhiteSpace(folder.Name) || folder.Name.Length < 3 || folder.Name.Length > 50)
-            throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folder.Name));
+            if (string.IsNullOrWhiteSpace(folderDto.Name) || folderDto.Name.Length < 3 || folderDto.Name.Length > 50)
+                throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folderDto.Name));
 
-        var existingFolder = await _folderRepository.GetFolderByIdAsync(folder.Id);
-        if (existingFolder == null)
-            throw new KeyNotFoundException($"Folder with ID {folder.Id} not found.");
+            var existingFolder = await _folderRepository.GetFolderByIdAsync(id);
+            if (existingFolder == null)
+                throw new KeyNotFoundException($"Folder with ID {id} not found.");
 
-        existingFolder.Name = folder.Name;
-        existingFolder.Notes = folder.Notes;
-        await _folderRepository.UpdateFolderAsync(existingFolder, userId);
-        return true;
+            existingFolder.Name = folderDto.Name; // Update the folder name is the only option see FolderDto
+            await _folderRepository.UpdateFolderAsync(existingFolder, userId);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while updating the folder.", ex);
+        }
     }
-
     public async Task<bool> DeleteFolderByIdAsync(int id, string userId)
     {
         if (id <= 0)
             throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
 
-        var folder = await _folderRepository.GetFolderByIdAsync(id);
-        if (folder == null)
+        var existingFolder = await _folderRepository.GetFolderByIdAsync(id);
+        if (existingFolder == null)
             throw new KeyNotFoundException($"Folder with ID {id} not found.");
-
-        await _folderRepository.DeleteFolderByIdAsync(id, userId);
-        return true;
+        try
+        {
+            await _folderRepository.DeleteFolderByIdAsync(id, userId);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while deleting the folder.", ex);
+        }
     }
 
     public async Task<string> GetFolderNameByIdAsync(int id)
     {
-        var folder = await _folderRepository.GetFolderByIdAsync(id);
-        return folder?.Name ?? string.Empty;
+        try
+        {
+            var folder = await _folderRepository.GetFolderByIdAsync(id);
+            return folder?.Name ?? string.Empty;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while retrieving the folder name.", ex);
+        }
     }
 }

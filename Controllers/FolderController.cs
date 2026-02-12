@@ -48,39 +48,38 @@ public class FolderController : ControllerBase
         return title == null ? NotFound() : Ok(title);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateFolder([FromBody] Folder folder)
-    {
-        var userId = GetUserId();
-        if (userId is null) return Unauthorized();
+[HttpPost]
+public async Task<IActionResult> CreateFolder([FromBody] CreateFolderDto dto)
+{
+    var userId = GetUserId();
+    if (userId is null) return Unauthorized();
+    if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+    var created = await _folderService.AddFolderAsync(dto.Name, userId);
+    return CreatedAtAction(nameof(GetFolder), new { id = created.Id }, created);
+}
 
-        var created = await _folderService.AddFolderAsync(folder, userId);
-        return CreatedAtAction(nameof(GetFolder), new { id = created.Id }, created);
-    }
+[HttpPut("{id:int}")]
+public async Task<IActionResult> UpdateFolder(int id, [FromBody] UpdateFolderDto dto)
+{
+    var userId = GetUserId();
+    if (userId is null) return Unauthorized();
+    if (!ModelState.IsValid) return BadRequest(ModelState);
 
-    [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateFolder(int id, [FromBody] Folder folder)
-    {
+    var ok = await _folderService.UpdateFolderAsync(id, dto.Name, userId);
+    return ok ? NoContent() : NotFound();
+}
 
-        var userId = GetUserId();
-            if (userId is null) return Unauthorized();
-        
-        if (id != folder.Id)
-            return BadRequest("Route ID does not match folder.Id");
+[HttpDelete("{id:int}")]
+public async Task<IActionResult> DeleteFolder(int id)
+{
+    var userId = GetUserId();
+    if (userId is null) return Unauthorized();
 
-        var updated = await _folderService.UpdateFolderAsync(folder, userId);
-        return updated ? NoContent() : NotFound();
-    }
+    var ok = await _folderService.DeleteFolderByIdAsync(id, userId);
+    return ok ? NoContent() : NotFound();
+}
 
-    [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteFolder(int id, string userId)
-    {
-        var deleted = await _folderService.DeleteFolderByIdAsync(id, userId);
-        return deleted ? NoContent() : NotFound();
-    }
 }
 
 }

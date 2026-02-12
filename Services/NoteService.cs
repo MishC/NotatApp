@@ -82,7 +82,7 @@ namespace NotatApp.Services
                 throw new ArgumentException("userId is required", nameof(userId));
 
             return _repository.GetNotesByFolderIdAsync(folderId, userId);
-        }   
+        }
 
         //Create Note
         public async Task<Note> CreateNoteAsync(CreateNoteDto dto, string userId)
@@ -154,8 +154,15 @@ namespace NotatApp.Services
 
                 note.ScheduledAt = dto.ScheduledAt;
             }
-            await _repository.UpdateNoteAsync(note);
-            return true;
+            try
+            {
+                await _repository.UpdateNoteAsync(note);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating the note.", ex);
+            }
         }
 
         public async Task<bool> UpdateNoteFolderAsync(int id, int folderId, string userId)
@@ -174,7 +181,7 @@ namespace NotatApp.Services
         }
 
         public async Task<bool> DeleteNoteAsync(int id, string userId)
-        {
+        {  try{
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
 
@@ -185,6 +192,11 @@ namespace NotatApp.Services
             await _repository.DeleteNoteAsync(existing);
             return true;
         }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while deleting the note.", ex);
+        }
+    }
 
         public async Task SwapOrderAsync(int sourceId, int targetId, string userId)
         {
