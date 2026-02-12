@@ -55,7 +55,7 @@ public async Task<IActionResult> CreateFolder([FromBody] CreateFolderDto dto)
     if (userId is null) return Unauthorized();
     if (!ModelState.IsValid) return BadRequest(ModelState);
 
-    var created = await _folderService.AddFolderAsync(dto.Name, userId);
+    var created = await _folderService.AddFolderAsync(dto, userId);
     return CreatedAtAction(nameof(GetFolder), new { id = created.Id }, created);
 }
 
@@ -66,7 +66,7 @@ public async Task<IActionResult> UpdateFolder(int id, [FromBody] UpdateFolderDto
     if (userId is null) return Unauthorized();
     if (!ModelState.IsValid) return BadRequest(ModelState);
 
-    var ok = await _folderService.UpdateFolderAsync(id, dto.Name, userId);
+    var ok = await _folderService.UpdateFolderAsync(id, dto, userId);
     return ok ? NoContent() : NotFound();
 }
 
