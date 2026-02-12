@@ -40,7 +40,7 @@ public class FolderRepository : IFolderRepository
 
     public async Task DeleteFolderAsync(Folder folder, string userId)
     {
-        _context.Folders.Remove(folder);
+        _context.Folders.Remove(folder);        
         await _context.SaveChangesAsync();
     }
 
