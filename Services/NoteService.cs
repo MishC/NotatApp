@@ -76,7 +76,7 @@ namespace NotatApp.Services
             return _repository.GetNoteByIdAsync(id, userId);
         }
 
-        public Task<List<Note?>> GetNotesByFolderIdAsync(int folderId, string userId)
+        public Task<List<Note>> GetNotesByFolderIdAsync(int folderId, string userId)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
