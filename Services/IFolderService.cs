@@ -8,8 +8,8 @@ public interface IFolderService
     Task<Folder> GetFolderByIdAsync(int id);
     Task<Folder?> GetFolderByNameAsync(string name);
 
-    Task<Folder> AddFolderAsync(Folder folder, string userId);
-    Task<bool> UpdateFolderAsync(Folder folder, string userId);
+    Task<Folder> AddFolderAsync(CreateFolderDto folderDto, string userId);
+    Task<bool> UpdateFolderAsync(int id, UpdateFolderDto folderDto, string userId);
     //Task<bool> DeleteFolderAsync(int id, string userId);
     Task<bool> DeleteFolderByIdAsync(int id, string userId);
     Task<string> GetFolderNameByIdAsync(int id);

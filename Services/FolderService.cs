@@ -15,13 +15,11 @@ public class FolderService : IFolderService
     {
         var folders = await _folderRepository.GetAllFoldersAsync();
         // Optional: sort by name
-        return folders
-            .OrderBy(f => f.Name)
-            .ToList();
+        return folders;
     }
 
     public async Task<Folder> GetFolderByIdAsync(int id)
-    {
+    {  try {
         if (id <= 0)
             throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
 
@@ -31,9 +29,14 @@ public class FolderService : IFolderService
 
         return folder;
     }
+    catch (Exception ex)
+    {
+        throw new Exception("An error occurred while retrieving the folder by ID.", ex);
+    }
+}
 
     public async Task<Folder?> GetFolderByNameAsync(string name)
-    {
+    {  try{
         if (string.IsNullOrWhiteSpace(name))
             return null;
 
@@ -44,23 +47,35 @@ public class FolderService : IFolderService
             !string.IsNullOrEmpty(f.Name) &&
             f.Name.Trim().ToLowerInvariant() == normalized);
     }
+    catch (Exception ex)
+    {
+        throw new Exception("An error occurred while retrieving the folder by name.", ex);
+    }
+}
 
     public async Task<Folder> AddFolderAsync(CreateFolderDto folderDto, string userId)
     {
-        if (folderDto == null)
-            throw new ArgumentNullException(nameof(folderDto), "Folder cannot be null.");
-
-        if (string.IsNullOrWhiteSpace(folderDto.Name) || folderDto.Name.Length < 3 || folderDto.Name.Length > 50)
-            throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folderDto.Name));
-
-        var folder = new Folder
+        try
         {
-            Name = folderDto.Name,
-            UserId = userId
-        };
+            if (folderDto == null)
+                throw new ArgumentNullException(nameof(folderDto), "Folder cannot be null.");
 
-        await _folderRepository.AddFolderAsync(folder, userId);
-        return folder;
+            if (string.IsNullOrWhiteSpace(folderDto.Name) || folderDto.Name.Length < 1 || folderDto.Name.Length > 50)
+                throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folderDto.Name));
+
+            var folder = new Folder
+            {
+                Name = folderDto.Name,
+                UserId = userId
+            };
+
+            await _folderRepository.AddFolderAsync(folder, userId);
+            return folder;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while adding the folder.", ex);
+        }
     }
 
     public async Task<bool> UpdateFolderAsync(int id, UpdateFolderDto folderDto, string userId)
