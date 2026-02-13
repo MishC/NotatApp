@@ -88,7 +88,7 @@ public class FolderService : IFolderService
                 throw new ArgumentNullException(nameof(folderDto), "Folder cannot be null.");
 
             if (string.IsNullOrWhiteSpace(folderDto.Name) || folderDto.Name.Length < 1 || folderDto.Name.Length > 50)
-                throw new ArgumentException("Folder name must be between 3 and 50 characters.", nameof(folderDto.Name));
+                throw new ArgumentException("Folder name must be between 1 and 50 characters.", nameof(folderDto.Name));
 
             var existingFolder = await _folderRepository.GetFolderByIdAsync(id);
             if (existingFolder == null)
