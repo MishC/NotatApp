@@ -68,6 +68,20 @@ builder.Services.AddCors(opt =>
     );
 });
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("prod", p => p
+        .WithOrigins(
+            "https://www.noteappsolutions.com",
+            "https://noteappsolutions.com"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        // .AllowCredentials() // iba ak používaš cookies; pri Bearer JWT netreba
+    );
+});
+
+
 // ---------------------------
 // 5) JWT Auth
 // ---------------------------
@@ -200,6 +214,11 @@ if (app.Environment.IsDevelopment())
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("dev");
+}
+else
+{
+    app.UseCors("prod");         
+
 }
 
 app.UseExceptionHandler(_ => { }); // uses GlobalExceptionHandler + ProblemDetails
