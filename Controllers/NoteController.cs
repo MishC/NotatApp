@@ -20,71 +20,55 @@ namespace NotatApp.Controllers
             _noteService = noteService;
         }
 
+
         [HttpGet("health")]
         [AllowAnonymous]
         public ActionResult<string> HealthCheck()
                 => Ok("Note Service is running.");
 
-        //Get All notes 
-        //API=> GET /api/notes
+        // GET /api/notes
         [HttpGet]
-        public async Task<IActionResult> GetAllNotes()
+        public async Task<ActionResult> GetAllNotes()
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
-
-            var notes = await _noteService.GetAllNotesAsync(userId);
+            var notes = await _noteService.GetAllNotesAsync(User.GetUserId());
             return Ok(notes);
         }
 
-        //Get Pending notes
-        //API=> GET /api/notes/pending
+        // GET /api/notes/pending
         [HttpGet("pending")]
-        public async Task<IActionResult> GetPendingNotes()
+        public async Task<ActionResult> GetPendingNotes()
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
-
-            var notes = await _noteService.GetPendingNotesAsync(userId);
+            var notes = await _noteService.GetPendingNotesAsync(User.GetUserId());
             return Ok(notes);
         }
 
-        //Get Done notes
-        //API=> GET /api/notes/done
+        // GET /api/notes/done
         [HttpGet("done")]
-        public async Task<IActionResult> GetDoneNotes()
+        public async Task<ActionResult> GetDoneNotes()
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
-
-            var done = await _noteService.GetDoneNotesAsync(userId);
-            return Ok(done);
+            var notes = await _noteService.GetDoneNotesAsync(User.GetUserId());
+            return Ok(notes);
         }
 
-        //Get Overdue notes
-        //API=> GET /api/notes/overdues
+        // GET /api/notes/overdues
         [HttpGet("overdues")]
-        public async Task<IActionResult> GetOverdueNotes()
+        public async Task<ActionResult> GetOverdueNotes()
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
-
-            var overdue = await _noteService.GetOverdueNotesAsync(userId);
-            return Ok(overdue);
+            var notes = await _noteService.GetOverdueNotesAsync(User.GetUserId());
+            return Ok(notes);
         }
 
-        //Get Note by Id
-        //API=> GET /api/notes/{id}
+        // GET /api/notes/{id}
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetNoteById(int id)
+        public async Task<ActionResult> GetNoteById(int id)
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
+            var note = await _noteService.GetNoteByIdAsync(id, User.GetUserId());
 
-            var note = await _noteService.GetNoteByIdAsync(id, userId);
-            return note == null ? NotFound() : Ok(note);
+            if (note is null)
+                return NotFound();
+
+            return Ok(note);
         }
-
 
         //Get All Notes by Folder Id
         //API=> GET /api/notes/folders/{folderId}
@@ -98,6 +82,13 @@ namespace NotatApp.Controllers
             return Ok(notes);
         }
 
+        [HttpGet("overdue/{id:int}")]
+        public async Task<ActionResult<bool>> IsOverdue(int id)
+        {
+            var result = await _noteService.IsNoteOverdueAsync(id, User.GetUserId());
+            return Ok(result);
+        }
+
 
         //Create Note
         //API=> POST /api/notes 
@@ -107,7 +98,6 @@ namespace NotatApp.Controllers
         public async Task<IActionResult> CreateNote([FromBody] CreateNoteDto dto)
         {
             var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
 
             var note = await _noteService.CreateNoteAsync(dto, userId);
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
@@ -120,20 +110,20 @@ namespace NotatApp.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateNote(int id, [FromBody] UpdateNoteDto dto)
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
+            var updated = await _noteService.UpdateNoteAsync(id, dto, User.GetUserId());
 
-            var updated = await _noteService.UpdateNoteAsync(id, dto, userId);
-            if (!updated) return NotFound();
+            if (!updated)
+                return NotFound();
 
             return NoContent();
+
+
         }
 
         [HttpPut("{folderId:int}/{id:int}")]
         public async Task<IActionResult> UpdateNoteFolder(int folderId, int id)
         {
             var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
 
             var updated = await _noteService.UpdateNoteFolderAsync(id, folderId, userId);
             if (!updated) return NotFound();
@@ -160,24 +150,14 @@ namespace NotatApp.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteNote(int id)
         {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
+            var deleted = await _noteService.DeleteNoteAsync(id, User.GetUserId());
 
-            var deleted = await _noteService.DeleteNoteAsync(id, userId);
-            if (!deleted) return NotFound();
+            if (!deleted)
+                return NotFound();
 
             return NoContent();
         }
 
-        [HttpGet("overdue/{id:int}")]
-        public async Task<IActionResult> IsOverdue(int id)
-        {
-            var userId = User.GetUserId();
-            if (userId is null) return Unauthorized();
 
-            var isOverdue = await _noteService.IsNoteOverdueAsync(id, userId);
-            return Ok(isOverdue);
-        }
-   
     }
 }
