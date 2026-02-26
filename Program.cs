@@ -222,7 +222,21 @@ else
 }
 
 app.UseExceptionHandler(_ => { }); // uses GlobalExceptionHandler + ProblemDetails
-app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging(options =>
+{
+    options.EnrichDiagnosticContext = (ctx, http) =>
+    {
+        ctx.Set("UserId",
+            http.User?.FindFirst("sub")?.Value ??
+            http.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+
+        ctx.Set("QueryString", http.Request.QueryString.Value);
+        ctx.Set("TraceId", http.TraceIdentifier);
+    };
+
+    options.MessageTemplate =
+        "HTTP {RequestMethod} {RequestPath}{QueryString} responded {StatusCode} in {Elapsed:0.0000} ms (userId={UserId}, trace={TraceId})";
+});
 
 // Static files for SPA
 // app.UseHttpsRedirection(); // enable when serving HTTPS locally
