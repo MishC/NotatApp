@@ -26,7 +26,8 @@ namespace NotatApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetFolders()
         {
-            return Ok(await _folderService.GetAllFoldersAsync());
+            var userId = User.GetUserId();
+            return Ok(await _folderService.GetAllFoldersAsync(userId));
         }
 
         [HttpGet("{id:int}")]
@@ -50,7 +51,6 @@ namespace NotatApp.Controllers
         public async Task<IActionResult> CreateFolder([FromBody] CreateFolderDto dto)
         {
             var userId = User.GetUserId();
-            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var created = await _folderService.AddFolderAsync(dto, userId);
             return CreatedAtAction(nameof(GetFolder), new { id = created.Id }, created);
@@ -60,7 +60,6 @@ namespace NotatApp.Controllers
         public async Task<IActionResult> UpdateFolder(int id, [FromBody] UpdateFolderDto dto)
         {
             var userId = User.GetUserId();
-            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var ok = await _folderService.UpdateFolderAsync(id, dto, userId);
             return ok ? NoContent() : NotFound();
