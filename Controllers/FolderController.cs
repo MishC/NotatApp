@@ -34,7 +34,7 @@ namespace NotatApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetFolder(int id)
         {
-            var folder = await _folderService.GetFolderByIdAsync(id);
+            var folder = await _folderService.GetFolderByIdAsync(id, User.GetUserId());
             return folder == null ? NotFound() : Ok(folder);
         }
 
@@ -43,7 +43,7 @@ namespace NotatApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetFolderTitle(int id)
         {
-            var title = await _folderService.GetFolderNameByIdAsync(id);
+            var title = await _folderService.GetFolderNameByIdAsync(id, User.GetUserId());
             return title == null ? NotFound() : Ok(title);
         }
 

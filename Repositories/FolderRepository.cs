@@ -20,21 +20,24 @@ public class FolderRepository : IFolderRepository
             .ToListAsync();
     }
 
-    public async Task<Folder?> GetFolderByIdAsync(int id)
+    public async Task<Folder?> GetFolderByIdAsync(int id, string? userId)
     {
         return await _context.Folders
             .Include(f => f.Notes) //this is JSON ignore -> can be deleted in final code
-            .FirstOrDefaultAsync(f => f.Id == id); //Returns the folder and its notes
+            .FirstOrDefaultAsync(f => f.Id == id && (f.UserId == null || f.UserId == userId)); //Returns the folder and its notes
     }
-    public async Task<Folder?> GetFolderByNameAsync(string name)
+    public async Task<Folder?> GetFolderByNameAsync(string name, string? userId)
     {
         var normalized = name.Trim().ToLowerInvariant();
 
         return await _context.Folders
-            .Include(f => f.Notes)
-            .FirstOrDefaultAsync(f =>
-                f.Name != null &&
-                f.Name.ToLower() == normalized);
+      .Include(f => f.Notes)
+      .Where(f =>
+          f.Name != null &&
+          f.Name.ToLower() == normalized &&
+          (f.UserId == null || f.UserId == userId))
+      .OrderByDescending(f => f.UserId == userId)
+      .FirstOrDefaultAsync();
     }
 
 
@@ -59,7 +62,7 @@ public class FolderRepository : IFolderRepository
 
     public async Task DeleteFolderByIdAsync(int id, string userId)
     {
-        var folder = await GetFolderByIdAsync(id);
+        var folder = await GetFolderByIdAsync(id, userId);
         if (folder != null)
         {
             _context.Folders.Remove(folder);

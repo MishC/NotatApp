@@ -16,14 +16,14 @@ public class FolderService : IFolderService
         return await _folderRepository.GetAllFoldersAsync(userId);
     }
 
-    public async Task<Folder> GetFolderByIdAsync(int id)
+    public async Task<Folder> GetFolderByIdAsync(int id, string? userId)
     {
         try
         {
             if (id <= 0)
                 throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
 
-            var folder = await _folderRepository.GetFolderByIdAsync(id);
+            var folder = await _folderRepository.GetFolderByIdAsync(id, userId);
             if (folder == null)
                 throw new KeyNotFoundException($"Folder with ID {id} not found.");
 
@@ -35,12 +35,12 @@ public class FolderService : IFolderService
         }
     }
 
-    public async Task<Folder?> GetFolderByNameAsync(string name)
+    public async Task<Folder?> GetFolderByNameAsync(string name, string? userId)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Folder name cannot be empty.", nameof(name));
 
-        return await _folderRepository.GetFolderByNameAsync(name);
+        return await _folderRepository.GetFolderByNameAsync(name, userId);
     }
 
     public async Task<Folder> AddFolderAsync(CreateFolderDto folderDto, string userId)
@@ -80,7 +80,7 @@ public class FolderService : IFolderService
             if (string.IsNullOrWhiteSpace(folderDto.Name) || folderDto.Name.Length < 1 || folderDto.Name.Length > 50)
                 throw new ArgumentException("Folder name must be between 1 and 50 characters.", nameof(folderDto.Name));
 
-            var existingFolder = await _folderRepository.GetFolderByIdAsync(id);
+            var existingFolder = await _folderRepository.GetFolderByIdAsync(id, userId);
             if (existingFolder == null)
                 throw new KeyNotFoundException($"Folder with ID {id} not found.");
 
@@ -98,7 +98,7 @@ public class FolderService : IFolderService
         if (id <= 0)
             throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
 
-        var existingFolder = await _folderRepository.GetFolderByIdAsync(id);
+        var existingFolder = await _folderRepository.GetFolderByIdAsync(id, userId);
         if (existingFolder == null)
             throw new KeyNotFoundException($"Folder with ID {id} not found.");
         try
@@ -112,11 +112,11 @@ public class FolderService : IFolderService
         }
     }
 
-    public async Task<string> GetFolderNameByIdAsync(int id)
+    public async Task<string> GetFolderNameByIdAsync(int id, string? userId)
     {
         try
         {
-            var folder = await _folderRepository.GetFolderByIdAsync(id);
+            var folder = await _folderRepository.GetFolderByIdAsync(id, userId);
             return folder?.Name ?? string.Empty;
         }
         catch (Exception ex)
