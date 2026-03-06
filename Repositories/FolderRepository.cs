@@ -12,11 +12,12 @@ public class FolderRepository : IFolderRepository
         _context = context;
     }
 
-    public async Task<List<Folder>> GetAllFoldersAsync()
+    public async Task<List<Folder>> GetAllFoldersAsync(string? userId)
     {
         return await _context.Folders
-            .Include(f => f.Notes) //this is JSON ignore
-            .ToListAsync(); //returns all folders with their parameters
+            .Include(f => f.Notes)
+            .Where(f => f.UserId == null || f.UserId == userId)
+            .ToListAsync();
     }
 
     public async Task<Folder?> GetFolderByIdAsync(int id)

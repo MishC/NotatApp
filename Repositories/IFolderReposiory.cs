@@ -4,7 +4,7 @@ using NotatApp.Models;
 
 public interface IFolderRepository
 {
-    Task<List<Folder>> GetAllFoldersAsync();
+    Task<List<Folder>> GetAllFoldersAsync(string? userId);
     Task<Folder?> GetFolderByIdAsync(int id);
 
     Task AddFolderAsync(Folder folder, string userId);

@@ -11,11 +11,9 @@ public class FolderService : IFolderService
         _folderRepository = folderRepository ?? throw new ArgumentNullException(nameof(folderRepository));
     }
 
-    public async Task<List<Folder>> GetAllFoldersAsync()
+    public async Task<List<Folder>> GetAllFoldersAsync(string? userId)
     {
-        var folders = await _folderRepository.GetAllFoldersAsync();
-        // Optional: sort by name
-        return folders;
+        return await _folderRepository.GetAllFoldersAsync(userId);
     }
 
     public async Task<Folder> GetFolderByIdAsync(int id)
