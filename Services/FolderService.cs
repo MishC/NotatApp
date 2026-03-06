@@ -19,39 +19,31 @@ public class FolderService : IFolderService
     }
 
     public async Task<Folder> GetFolderByIdAsync(int id)
-    {  try {
-        if (id <= 0)
-            throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
-
-        var folder = await _folderRepository.GetFolderByIdAsync(id);
-        if (folder == null)
-            throw new KeyNotFoundException($"Folder with ID {id} not found.");
-
-        return folder;
-    }
-    catch (Exception ex)
     {
-        throw new Exception("An error occurred while retrieving the folder by ID.", ex);
+        try
+        {
+            if (id <= 0)
+                throw new ArgumentException("Folder ID must be greater than zero.", nameof(id));
+
+            var folder = await _folderRepository.GetFolderByIdAsync(id);
+            if (folder == null)
+                throw new KeyNotFoundException($"Folder with ID {id} not found.");
+
+            return folder;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while retrieving the folder by ID.", ex);
+        }
     }
-}
 
     public async Task<Folder?> GetFolderByNameAsync(string name)
-    {  try{
-        if (string.IsNullOrWhiteSpace(name))
-            return null;
-
-        var normalized = name.Trim().ToLowerInvariant();
-        var folders = await _folderRepository.GetAllFoldersAsync();
-
-        return folders.FirstOrDefault(f =>
-            !string.IsNullOrEmpty(f.Name) &&
-            f.Name.Trim().ToLowerInvariant() == normalized);
-    }
-    catch (Exception ex)
     {
-        throw new Exception("An error occurred while retrieving the folder by name.", ex);
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Folder name cannot be empty.", nameof(name));
+
+        return await _folderRepository.GetFolderByNameAsync(name);
     }
-}
 
     public async Task<Folder> AddFolderAsync(CreateFolderDto folderDto, string userId)
     {

@@ -8,6 +8,7 @@ public interface IFolderRepository
     Task<Folder?> GetFolderByIdAsync(int id);
 
     Task AddFolderAsync(Folder folder, string userId);
+    Task<Folder?> GetFolderByNameAsync(string name);
     Task UpdateFolderAsync(Folder folder, string userId);
     Task DeleteFolderAsync(Folder folder, string userId);
     Task DeleteFolderByIdAsync(int id, string userId);
