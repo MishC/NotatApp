@@ -7,6 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using NotatApp.Models;
 using NotatApp.Services;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 
 namespace NotatApp.Controllers;
@@ -325,9 +327,13 @@ public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto
 
     var token = await _users.GeneratePasswordResetTokenAsync(user);
 
-    var resetLink =
-        $"https://noteappsolutions.com/reset-password?email={Uri.EscapeDataString(dto.Email)}&token={Uri.EscapeDataString(token)}";
+var encodedToken = WebEncoders.Base64UrlEncode(
+    Encoding.UTF8.GetBytes(token)
+);
 
+var resetLink =
+    $"https://noteappsolutions.com/reset-password?email={Uri.EscapeDataString(dto.Email)}&token={Uri.EscapeDataString(encodedToken)}";
+  
     await _emailSender.SendAsync(
         dto.Email,
         "Reset your NoteApp password",
