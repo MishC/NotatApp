@@ -304,5 +304,40 @@ public class AuthController : ControllerBase
 
         return Ok(new { message = "Password has been reset." });
     }
+
+  // POST /api/auth/forgot-password
+[HttpPost("forgot-password")]
+public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+{
+    if (dto == null || string.IsNullOrWhiteSpace(dto.Email))
+        return BadRequest(new { message = "Email is required." });
+
+    var user = await _users.FindByEmailAsync(dto.Email);
+
+    // Do not reveal whether the email exists
+    if (user == null)
+    {
+        return Ok(new
+        {
+            message = "If this email exists, a password reset link has been sent."
+        });
+    }
+
+    var token = await _users.GeneratePasswordResetTokenAsync(user);
+
+    var resetLink =
+        $"https://noteappsolutions.com/reset-password?email={Uri.EscapeDataString(dto.Email)}&token={Uri.EscapeDataString(token)}";
+
+    await _emailSender.SendAsync(
+        dto.Email,
+        "Reset your NoteApp password",
+        $"Click this link to reset your password: {resetLink}"
+    );
+
+    return Ok(new
+    {
+        message = "If this email exists, a password reset link has been sent."
+    });
+}  
 }
 
