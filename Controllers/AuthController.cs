@@ -284,14 +284,30 @@ public class AuthController : ControllerBase
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
     {
+        if (dto == null)
+            return BadRequest(new { message = "Reset data is missing." });
+
         var user = await _users.FindByEmailAsync(dto.Email);
 
         if (user == null)
             return BadRequest(new { message = "Invalid reset request." });
 
+        string decodedToken;
+
+        try
+        {
+            decodedToken = Encoding.UTF8.GetString(
+                WebEncoders.Base64UrlDecode(dto.Token)
+            );
+        }
+        catch
+        {
+            return BadRequest(new { message = "Invalid reset token format." });
+        }
+
         var result = await _users.ResetPasswordAsync(
             user,
-            dto.Token,
+            decodedToken,
             dto.NewPassword
         );
 
@@ -307,43 +323,43 @@ public class AuthController : ControllerBase
         return Ok(new { message = "Password has been reset." });
     }
 
-  // POST /api/auth/forgot-password
-[HttpPost("forgot-password")]
-public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
-{
-    if (dto == null || string.IsNullOrWhiteSpace(dto.Email))
-        return BadRequest(new { message = "Email is required." });
-
-    var user = await _users.FindByEmailAsync(dto.Email);
-
-    // Do not reveal whether the email exists
-    if (user == null)
+    // POST /api/auth/forgot-password
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
     {
+        if (dto == null || string.IsNullOrWhiteSpace(dto.Email))
+            return BadRequest(new { message = "Email is required." });
+
+        var user = await _users.FindByEmailAsync(dto.Email);
+
+        // Do not reveal whether email exists
+        if (user == null)
+        {
+            return Ok(new
+            {
+                message = "If this email exists, a password reset link has been sent."
+            });
+        }
+
+        var token = await _users.GeneratePasswordResetTokenAsync(user);
+
+        var encodedToken = WebEncoders.Base64UrlEncode(
+            Encoding.UTF8.GetBytes(token)
+        );
+
+        var resetLink =
+            $"https://noteappsolutions.com/reset-password?email={Uri.EscapeDataString(dto.Email)}&token={encodedToken}";
+
+        await _emailSender.SendAsync(
+            dto.Email,
+            "Reset your NoteApp password",
+            $"Click this link to reset your password: {resetLink}"
+        );
+
         return Ok(new
         {
             message = "If this email exists, a password reset link has been sent."
         });
     }
-
-    var token = await _users.GeneratePasswordResetTokenAsync(user);
-
-var encodedToken = WebEncoders.Base64UrlEncode(
-    Encoding.UTF8.GetBytes(token)
-);
-
-var resetLink =
-    $"https://noteappsolutions.com/reset-password?email={Uri.EscapeDataString(dto.Email)}&token={Uri.EscapeDataString(encodedToken)}";
-  
-    await _emailSender.SendAsync(
-        dto.Email,
-        "Reset your NoteApp password",
-        $"Click this link to reset your password: {resetLink}"
-    );
-
-    return Ok(new
-    {
-        message = "If this email exists, a password reset link has been sent."
-    });
-}  
 }
 
