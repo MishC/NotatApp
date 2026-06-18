@@ -111,7 +111,7 @@ public class AuthController : ControllerBase
     {
         var user = await _users.FindByEmailAsync(dto.Email);
         if (user is null)
-            return  Unauthorized(new { message = "Invalid email or password." });
+            return Unauthorized(new { message = "Invalid email or password." });
 
         if (!await _users.CheckPasswordAsync(user, dto.Password))
             return Unauthorized(new { message = "Wrong password!" });
@@ -277,6 +277,32 @@ public class AuthController : ControllerBase
         Response.Cookies.Delete("refreshToken");
 
         return Ok(new { message = "Logged out" });
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+    {
+        var user = await _users.FindByEmailAsync(dto.Email);
+
+        if (user == null)
+            return BadRequest(new { message = "Invalid reset request." });
+
+        var result = await _users.ResetPasswordAsync(
+            user,
+            dto.Token,
+            dto.NewPassword
+        );
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new
+            {
+                message = "Password reset failed.",
+                errors = result.Errors.Select(e => e.Description)
+            });
+        }
+
+        return Ok(new { message = "Password has been reset." });
     }
 }
 

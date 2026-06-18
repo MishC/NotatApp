@@ -244,9 +244,9 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // AuthZ
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseRouting(); //Matches URL → controller.
+app.UseAuthentication(); //Validate JWT
+app.UseAuthorization(); // for [Authorize] permission
 app.UseRateLimiter();
 
 // Dev exception page (optional, on top of ProblemDetails)
