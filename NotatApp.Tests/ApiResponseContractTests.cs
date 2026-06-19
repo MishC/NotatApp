@@ -112,6 +112,26 @@ namespace NotatApp.Tests
         }
 
         [Fact]
+        public async Task Notes_GetOverdueCount_ReturnsNumberOfOverdue()
+        {
+            // Frontend request:
+            // GET /api/notes/overdue/count
+            // Response: { "numberOfOverdue": 2 }
+            var service = new Mock<INoteService>();
+            service
+                .Setup(s => s.GetOverdueNotesCountAsync(UserId))
+                .ReturnsAsync(2);
+
+            var controller = CreateNoteController(service.Object);
+
+            var action = await controller.GetOverdueNotesCount();
+
+            var ok = Assert.IsType<OkObjectResult>(action);
+            using var json = ToJsonDocument(ok.Value);
+            Assert.Equal(2, json.RootElement.GetProperty("numberOfOverdue").GetInt32());
+        }
+
+        [Fact]
         public async Task Diary_GetByDate_ReturnsEntryWithPages()
         {
             // Frontend request:

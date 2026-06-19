@@ -11,6 +11,7 @@ namespace NotatApp.Services
         Task<List<Note>> GetDoneNotesAsync(string userId);
 
         Task<List<Note>> GetOverdueNotesAsync(string userId);
+        Task<int> GetOverdueNotesCountAsync(string userId);
 
         Task<Note?> GetNoteByIdAsync(int id, string userId);
         Task<List<Note>> GetNotesByFolderIdAsync(int folderId, string userId);

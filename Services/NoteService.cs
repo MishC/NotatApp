@@ -63,8 +63,19 @@ namespace NotatApp.Services
 
 
             return [.. notes
-                .Where(n => n.ScheduledAt.HasValue && n.ScheduledAt.Value < today)
+                .Where(n => !n.IsDone && n.ScheduledAt.HasValue && n.ScheduledAt.Value < today)
                 .OrderBy(n => n.OrderIndex)];
+        }
+
+        public async Task<int> GetOverdueNotesCountAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var notes = await _repository.GetUserNotesAsync(userId);
+            var today = DateOnly.FromDateTime(DateTime.Now);
+
+            return notes.Count(n => !n.IsDone && n.ScheduledAt.HasValue && n.ScheduledAt.Value < today);
         }
 
         // Get one note 

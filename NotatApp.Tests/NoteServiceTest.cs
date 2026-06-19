@@ -265,6 +265,32 @@ namespace NotatApp.Tests
             Assert.False(deleted);
             _mockRepo.Verify(r => r.DeleteNoteAsync(It.IsAny<Note>()), Times.Never);
         }
+
+        [Fact]
+        public async Task GetOverdueNotesCount_CountsOnlyNotDoneNotesBeforeToday()
+        {
+            // Arrange
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            var notes = new List<Note>
+            {
+                new Note { Id = 1, Title = "Overdue", UserId = UserId, IsDone = false, ScheduledAt = today.AddDays(-1) },
+                new Note { Id = 2, Title = "Overdue too", UserId = UserId, IsDone = false, ScheduledAt = today.AddDays(-3) },
+                new Note { Id = 3, Title = "Done overdue", UserId = UserId, IsDone = true, ScheduledAt = today.AddDays(-2) },
+                new Note { Id = 4, Title = "Today", UserId = UserId, IsDone = false, ScheduledAt = today },
+                new Note { Id = 5, Title = "Future", UserId = UserId, IsDone = false, ScheduledAt = today.AddDays(1) },
+                new Note { Id = 6, Title = "No date", UserId = UserId, IsDone = false }
+            };
+
+            _mockRepo
+                .Setup(r => r.GetUserNotesAsync(UserId))
+                .ReturnsAsync(notes);
+
+            // Act
+            var count = await _noteService.GetOverdueNotesCountAsync(UserId);
+
+            // Assert
+            Assert.Equal(2, count);
+        }
     }
 
     
