@@ -11,6 +11,10 @@ using NotatApp.Data;
 using NotatApp.Models;
 using NotatApp.Repositories;
 using NotatApp.Services;
+using NotatApp.Services.DiaryServices;
+using NotatApp.Repositories.DiaryRepositories;
+using NotatApp.Repositories.CalendarRepositories;
+using NotatApp.Services.CalendarServices;
 using Serilog;
 using Serilog.Events;
 
@@ -126,6 +130,15 @@ builder.Services.AddScoped<IFolderService, FolderService>();
 
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// Diary
+builder.Services.AddScoped<IDiaryRepository, DiaryRepository>();
+builder.Services.AddScoped<IDiaryService, DiaryService>();
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
+//Task Calendar
+builder.Services.AddScoped<ITaskItemRepository, TaskItemRepository>();      
+builder.Services.AddScoped<ITaskItemService, TaskItemService>();
 
 if (builder.Environment.IsDevelopment())
 {

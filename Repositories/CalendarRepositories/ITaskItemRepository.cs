@@ -1,6 +1,6 @@
 using NotatApp.Models;
 
-namespace NotatApp.Repositories.CalendarRepositiries
+namespace NotatApp.Repositories.CalendarRepositories
 {
     public interface ITaskItemRepository
     {

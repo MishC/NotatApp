@@ -5,14 +5,9 @@ using NotatApp.Models;
 
 namespace NotatApp.Repositories
 {
-    public class NoteRepository : INoteRepository
+    public class NoteRepository(ApplicationDbContext context) : INoteRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public NoteRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
         public async Task<List<Note>> GetUserNotesAsync(string userId)
         {

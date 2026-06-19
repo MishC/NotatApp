@@ -1,6 +1,6 @@
 using NotatApp.Models;
 using NotatApp.Repositories;
-using NotatApp.Repositories.CalendarRepositiries;
+using NotatApp.Repositories.CalendarRepositories;
 
 namespace NotatApp.Services.CalendarServices
 {
