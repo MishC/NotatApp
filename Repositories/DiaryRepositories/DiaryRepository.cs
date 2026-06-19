@@ -32,5 +32,23 @@ namespace NotatApp.Repositories.DiaryRepositories
         {
             await _context.SaveChangesAsync();
         }
+
+
+
+        public async Task<bool> DeleteAsync(DiaryEntry entry)
+        {
+    
+            _context.DiaryEntries.Remove(entry);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteByDateAsync(List<DiaryEntry> entries)        
+        {
+        
+            _context.DiaryEntries.RemoveRange(entries);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

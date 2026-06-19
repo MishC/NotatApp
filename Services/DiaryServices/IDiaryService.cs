@@ -21,5 +21,9 @@ namespace NotatApp.Services.DiaryServices
             int id,
             string userId
         );
+
+        Task<bool> DeleteDiaryEntryByIdAsync(int id, string userId);
+
+        Task<bool> DeleteDiaryEntriesByDateAsync(string userId, DateOnly date);
     }
 }

@@ -112,5 +112,27 @@ namespace NotatApp.Services.DiaryServices
 
             return (absolutePath, entry.ImageContentType);
         }
+
+
+        public async Task<bool> DeleteDiaryEntryByIdAsync(int id, string userId)
+        {
+            var entry = await _diaryRepository.GetByIdAsync(id, userId);
+
+            if (entry == null)
+                return false;
+
+            await _fileStorage.DeleteFileAsync(entry.ImagePath);
+
+            await _diaryRepository.DeleteAsync(entry);
+            await _diaryRepository.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteDiaryEntriesByDateAsync(string userId, DateOnly date)
+        {
+            var entries = await GetDiaryEntriesAsync(userId, date);
+            return await _diaryRepository.DeleteByDateAsync(entries);
+        }
     }
 }

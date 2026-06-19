@@ -107,5 +107,26 @@ namespace NotatApp.Controllers
 
             return PhysicalFile(image.Value.absolutePath, image.Value.contentType);
         }
-    }
+
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteDiaryEntryById(int id)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var deleted = await _diaryService.DeleteDiaryEntryByIdAsync(id, userId);
+            return deleted ? NoContent() : NotFound();
+        }
+
+        [HttpDelete("date/{date}")]
+        public async Task<IActionResult> DeleteDiaryEntriesByDate(DateOnly date)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+            var deleted = await _diaryService.DeleteDiaryEntriesByDateAsync(userId, date);
+            return deleted ? NoContent() : NotFound();
+        }
+
+        }
 }

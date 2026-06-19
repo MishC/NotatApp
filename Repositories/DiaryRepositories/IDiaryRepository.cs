@@ -11,5 +11,9 @@ namespace NotatApp.Repositories.DiaryRepositories
         Task AddAsync(DiaryEntry entry);
 
         Task SaveChangesAsync();
+
+            Task<bool> DeleteAsync(DiaryEntry entry);
+
+            Task<bool>DeleteByDateAsync(List<DiaryEntry> entries);
     }
 }
