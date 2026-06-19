@@ -2,14 +2,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace NotatApp.Services.DiaryServices
 {
-    public class FileStorageService : IFileStorageService
+    public class FileStorageService(IHostEnvironment env) : IFileStorageService
     {
-        private readonly IHostEnvironment _env;
-
-        public FileStorageService(IHostEnvironment env)
-        {
-            _env = env;
-        }
+        private readonly IHostEnvironment _env = env;
 
         public async Task<StoredFileResult> SaveDiaryImageAsync(IFormFile image, string userId)
         {
@@ -28,6 +23,7 @@ namespace NotatApp.Services.DiaryServices
 
             var uploadsRoot = Path.Combine(
                 _env.ContentRootPath,
+                "data",
                 "private-uploads",
                 "diary",
                 userId
@@ -41,10 +37,15 @@ namespace NotatApp.Services.DiaryServices
             var safeFileName = $"{Guid.NewGuid()}{extension}";
             var absolutePath = Path.Combine(uploadsRoot, safeFileName);
 
+            
+
             await using var stream = new FileStream(absolutePath, FileMode.Create);
             await image.CopyToAsync(stream);
 
+           
+
             var relativePath = Path.Combine(
+                "data",
                 "private-uploads",
                 "diary",
                 userId,
