@@ -1,5 +1,6 @@
 using NotatApp.Models;
 using NotatApp.Repositories.DiaryRepositories;
+using System.Text.RegularExpressions;
 
 namespace NotatApp.Services.DiaryServices
 {
@@ -9,6 +10,13 @@ namespace NotatApp.Services.DiaryServices
     {
         private readonly IDiaryRepository _diaryRepository = diaryRepository;
         private readonly IFileStorageService _fileStorage = fileStorage;
+        private const string DiaryPageImagePlaceholder = "{{diary-page-image}}";
+        private static readonly Regex LocalImageTagRegex = new(
+            """<img\b(?=[^>]*\bsrc\s*=\s*["'](?:data:|blob:))[^>]*>""",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DiaryPageImageMarkerRegex = new(
+            """<img\b(?=[^>]*\bdata-diary-page-image-id\s*=\s*["']\d+["'])[^>]*>""",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public async Task<List<DiaryEntry>> GetDiaryEntriesAsync(
             string userId,
@@ -23,6 +31,10 @@ namespace NotatApp.Services.DiaryServices
             CreateDiaryEntryDto dto
         )
         {
+            var existingEntries = await _diaryRepository.GetByDateAsync(userId, dto.Date);
+            if (existingEntries.Count > 0)
+                throw new InvalidOperationException("Diary entry already exists for this date. Add or update diary pages on the existing entry.");
+
             var page = new DiaryPage
             {
                 PageNumber = 1,
@@ -49,6 +61,12 @@ namespace NotatApp.Services.DiaryServices
 
             await _diaryRepository.AddAsync(entry);
             await _diaryRepository.SaveChangesAsync();
+
+            if (dto.Image != null)
+            {
+                page.Content = ApplyDiaryPageImageMarker(page.Content, page.Id);
+                await _diaryRepository.SaveChangesAsync();
+            }
 
             return entry;
         }
@@ -86,6 +104,9 @@ namespace NotatApp.Services.DiaryServices
             if (entry == null)
                 return null;
 
+            if (entry.Pages.Any(p => p.PageNumber == dto.PageNumber))
+                throw new InvalidOperationException("Diary page with this page number already exists for this entry.");
+
             var page = new DiaryPage
             {
                 DiaryEntryId = entry.Id,
@@ -105,6 +126,12 @@ namespace NotatApp.Services.DiaryServices
 
             await _diaryRepository.AddPageAsync(page);
             await _diaryRepository.SaveChangesAsync();
+
+            if (dto.Image != null)
+            {
+                page.Content = ApplyDiaryPageImageMarker(page.Content, page.Id);
+                await _diaryRepository.SaveChangesAsync();
+            }
 
             return page;
         }
@@ -131,6 +158,7 @@ namespace NotatApp.Services.DiaryServices
                 page.ImageContentType = null;
                 page.ImageFileName = null;
                 page.ImageUploadedAt = null;
+                page.Content = RemoveDiaryPageImageMarker(page.Content);
             }
 
             if (dto.Image != null)
@@ -143,6 +171,7 @@ namespace NotatApp.Services.DiaryServices
                 page.ImageContentType = stored.ImageContentType;
                 page.ImageFileName = stored.ImageFileName;
                 page.ImageUploadedAt = DateTime.UtcNow;
+                page.Content = ApplyDiaryPageImageMarker(page.Content, page.Id);
             }
 
             page.UpdatedAt = DateTime.UtcNow;
@@ -241,6 +270,33 @@ namespace NotatApp.Services.DiaryServices
             await _diaryRepository.SaveChangesAsync();
 
             return entries.Count > 0;
+        }
+
+        private static string? ApplyDiaryPageImageMarker(string? content, int pageId)
+        {
+            var marker = $"""<img data-diary-page-image-id="{pageId}">""";
+
+            if (string.IsNullOrWhiteSpace(content))
+                return marker;
+
+            if (content.Contains(DiaryPageImagePlaceholder, StringComparison.Ordinal))
+                return content.Replace(DiaryPageImagePlaceholder, marker, StringComparison.Ordinal);
+
+            if (LocalImageTagRegex.IsMatch(content))
+                return LocalImageTagRegex.Replace(content, marker, 1);
+
+            if (DiaryPageImageMarkerRegex.IsMatch(content))
+                return DiaryPageImageMarkerRegex.Replace(content, marker, 1);
+
+            return $"{content}{marker}";
+        }
+
+        private static string? RemoveDiaryPageImageMarker(string? content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+                return content;
+
+            return DiaryPageImageMarkerRegex.Replace(content, string.Empty, 1);
         }
     }
 }

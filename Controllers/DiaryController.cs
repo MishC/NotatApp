@@ -55,6 +55,14 @@ namespace NotatApp.Controllers
             };
         }
 
+        private IActionResult InvalidOperationResult(InvalidOperationException ex)
+        {
+            var body = new { message = ex.Message };
+            return ex.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase)
+                ? Conflict(body)
+                : BadRequest(body);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDiaryEntries([FromQuery] DateOnly date)
         {
@@ -83,7 +91,7 @@ namespace NotatApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return InvalidOperationResult(ex);
             }
         }
 
@@ -104,7 +112,7 @@ namespace NotatApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return InvalidOperationResult(ex);
             }
         }
 
@@ -125,7 +133,7 @@ namespace NotatApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return InvalidOperationResult(ex);
             }
         }
 
@@ -146,7 +154,7 @@ namespace NotatApp.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return InvalidOperationResult(ex);
             }
         }
 

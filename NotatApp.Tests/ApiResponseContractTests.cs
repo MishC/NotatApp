@@ -237,6 +237,33 @@ namespace NotatApp.Tests
         }
 
         [Fact]
+        public async Task Diary_CreateEntry_WhenEntryExists_ReturnsConflict()
+        {
+            // Frontend request:
+            // POST /api/diary with a date that already has a DiaryEntry for this user.
+            var dto = new CreateDiaryEntryDto
+            {
+                Title = "Friday",
+                Date = new DateOnly(2026, 6, 19),
+                Content = "Duplicate"
+            };
+
+            var service = new Mock<IDiaryService>();
+            service
+                .Setup(s => s.CreateDiaryEntryAsync(UserId, dto))
+                .ThrowsAsync(new InvalidOperationException(
+                    "Diary entry already exists for this date. Add or update diary pages on the existing entry."));
+
+            var controller = CreateDiaryController(service.Object);
+
+            var action = await controller.CreateDiaryEntry(dto);
+
+            var conflict = Assert.IsType<ConflictObjectResult>(action);
+            using var json = ToJsonDocument(conflict.Value);
+            Assert.Contains("already exists", json.RootElement.GetProperty("message").GetString());
+        }
+
+        [Fact]
         public async Task Diary_CreatePage_ExpectsMultipartFormAndReturnsPage()
         {
             // Frontend request:
