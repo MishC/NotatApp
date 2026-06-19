@@ -84,3 +84,5 @@ notes.db*
 .fake
 */NotatApp.Tests/*
 
+NotatApp.Tests/bin/*
+NotatApp.Tests/obj/*
