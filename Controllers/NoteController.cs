@@ -66,10 +66,7 @@ namespace NotatApp.Controllers
             return Ok(count?.Count ?? 0);
         }
 
-        private ActionResult Ok(object value)
-        {
-            throw new NotImplementedException();
-        }
+    
 
         // GET /api/notes/{id}
         [HttpGet("{id:int}")]
