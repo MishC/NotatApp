@@ -86,3 +86,5 @@ notes.db*
 
 NotatApp.Tests/bin/*
 NotatApp.Tests/obj/*
+NotatApp.Tests/*
+./NotatApp.Tests/*
