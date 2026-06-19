@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotatApp.Models;
-using NotatApp.Services;
+using NotatApp.Services.CalendarServices;
 using NotatApp.Extensions;
 
 namespace NotatApp.Controllers
