@@ -25,6 +25,36 @@ namespace NotatApp.Controllers
                 ?? User.FindFirstValue(JwtRegisteredClaimNames.Sub);
         }
 
+        private static object ToPageResponse(DiaryPage page)
+        {
+            return new
+            {
+                page.Id,
+                page.PageNumber,
+                page.Content,
+                HasImage = page.ImagePath != null,
+                page.ImageFileName,
+                page.CreatedAt,
+                page.UpdatedAt,
+                page.ImageUploadedAt
+            };
+        }
+
+        private static object ToEntryResponse(DiaryEntry entry)
+        {
+            return new
+            {
+                entry.Id,
+                entry.Title,
+                entry.Date,
+                entry.CreatedAt,
+                entry.UpdatedAt,
+                Pages = entry.Pages
+                    .OrderBy(p => p.PageNumber)
+                    .Select(ToPageResponse)
+            };
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDiaryEntries([FromQuery] DateOnly date)
         {
@@ -33,21 +63,7 @@ namespace NotatApp.Controllers
 
             var entries = await _diaryService.GetDiaryEntriesAsync(userId, date);
 
-            var result = entries.Select(e =>
-            {
-                var page = e.Pages.OrderBy(p => p.PageNumber).FirstOrDefault();
-
-                return new
-                {
-                    e.Id,
-                    e.Title,
-                    Content = page?.Content,
-                    e.Date,
-                    PageNumber = page?.PageNumber,
-                    HasImage = page?.ImagePath != null,
-                    page?.ImageFileName
-                };
-            });
+            var result = entries.Select(ToEntryResponse);
 
             return Ok(result);
         }
@@ -63,16 +79,7 @@ namespace NotatApp.Controllers
             {
                 var entry = await _diaryService.CreateDiaryEntryAsync(userId, dto);
 
-                return Ok(new
-                {
-                    entry.Id,
-                    entry.Title,
-                    Content = entry.Pages.FirstOrDefault()?.Content,
-                    entry.Date,
-                    PageNumber = entry.Pages.FirstOrDefault()?.PageNumber,
-                    HasImage = entry.Pages.FirstOrDefault()?.ImagePath != null,
-                    ImageFileName = entry.Pages.FirstOrDefault()?.ImageFileName
-                });
+                return Ok(ToEntryResponse(entry));
             }
             catch (InvalidOperationException ex)
             {
@@ -101,6 +108,48 @@ namespace NotatApp.Controllers
             }
         }
 
+        [HttpPost("{entryId:int}/pages")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateDiaryPage(
+            int entryId,
+            [FromForm] CreateDiaryPageDto dto
+        )
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            try
+            {
+                var page = await _diaryService.CreateDiaryPageAsync(entryId, dto, userId);
+                return page == null ? NotFound() : Ok(ToPageResponse(page));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("pages/{pageId:int}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UpdateDiaryPage(
+            int pageId,
+            [FromForm] UpdateDiaryPageDto dto
+        )
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            try
+            {
+                var ok = await _diaryService.UpdateDiaryPageAsync(pageId, dto, userId);
+                return ok ? NoContent() : NotFound();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet("{id:int}/image")]
         public async Task<IActionResult> GetDiaryImage(int id)
         {
@@ -115,6 +164,29 @@ namespace NotatApp.Controllers
             return PhysicalFile(image.Value.absolutePath, image.Value.contentType);
         }
 
+        [HttpGet("pages/{pageId:int}/image")]
+        public async Task<IActionResult> GetDiaryPageImage(int pageId)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var image = await _diaryService.GetDiaryPageImageAsync(pageId, userId);
+
+            if (image == null)
+                return NotFound();
+
+            return PhysicalFile(image.Value.absolutePath, image.Value.contentType);
+        }
+
+        [HttpDelete("pages/{pageId:int}")]
+        public async Task<IActionResult> DeleteDiaryPage(int pageId)
+        {
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            var deleted = await _diaryService.DeleteDiaryPageAsync(pageId, userId);
+            return deleted ? NoContent() : NotFound();
+        }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteDiaryEntryById(int id)

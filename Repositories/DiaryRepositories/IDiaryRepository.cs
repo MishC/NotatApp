@@ -8,12 +8,18 @@ namespace NotatApp.Repositories.DiaryRepositories
 
         Task<DiaryEntry?> GetByIdAsync(int id, string userId);
 
+        Task<DiaryPage?> GetPageByIdAsync(int pageId, string userId);
+
         Task AddAsync(DiaryEntry entry);
+
+        Task AddPageAsync(DiaryPage page);
 
         Task SaveChangesAsync();
 
-            Task<bool> DeleteAsync(DiaryEntry entry);
+        Task DeleteAsync(DiaryEntry entry);
 
-            Task<bool>DeleteByDateAsync(List<DiaryEntry> entries);
+        Task DeletePageAsync(DiaryPage page);
+
+        Task DeleteByDateAsync(List<DiaryEntry> entries);
     }
 }

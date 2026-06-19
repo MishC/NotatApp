@@ -17,8 +17,27 @@ namespace NotatApp.Services.DiaryServices
             string userId
         );
 
+        Task<DiaryPage?> CreateDiaryPageAsync(
+            int entryId,
+            CreateDiaryPageDto dto,
+            string userId
+        );
+
+        Task<bool> UpdateDiaryPageAsync(
+            int pageId,
+            UpdateDiaryPageDto dto,
+            string userId
+        );
+
+        Task<bool> DeleteDiaryPageAsync(int pageId, string userId);
+
         Task<(string absolutePath, string contentType)?> GetDiaryImageAsync(
             int id,
+            string userId
+        );
+
+        Task<(string absolutePath, string contentType)?> GetDiaryPageImageAsync(
+            int pageId,
             string userId
         );
 
