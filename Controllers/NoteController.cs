@@ -62,8 +62,13 @@ namespace NotatApp.Controllers
         [HttpGet("overdue/count")]
         public async Task<ActionResult> GetOverdueNotesCount()
         {
-            var count = await _noteService.GetOverdueNotesCountAsync(User.GetUserId());
-            return Ok(new { numberOfOverdue = count });
+            var count = await _noteService.GetOverdueNotesAsync(User.GetUserId());
+            return Ok(count?.Count ?? 0);
+        }
+
+        private ActionResult Ok(object value)
+        {
+            throw new NotImplementedException();
         }
 
         // GET /api/notes/{id}
