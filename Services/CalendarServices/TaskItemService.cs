@@ -1,7 +1,7 @@
 using NotatApp.Models;
 using NotatApp.Repositories;
 
-namespace NotatApp.Services
+namespace NotatApp.Services.CalendarServices
 {
     public class TaskItemService : ITaskItemService
     {
