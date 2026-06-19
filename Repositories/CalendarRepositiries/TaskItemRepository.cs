@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using NotatApp.Data;
 using NotatApp.Models;
+using NotatApp.Repositories.CalendarRepositiries;
 
-namespace NotatApp.Repositories.CalendarRepositiries
+namespace NotatApp.Repositories.CalendarRepositories
 {
     public class TaskItemRepository : ITaskItemRepository
     {

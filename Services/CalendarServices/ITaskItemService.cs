@@ -1,6 +1,7 @@
 using NotatApp.Models;
+using NotatApp.Repositories.CalendarRepositiries;
 
-namespace NotatApp.Services
+namespace NotatApp.Services.CalendarServices
 {
     public interface ITaskItemService
     {
