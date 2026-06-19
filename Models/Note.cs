@@ -20,6 +20,8 @@ namespace NotatApp.Models
         // Represents whether the note is archived/completed
         public bool IsDone { get; set; } = false; 
         public DateOnly? ScheduledAt { get; set; }
+        public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAtUtc { get; set; } 
 
         [ForeignKey(nameof(Folder))]
         public int? FolderId { get; set; }
@@ -48,6 +50,7 @@ namespace NotatApp.Models
 
         public int? FolderId { get; set; }
         public DateOnly? ScheduledAt { get; set; }
+        public DateTime? CreatedAtUtc { get; set; }= DateTime.UtcNow;
     }
 
     public class UpdateNoteDto
@@ -65,5 +68,6 @@ namespace NotatApp.Models
         public bool? IsDone { get; set; }
 
         public DateOnly? ScheduledAt { get; set; }
+        public DateTime? UpdatedAtUtc { get; set; } = DateTime.UtcNow;
     }
 }
