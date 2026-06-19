@@ -19,11 +19,22 @@ namespace NotatApp.Models
         [Required]
         public DateOnly Date { get; set; }
 
+        [StringLength(500)]
+        public string? ImagePath { get; set; }
+
+        [StringLength(100)]
+        public string? ImageContentType { get; set; }
+
+        [StringLength(255)]
+        public string? ImageFileName { get; set; }
+
+
         [Required]
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = default!;
     }
 
+// DTOs for incoming request bodies (from user/frontend)
     public class CreateDiaryEntryDto
     {
         [Required, StringLength(150)]
@@ -31,6 +42,9 @@ namespace NotatApp.Models
 
         [StringLength(5000)]
         public string? Content { get; set; }
+
+        public IFormFile? Image { get; set; }
+
 
         [Required]
         public DateOnly Date { get; set; }
@@ -45,5 +59,10 @@ namespace NotatApp.Models
         public string? Content { get; set; }
 
         public DateOnly? Date { get; set; }
+
+         public IFormFile? Image { get; set; }
+
+        public bool RemoveImage { get; set; } = false;
+
     }
 }
