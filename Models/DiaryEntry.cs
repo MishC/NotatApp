@@ -5,64 +5,49 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace NotatApp.Models
 {
-    public class DiaryEntry
-    {
-        [Key]
-        public int Id { get; set; }
+  public class DiaryEntry
+{
+    [Key]
+    public int Id { get; set; }
 
-        [Required, StringLength(150)]
-        public string Title { get; set; } = string.Empty;
+    [Required, StringLength(150)]
+    public string Title { get; set; } = string.Empty;
 
-        [StringLength(20000)]
-        public string? Content { get; set; }
+    [Required]
+    public DateOnly Date { get; set; }
 
-        [Required]
-        public DateOnly Date { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [StringLength(500)]
-        public string? ImagePath { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
-        [StringLength(100)]
-        public string? ImageContentType { get; set; }
+    [Required]
+    [ForeignKey(nameof(User))]
+    public string UserId { get; set; } = default!;
 
-        [StringLength(255)]
-        public string? ImageFileName { get; set; }
+    public List<DiaryPage> Pages { get; set; } = [];
+}
 
+    // DTOs for incoming request bodies (from user/frontend)
+public class CreateDiaryEntryDto
+{
+    [Required, StringLength(150)]
+    public string Title { get; set; } = string.Empty;
 
-        [Required]
-        [ForeignKey(nameof(User))]
-        public string UserId { get; set; } = default!;
-    }
+    [Required]
+    public DateOnly Date { get; set; }
 
-// DTOs for incoming request bodies (from user/frontend)
-    public class CreateDiaryEntryDto
-    {
-        [Required, StringLength(150)]
-        public string Title { get; set; } = string.Empty;
+    [StringLength(20000)]
+    public string? Content { get; set; }
 
-        [StringLength(5000)]
-        public string? Content { get; set; }
-
-        public IFormFile? Image { get; set; }
-
-
-        [Required]
-        public DateOnly Date { get; set; }
-    }
+    public IFormFile? Image { get; set; }
+}
 
     public class UpdateDiaryEntryDto
-    {
-        [StringLength(150)]
-        public string? Title { get; set; }
-
-        [StringLength(5000)]
-        public string? Content { get; set; }
-
+    {   [StringLength(150)]
+        public string? Title { get; set; } 
         public DateOnly? Date { get; set; }
 
-         public IFormFile? Image { get; set; }
-
-        public bool RemoveImage { get; set; } = false;
+   
 
     }
 }

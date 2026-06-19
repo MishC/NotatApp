@@ -23,21 +23,28 @@ namespace NotatApp.Services.DiaryServices
             CreateDiaryEntryDto dto
         )
         {
+            var page = new DiaryPage
+            {
+                PageNumber = 1,
+                Content = dto.Content
+            };
+
             var entry = new DiaryEntry
             {
                 Title = dto.Title,
-                Content = dto.Content,
                 Date = dto.Date,
-                UserId = userId
+                UserId = userId,
+                Pages = [page]
             };
 
             if (dto.Image != null)
             {
                 var stored = await _fileStorage.SaveDiaryImageAsync(dto.Image, userId);
 
-                entry.ImagePath = stored.ImagePath;
-                entry.ImageContentType = stored.ImageContentType;
-                entry.ImageFileName = stored.ImageFileName;
+                page.ImagePath = stored.ImagePath;
+                page.ImageContentType = stored.ImageContentType;
+                page.ImageFileName = stored.ImageFileName;
+                page.ImageUploadedAt = DateTime.UtcNow;
             }
 
             await _diaryRepository.AddAsync(entry);
@@ -60,31 +67,8 @@ namespace NotatApp.Services.DiaryServices
             if (dto.Title != null)
                 entry.Title = dto.Title;
 
-            if (dto.Content != null)
-                entry.Content = dto.Content;
-
             if (dto.Date.HasValue)
                 entry.Date = dto.Date.Value;
-
-            if (dto.RemoveImage)
-            {
-                await _fileStorage.DeleteFileAsync(entry.ImagePath);
-
-                entry.ImagePath = null;
-                entry.ImageContentType = null;
-                entry.ImageFileName = null;
-            }
-
-            if (dto.Image != null)
-            {
-                await _fileStorage.DeleteFileAsync(entry.ImagePath);
-
-                var stored = await _fileStorage.SaveDiaryImageAsync(dto.Image, userId);
-
-                entry.ImagePath = stored.ImagePath;
-                entry.ImageContentType = stored.ImageContentType;
-                entry.ImageFileName = stored.ImageFileName;
-            }
 
             await _diaryRepository.SaveChangesAsync();
 
@@ -101,16 +85,19 @@ namespace NotatApp.Services.DiaryServices
             if (entry == null)
                 return null;
 
-            if (string.IsNullOrWhiteSpace(entry.ImagePath) ||
-                string.IsNullOrWhiteSpace(entry.ImageContentType))
+            var page = entry.Pages.OrderBy(p => p.PageNumber).FirstOrDefault();
+
+            if (page == null ||
+                string.IsNullOrWhiteSpace(page.ImagePath) ||
+                string.IsNullOrWhiteSpace(page.ImageContentType))
                 return null;
 
-            var absolutePath = _fileStorage.GetAbsolutePath(entry.ImagePath);
+            var absolutePath = _fileStorage.GetAbsolutePath(page.ImagePath);
 
             if (!File.Exists(absolutePath))
                 return null;
 
-            return (absolutePath, entry.ImageContentType);
+            return (absolutePath, page.ImageContentType);
         }
 
 
@@ -121,7 +108,8 @@ namespace NotatApp.Services.DiaryServices
             if (entry == null)
                 return false;
 
-            await _fileStorage.DeleteFileAsync(entry.ImagePath);
+            foreach (var page in entry.Pages)
+                await _fileStorage.DeleteFileAsync(page.ImagePath);
 
             await _diaryRepository.DeleteAsync(entry);
             await _diaryRepository.SaveChangesAsync();

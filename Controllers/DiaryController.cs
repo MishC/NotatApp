@@ -33,14 +33,20 @@ namespace NotatApp.Controllers
 
             var entries = await _diaryService.GetDiaryEntriesAsync(userId, date);
 
-            var result = entries.Select(e => new
+            var result = entries.Select(e =>
             {
-                e.Id,
-                e.Title,
-                e.Content,
-                e.Date,
-                HasImage = e.ImagePath != null,
-                e.ImageFileName
+                var page = e.Pages.OrderBy(p => p.PageNumber).FirstOrDefault();
+
+                return new
+                {
+                    e.Id,
+                    e.Title,
+                    Content = page?.Content,
+                    e.Date,
+                    PageNumber = page?.PageNumber,
+                    HasImage = page?.ImagePath != null,
+                    page?.ImageFileName
+                };
             });
 
             return Ok(result);
@@ -61,10 +67,11 @@ namespace NotatApp.Controllers
                 {
                     entry.Id,
                     entry.Title,
-                    entry.Content,
+                    Content = entry.Pages.FirstOrDefault()?.Content,
                     entry.Date,
-                    HasImage = entry.ImagePath != null,
-                    entry.ImageFileName
+                    PageNumber = entry.Pages.FirstOrDefault()?.PageNumber,
+                    HasImage = entry.Pages.FirstOrDefault()?.ImagePath != null,
+                    ImageFileName = entry.Pages.FirstOrDefault()?.ImageFileName
                 });
             }
             catch (InvalidOperationException ex)

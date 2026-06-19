@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NotatApp.Data;
 
@@ -10,9 +11,11 @@ using NotatApp.Data;
 namespace NotatApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260619121908_AddPageNumberToDiaryEntry")]
+    partial class AddPageNumberToDiaryEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -151,47 +154,15 @@ namespace NotatApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId", "Date")
-                        .IsUnique();
-
-                    b.ToTable("DiaryEntries");
-                });
-
-            modelBuilder.Entity("NotatApp.Models.DiaryPage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Content")
                         .HasMaxLength(20000)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateOnly>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DiaryEntryId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ImageContentType")
                         .HasMaxLength(100)
@@ -205,21 +176,23 @@ namespace NotatApp.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ImageUploadedAt")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("PageNumber")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiaryEntryId", "PageNumber")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
-                    b.ToTable("DiaryPages");
+                    b.ToTable("DiaryEntries");
                 });
 
             modelBuilder.Entity("NotatApp.Models.Folder", b =>
@@ -478,17 +451,6 @@ namespace NotatApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NotatApp.Models.DiaryPage", b =>
-                {
-                    b.HasOne("NotatApp.Models.DiaryEntry", "DiaryEntry")
-                        .WithMany("Pages")
-                        .HasForeignKey("DiaryEntryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DiaryEntry");
-                });
-
             modelBuilder.Entity("NotatApp.Models.Folder", b =>
                 {
                     b.HasOne("NotatApp.Models.User", null)
@@ -520,11 +482,6 @@ namespace NotatApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("NotatApp.Models.DiaryEntry", b =>
-                {
-                    b.Navigation("Pages");
                 });
 
             modelBuilder.Entity("NotatApp.Models.Folder", b =>

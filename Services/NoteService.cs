@@ -145,6 +145,9 @@ namespace NotatApp.Services
             if (dto.FolderId.HasValue)
                 note.FolderId = dto.FolderId;
 
+            if (dto.IsDone.HasValue)
+                note.IsDone = dto.IsDone.Value;
+
 
             if (dto.ScheduledAt.HasValue)
             {

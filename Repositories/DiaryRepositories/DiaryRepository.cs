@@ -12,14 +12,16 @@ namespace NotatApp.Repositories.DiaryRepositories
         public async Task<List<DiaryEntry>> GetByDateAsync(string userId, DateOnly date)
         {
             return await _context.DiaryEntries
+                .Include(e => e.Pages)
                 .Where(e => e.UserId == userId && e.Date == date)
-                .OrderByDescending(e => e.Id)
+                .OrderBy(e => e.Date)
                 .ToListAsync();
         }
 
         public async Task<DiaryEntry?> GetByIdAsync(int id, string userId)
         {
             return await _context.DiaryEntries
+                .Include(e => e.Pages)
                 .FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
         }
 

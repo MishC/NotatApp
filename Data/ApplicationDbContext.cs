@@ -14,7 +14,8 @@ namespace NotatApp.Data
 
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
-    
+        public DbSet<DiaryPage> DiaryPages { get; set; }
+     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
     base.OnModelCreating(modelBuilder);
@@ -43,12 +44,25 @@ namespace NotatApp.Data
         .HasForeignKey(t => t.UserId)
         .OnDelete(DeleteBehavior.Cascade);
 
-    
     modelBuilder.Entity<DiaryEntry>()
-        .HasOne<User>() 
+        .HasOne<User>()
         .WithMany()
-        .HasForeignKey(t => t.UserId)
-        .OnDelete(DeleteBehavior.Cascade);    
+        .HasForeignKey(e => e.UserId)
+        .OnDelete(DeleteBehavior.Cascade);
+    
+  modelBuilder.Entity<DiaryEntry>()
+    .HasIndex(e => new { e.UserId, e.Date })
+    .IsUnique();
+
+modelBuilder.Entity<DiaryPage>()
+    .HasIndex(p => new { p.DiaryEntryId, p.PageNumber })
+    .IsUnique();
+
+modelBuilder.Entity<DiaryEntry>()
+    .HasMany(e => e.Pages)
+    .WithOne(p => p.DiaryEntry)
+    .HasForeignKey(p => p.DiaryEntryId)
+    .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<Folder>().HasData(
         new Folder { Id = 1, Name = "Overdue", UserId = null },
