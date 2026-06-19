@@ -9,6 +9,7 @@ namespace NotatApp.Services.CalendarServices
         Task<List<TaskItem>> GetPendingTasksAsync(string userId);
         Task<List<TaskItem>> GetDoneTasksAsync(string userId);
         Task<List<TaskItem>> GetOverdueTasksAsync(string userId);
+        Task<int> GetOverdueTasksCountAsync(string userId);
 
         Task<TaskItem?> GetTaskByIdAsync(int id, string userId);
 

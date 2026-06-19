@@ -55,11 +55,22 @@ namespace NotatApp.Services.CalendarServices
 
             var tasks = await _repository.GetUserTasksAsync(userId);
 
-            var nowUtc = DateTime.UtcNow;
+            var todayUtc = DateOnly.FromDateTime(DateTime.UtcNow);
 
             return [.. tasks
-                .Where(t => !t.IsDone && t.EndTimeUtc < nowUtc)
+                .Where(t => !t.IsDone && DateOnly.FromDateTime(t.EndTimeUtc) < todayUtc)
                 .OrderBy(t => t.EndTimeUtc)];
+        }
+
+        public async Task<int> GetOverdueTasksCountAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId is required", nameof(userId));
+
+            var tasks = await _repository.GetUserTasksAsync(userId);
+            var todayUtc = DateOnly.FromDateTime(DateTime.UtcNow);
+
+            return tasks.Count(t => !t.IsDone && DateOnly.FromDateTime(t.EndTimeUtc) < todayUtc);
         }
 
         public Task<TaskItem?> GetTaskByIdAsync(int id, string userId)
@@ -187,7 +198,8 @@ namespace NotatApp.Services.CalendarServices
             if (task == null)
                 return false;
 
-            return !task.IsDone && task.EndTimeUtc < DateTime.UtcNow;
+            var todayUtc = DateOnly.FromDateTime(DateTime.UtcNow);
+            return !task.IsDone && DateOnly.FromDateTime(task.EndTimeUtc) < todayUtc;
         }
     }
 }

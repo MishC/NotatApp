@@ -55,6 +55,14 @@ namespace NotatApp.Controllers
             return Ok(tasks);
         }
 
+        // GET /api/tasks/overdue/count
+        [HttpGet("overdue/count")]
+        public async Task<ActionResult> GetOverdueTasksCount()
+        {
+            var count = await _taskService.GetOverdueTasksCountAsync(User.GetUserId());
+            return Ok(new { numberOfOverdue = count });
+        }
+
         // GET /api/tasks/{id}
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetTaskById(int id)
