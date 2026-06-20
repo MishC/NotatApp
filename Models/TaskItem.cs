@@ -40,6 +40,8 @@ public class CreateTaskDto
 
     [Required]
     public DateTime EndTimeUtc { get; set; }
+
+    public DateTime? CreatedAtUtc { get; set; } = DateTime.UtcNow;
 }
 
 public class UpdateTaskDto
