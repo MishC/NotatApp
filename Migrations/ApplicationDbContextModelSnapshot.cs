@@ -174,7 +174,7 @@ namespace NotatApp.Migrations
                     b.HasIndex("UserId", "Date")
                         .IsUnique();
 
-                    b.ToTable("DiaryEntries");
+                    b.ToTable("DiaryEntries", (string)null);
                 });
 
             modelBuilder.Entity("NotatApp.Models.DiaryPage", b =>
@@ -219,7 +219,7 @@ namespace NotatApp.Migrations
                     b.HasIndex("DiaryEntryId", "PageNumber")
                         .IsUnique();
 
-                    b.ToTable("DiaryPages");
+                    b.ToTable("DiaryPages", (string)null);
                 });
 
             modelBuilder.Entity("NotatApp.Models.Folder", b =>
@@ -243,7 +243,7 @@ namespace NotatApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Folders");
+                    b.ToTable("Folders", (string)null);
 
                     b.HasData(
                         new
@@ -316,7 +316,7 @@ namespace NotatApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("NotatApp.Models.TaskItem", b =>
@@ -357,7 +357,7 @@ namespace NotatApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TaskItems");
+                    b.ToTable("TaskItems", (string)null);
                 });
 
             modelBuilder.Entity("NotatApp.Models.User", b =>
