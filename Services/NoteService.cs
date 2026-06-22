@@ -47,9 +47,25 @@ namespace NotatApp.Services
                 throw new ArgumentException("userId is required", nameof(userId));
 
             var notes = await _repository.GetUserNotesAsync(userId);
-            return [.. notes
+
+            var doneNotes = notes
                 .Where(n => n.IsDone || (n.Folder != null && n.Folder.Name == "Done"))
-                .OrderBy(n => n.OrderIndex)];
+                .OrderBy(n => n.OrderIndex)
+                .ToList();
+
+            foreach (var note in doneNotes)
+            {
+                if (note.Folder == null)
+                    note.Folder = new Folder();
+
+                if (note.Folder.Name != "Done")
+                {
+                    note.Folder.Name = "Done";
+                    await _repository.UpdateNoteAsync(note);
+                }
+            }
+
+            return doneNotes;
         }
 
         public async Task<List<Note>> GetOverdueNotesAsync(string userId)
@@ -60,10 +76,21 @@ namespace NotatApp.Services
             var notes = await _repository.GetUserNotesAsync(userId);
             var today = DateOnly.FromDateTime(DateTime.Now);
 
-
-            return [.. notes
+            var overdueNotes = notes
                 .Where(n => !n.IsDone && n.ScheduledAt.HasValue && n.ScheduledAt.Value < today)
-                .OrderBy(n => n.OrderIndex)];
+                .OrderBy(n => n.OrderIndex)
+                .ToList();
+
+            foreach (var note in overdueNotes)
+            {
+                if (note.FolderId != 1)
+                {
+                    note.FolderId = 1;
+                    await _repository.UpdateNoteAsync(note);
+                }
+            }
+
+            return overdueNotes;
         }
 
         public async Task<int> GetOverdueNotesCountAsync(string userId)
