@@ -61,6 +61,7 @@ namespace NotatApp.Services
                 if (note.Folder.Name != "Done")
                 {
                     note.Folder.Name = "Done";
+                    note.FolderId=5;
                     await _repository.UpdateNoteAsync(note);
                 }
             }
