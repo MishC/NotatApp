@@ -1,4 +1,5 @@
 using System.Text.Json;
+using OpenAI;
 using OpenAI.Responses;
 using NotatApp.Models;
 
