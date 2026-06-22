@@ -102,6 +102,13 @@ namespace NotatApp.Services.CalendarServices
             if (dto.EndTimeUtc < dto.StartTimeUtc)
                 throw new ArgumentException("EndTimeUtc must be >= StartTimeUtc.");
 
+            if (dto.isAllDay == true)
+            {
+                var date = dto.StartTimeUtc.Date;
+                dto.StartTimeUtc = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+                dto.EndTimeUtc = DateTime.SpecifyKind(date.AddHours(23).AddMinutes(59).AddSeconds(59), DateTimeKind.Utc);
+            }    
+
             var task = new TaskItem
             {
                 Title = dto.Title,
@@ -109,6 +116,7 @@ namespace NotatApp.Services.CalendarServices
                 StartTimeUtc = DateTime.SpecifyKind(dto.StartTimeUtc, DateTimeKind.Utc),
                 EndTimeUtc = DateTime.SpecifyKind(dto.EndTimeUtc, DateTimeKind.Utc),
                 IsDone = false,
+                isAllDay = dto.isAllDay ?? false,
                 UserId = userId
             };
 
@@ -154,6 +162,17 @@ namespace NotatApp.Services.CalendarServices
 
             if (dto.EndTimeUtc.HasValue)
                 task.EndTimeUtc = DateTime.SpecifyKind(dto.EndTimeUtc.Value, DateTimeKind.Utc);
+
+            if (dto.isAllDay.HasValue)
+            {
+                task.isAllDay = dto.isAllDay.Value;
+                if (dto.isAllDay.Value)
+                {
+                    var date = (dto.StartTimeUtc ?? task.StartTimeUtc).Date;
+                    task.StartTimeUtc = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+                    task.EndTimeUtc = DateTime.SpecifyKind(date.AddHours(23).AddMinutes(59).AddSeconds(59), DateTimeKind.Utc);
+                }
+            }
 
             if (task.EndTimeUtc < task.StartTimeUtc)
                 throw new ArgumentException("EndTimeUtc must be >= StartTimeUtc.");

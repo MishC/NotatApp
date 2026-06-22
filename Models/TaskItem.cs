@@ -19,6 +19,8 @@ public class TaskItem
     public DateTime EndTimeUtc { get; set; }
 
     public bool IsDone { get; set; } = false;
+
+    public bool isAllDay {get;set;} = false;
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAtUtc { get; set; }
 
@@ -42,6 +44,8 @@ public class CreateTaskDto
     public DateTime EndTimeUtc { get; set; }
 
     public DateTime? CreatedAtUtc { get; set; } = DateTime.UtcNow;
+
+    public bool? isAllDay {get;set;} = false;
 }
 
 public class UpdateTaskDto
@@ -53,5 +57,7 @@ public class UpdateTaskDto
     public DateTime? StartTimeUtc { get; set; }
     public DateTime? EndTimeUtc { get; set; }
     public DateTime? UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+
+    public bool? isAllDay {get;set;} = false;
 }
 }
