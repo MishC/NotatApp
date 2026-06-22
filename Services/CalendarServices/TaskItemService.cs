@@ -166,7 +166,7 @@ namespace NotatApp.Services.CalendarServices
             if (dto.isAllDay.HasValue)
             {
                 task.isAllDay = dto.isAllDay.Value;
-                if (dto.isAllDay.Value)
+                if (dto.isAllDay==true)
                 {
                     var date = (dto.StartTimeUtc ?? task.StartTimeUtc).Date;
                     task.StartTimeUtc = DateTime.SpecifyKind(date, DateTimeKind.Utc);
