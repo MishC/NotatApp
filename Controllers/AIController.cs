@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NotatApp.Extensions;
 using NotatApp.Repositories.DiaryRepositories;
 using NotatApp.Services.DiaryServices;
+using NotatApp.Models;
 
 namespace NotatApp.Controllers
 {
@@ -56,9 +57,4 @@ namespace NotatApp.Controllers
         }
     }
 
-    public class AiSongRequest
-    {
-        public int DiaryEntryId { get; set; }
-        public string? Style { get; set; }
-    }
 }

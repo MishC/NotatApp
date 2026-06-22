@@ -36,5 +36,11 @@ namespace NotatApp.Models
         [JsonIgnore]
         public DiaryEntry DiaryEntry { get; set; } = default!;
     }
+
+        public class AiSongRequest
+    {
+        public int DiaryEntryId { get; set; }
+        public string? Style { get; set; }
+    }
    
 }
