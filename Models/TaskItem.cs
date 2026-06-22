@@ -9,10 +9,10 @@ public class TaskItem
     [Key]
     public int Id { get; set; }
 
-    [Required, StringLength(100, MinimumLength = 1)]
+    [Required, StringLength(500, MinimumLength = 1)]
     public string Title { get; set; } = string.Empty;
 
-    [StringLength(50)]
+    [StringLength(500)]
     public string? Content { get; set; }
 
     public DateTime StartTimeUtc { get; set; }
