@@ -47,9 +47,8 @@ namespace NotatApp.Services
                 throw new ArgumentException("userId is required", nameof(userId));
 
             var notes = await _repository.GetUserNotesAsync(userId);
-
             return [.. notes
-                .Where(n => n.Folder != null && n.Folder.Name == "Done")
+                .Where(n => n.IsDone || (n.Folder != null && n.Folder.Name == "Done"))
                 .OrderBy(n => n.OrderIndex)];
         }
 
