@@ -16,6 +16,8 @@ namespace NotatApp.Data
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
         public DbSet<DiaryPage> DiaryPages { get; set; }
 
+        public DbSet<RecommendedSong> RecommendedSongs {get;set;}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -62,6 +64,12 @@ namespace NotatApp.Data
                 .HasMany(e => e.Pages)
                 .WithOne(p => p.DiaryEntry)
                 .HasForeignKey(p => p.DiaryEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RecommendedSong>()
+                .HasOne(s => s.DiaryEntry)
+                .WithOne()
+                .HasForeignKey<RecommendedSong>(s => s.DiaryEntryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Folder>().HasData(

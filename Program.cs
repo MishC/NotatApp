@@ -18,6 +18,7 @@ using NotatApp.Services.CalendarServices;
 using Serilog;
 using Serilog.Events;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ---------------------------
@@ -135,6 +136,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDiaryRepository, DiaryRepository>();
 builder.Services.AddScoped<IDiaryService, DiaryService>();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+builder.Services.AddScoped<IRecommendations, Recommendations>();
 
 //Task Calendar
 builder.Services.AddScoped<ITaskItemRepository, TaskItemRepository>();      
