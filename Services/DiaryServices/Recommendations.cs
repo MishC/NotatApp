@@ -65,14 +65,33 @@ namespace NotatApp.Services.DiaryServices
 
         private static string BuildRecommendationPrompt(string content, string? style)
         {
+            var preferredType = string.IsNullOrWhiteSpace(style)
+                ? "No specific style. Choose what fits the diary best."
+                : style;
+
+            var additionalType = "Choose ";
+            if (style == "International")
+            {
+                additionalType = "Choose international hits from radio.";
+            }
+            else if (style == "Local")
+            {
+                additionalType = "Choose local hits from radio.";
+            }
+            else
+            {
+                additionalType = "Choose classical music or modern electronic music (just).";
+            }
+
             return $$"""
                 Recommend song based on this diary text or mood:
 
                 {{content}}
 
-                Preferred style, genre, or vibe:
-                {{(string.IsNullOrWhiteSpace(style) ? "No specific style. Choose what fits the diary best." : style)}}
-
+                Preferred type of songs:
+                {{preferredType}}
+                {{additionalType}}
+ 
                 Return only valid JSON. Do not wrap it in markdown.
                 JSON shape:
                 [
