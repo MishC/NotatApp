@@ -76,7 +76,7 @@ namespace NotatApp.Services.DiaryServices
             if (song is null)
                 return [];
 
-            song.Link = BuildSongSearchLink(song);
+            song.Link = GetSafeSongLink(BuildSongSearchLink(song));
 
             var savedSong = await _recommendedSongRepository.SaveForDiaryEntryAsync(diaryEntry.Id, song);
             return [savedSong];
@@ -205,6 +205,34 @@ namespace NotatApp.Services.DiaryServices
                 return null;
 
             return $"https://www.youtube.com/results?search_query={Uri.EscapeDataString(label)}";
+        }
+
+        private static string? GetSafeSongLink(string? link)
+        {
+            var value = NormalizeText(link);
+            if (value is null)
+                return null;
+
+            if (!Uri.TryCreate(value, UriKind.Absolute, out var uri)
+                || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            {
+                return null;
+            }
+
+            var host = uri.Host.ToLowerInvariant();
+            if (host.StartsWith("m.", StringComparison.Ordinal))
+                host = host[2..];
+            if (host.StartsWith("www.", StringComparison.Ordinal))
+                host = host[4..];
+
+            var isYouTubeHost = host == "youtube.com"
+                || host.EndsWith(".youtube.com", StringComparison.Ordinal)
+                || host == "youtu.be";
+
+            if (!isYouTubeHost)
+                return uri.ToString();
+
+            return uri.AbsolutePath == "/results" ? uri.ToString() : null;
         }
 
         private static string BuildSongLabel(RecommendedSong song)
