@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using System.ClientModel;
 using OpenAI;
@@ -13,13 +14,16 @@ namespace NotatApp.Services.DiaryServices
     {
         private readonly IConfiguration _config;
         private readonly IRecommendedSongRepository _recommendedSongRepository;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public Recommendations(
             IConfiguration config,
-            IRecommendedSongRepository recommendedSongRepository)
+            IRecommendedSongRepository recommendedSongRepository,
+            IHttpClientFactory httpClientFactory)
         {
             _config = config;
             _recommendedSongRepository = recommendedSongRepository;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<List<RecommendedSong>> GetAnswerOnPrompt(
@@ -75,6 +79,8 @@ namespace NotatApp.Services.DiaryServices
 
             if (song is null)
                 return [];
+
+            song.Link = await GetAllowedLinkAsync(song.Link);
 
             var savedSong = await _recommendedSongRepository.SaveForDiaryEntryAsync(diaryEntry.Id, song);
             return [savedSong];
@@ -193,6 +199,59 @@ namespace NotatApp.Services.DiaryServices
         private static bool IsStyle(string? style, string expected)
         {
             return string.Equals(style?.Trim(), expected, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private async Task<string?> GetAllowedLinkAsync(string? link)
+        {
+            if (string.IsNullOrWhiteSpace(link))
+                return null;
+
+            var trimmedLink = link.Trim();
+            if (!Uri.TryCreate(trimmedLink, UriKind.Absolute, out var uri)
+                || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            {
+                return null;
+            }
+
+            if (!IsYouTubeUrl(uri))
+                return trimmedLink;
+
+            var client = _httpClientFactory.CreateClient();
+
+            try
+            {
+                using var request = new HttpRequestMessage(HttpMethod.Head, uri);
+                using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                if (response.StatusCode == HttpStatusCode.Forbidden)
+                    return null;
+
+                if (response.StatusCode != HttpStatusCode.MethodNotAllowed)
+                    return trimmedLink;
+
+                using var getRequest = new HttpRequestMessage(HttpMethod.Get, uri);
+                using var getResponse = await client.SendAsync(getRequest, HttpCompletionOption.ResponseHeadersRead);
+
+                return getResponse.StatusCode == HttpStatusCode.Forbidden ? null : trimmedLink;
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Forbidden)
+            {
+                return null;
+            }
+            catch (TaskCanceledException)
+            {
+                return trimmedLink;
+            }
+            catch (HttpRequestException)
+            {
+                return trimmedLink;
+            }
+        }
+
+        private static bool IsYouTubeUrl(Uri uri)
+        {
+            return uri.Host.EndsWith("youtube.com", StringComparison.OrdinalIgnoreCase)
+                || uri.Host.EndsWith("youtu.be", StringComparison.OrdinalIgnoreCase);
         }
 
         private sealed class RecommendedSongResponse
