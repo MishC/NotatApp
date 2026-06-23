@@ -26,6 +26,10 @@ namespace NotatApp.Models
 
         public bool? Like {get;set;}
 
+        public string? Style {get;set;}
+
+        public string? Country{get;set;}
+
     
 
         [Required]
@@ -41,6 +45,8 @@ namespace NotatApp.Models
     {
         public int DiaryEntryId { get; set; }
         public string? Style { get; set; }
+
+        public string? Country {get;set;}
     }
    
 }
