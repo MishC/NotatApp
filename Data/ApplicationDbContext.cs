@@ -68,9 +68,13 @@ namespace NotatApp.Data
 
             modelBuilder.Entity<RecommendedSong>()
                 .HasOne(s => s.DiaryEntry)
-                .WithOne()
-                .HasForeignKey<RecommendedSong>(s => s.DiaryEntryId)
+                .WithMany()
+                .HasForeignKey(s => s.DiaryEntryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RecommendedSong>()
+                .HasIndex(s => new { s.DiaryEntryId, s.Style, s.Country })
+                .IsUnique();
 
             modelBuilder.Entity<Folder>().HasData(
                 new Folder { Id = 1, Name = "Overdue", UserId = null },

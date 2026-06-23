@@ -3,6 +3,7 @@ using System.ClientModel;
 using OpenAI;
 using OpenAI.Responses;
 using NotatApp.Models;
+using NotatApp.Repositories.DiaryRepositories;
 
 #pragma warning disable OPENAI001
 
@@ -11,10 +12,14 @@ namespace NotatApp.Services.DiaryServices
     public class Recommendations : IRecommendations
     {
         private readonly IConfiguration _config;
+        private readonly IRecommendedSongRepository _recommendedSongRepository;
 
-        public Recommendations(IConfiguration config)
+        public Recommendations(
+            IConfiguration config,
+            IRecommendedSongRepository recommendedSongRepository)
         {
             _config = config;
+            _recommendedSongRepository = recommendedSongRepository;
         }
 
         public async Task<List<RecommendedSong>> GetAnswerOnPrompt(
@@ -65,7 +70,14 @@ namespace NotatApp.Services.DiaryServices
 
             var output = response.GetOutputText();
 
-            return ParseRecommendedSongs(output, model, diaryEntry.Id, normalizedStyle, normalizedCountry);
+            var song = ParseRecommendedSongs(output, model, diaryEntry.Id, normalizedStyle, normalizedCountry)
+                .FirstOrDefault();
+
+            if (song is null)
+                return [];
+
+            var savedSong = await _recommendedSongRepository.SaveForDiaryEntryAsync(diaryEntry.Id, song);
+            return [savedSong];
         }
 
         private static string BuildDiaryContent(DiaryEntry diaryEntry)
@@ -132,7 +144,7 @@ namespace NotatApp.Services.DiaryServices
                 The theme of the story.
                 Similarity of lyrics, but only as an additional criterion.
 
-                Return max 2 songs
+                Return max 1 song
                 """;
         }
 
@@ -160,6 +172,7 @@ namespace NotatApp.Services.DiaryServices
 
             return [.. songs
                 .Where(song => !string.IsNullOrWhiteSpace(song.Title))
+                .Take(1)
                 .Select(song => new RecommendedSong
                 {
                     Title = song.Title.Trim(),

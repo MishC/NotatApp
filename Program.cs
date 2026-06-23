@@ -134,6 +134,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 // Diary
 builder.Services.AddScoped<IDiaryRepository, DiaryRepository>();
+builder.Services.AddScoped<IRecommendedSongRepository, RecommendedSongRepository>();
 builder.Services.AddScoped<IDiaryService, DiaryService>();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<IRecommendations, Recommendations>();
