@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.ClientModel;
 using OpenAI;
 using OpenAI.Responses;
 using NotatApp.Models;
@@ -19,7 +20,8 @@ namespace NotatApp.Services.DiaryServices
         public async Task<List<RecommendedSong>> GetAnswerOnPrompt(
             string userId,
             DiaryEntry diaryEntry,
-            string? style)
+            string? style,
+            string? country)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 throw new ArgumentException("userId is required", nameof(userId));
@@ -45,12 +47,25 @@ namespace NotatApp.Services.DiaryServices
                 StoredOutputEnabled = false
             };
 
-            options.InputItems.Add(ResponseItem.CreateUserMessageItem(BuildRecommendationPrompt(content, style)));
+            var normalizedStyle = NormalizeText(style);
+            var normalizedCountry = NormalizeText(country);
 
-            ResponseResult response = await client.CreateResponseAsync(options);
+            options.InputItems.Add(ResponseItem.CreateUserMessageItem(
+                BuildRecommendationPrompt(content, normalizedStyle, normalizedCountry)));
+
+            ResponseResult response;
+            try
+            {
+                response = await client.CreateResponseAsync(options);
+            }
+            catch (ClientResultException ex)
+            {
+                throw new InvalidOperationException($"OpenAI request failed: {ex.Message}", ex);
+            }
+
             var output = response.GetOutputText();
 
-            return ParseRecommendedSongs(output, model, diaryEntry.Id);
+            return ParseRecommendedSongs(output, model, diaryEntry.Id, normalizedStyle, normalizedCountry);
         }
 
         private static string BuildDiaryContent(DiaryEntry diaryEntry)
@@ -63,24 +78,30 @@ namespace NotatApp.Services.DiaryServices
                     .Where(content => !string.IsNullOrWhiteSpace(content)));
         }
 
-        private static string BuildRecommendationPrompt(string content, string? style)
+        private static string BuildRecommendationPrompt(string content, string? style, string? country)
         {
             var preferredType = string.IsNullOrWhiteSpace(style)
                 ? "No specific style. Choose what fits the diary best."
                 : style;
 
-            var additionalType = "Choose ";
-            if (style == "International")
+            var additionalType = "Choose songs that fit the diary mood, emotion, and story.";
+            if (IsStyle(style, "International"))
             {
-                additionalType = "Choose international hits from radio.";
+                additionalType = "Choose well-known international songs that are likely available on public music platforms.";
             }
-            else if (style == "Local")
+            else if (IsStyle(style, "Local"))
             {
-                additionalType = "Choose local hits from radio.";
+                additionalType = string.IsNullOrWhiteSpace(country)
+                    ? "Choose local hits from the user's country or region if it is clear from the diary text."
+                    : $"Choose local songs, artists, or radio hits from {country}. Prefer artists culturally connected to {country}.";
+            }
+            else if (!string.IsNullOrWhiteSpace(country))
+            {
+                additionalType = $"The user provided country: {country}. Prefer songs or artists local to {country}, unless the diary mood clearly needs an international song.";
             }
             else
             {
-                additionalType = "Choose classical music or modern electronic music (just).";
+                additionalType = "Choose a song style that naturally matches the diary. Classical, modern electronic, pop, indie, or acoustic are all allowed.";
             }
 
             return $$"""
@@ -90,6 +111,8 @@ namespace NotatApp.Services.DiaryServices
 
                 Preferred type of songs:
                 {{preferredType}}
+                Country:
+                {{(string.IsNullOrWhiteSpace(country) ? "No country provided." : country)}}
                 {{additionalType}}
  
                 Return only valid JSON. Do not wrap it in markdown.
@@ -113,14 +136,27 @@ namespace NotatApp.Services.DiaryServices
                 """;
         }
 
-        private static List<RecommendedSong> ParseRecommendedSongs(string output, string model, int diaryEntryId)
+        private static List<RecommendedSong> ParseRecommendedSongs(
+            string output,
+            string model,
+            int diaryEntryId,
+            string? style,
+            string? country)
         {
             if (string.IsNullOrWhiteSpace(output))
                 return [];
 
-            var songs = JsonSerializer.Deserialize<List<RecommendedSongResponse>>(
-                output,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
+            List<RecommendedSongResponse> songs;
+            try
+            {
+                songs = JsonSerializer.Deserialize<List<RecommendedSongResponse>>(
+                    output,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException("OpenAI returned an invalid song recommendation format.", ex);
+            }
 
             return [.. songs
                 .Where(song => !string.IsNullOrWhiteSpace(song.Title))
@@ -130,8 +166,20 @@ namespace NotatApp.Services.DiaryServices
                     Artist = song.Artist?.Trim() ?? string.Empty,
                     Link = string.IsNullOrWhiteSpace(song.Link) ? null : song.Link.Trim(),
                     Model = model,
+                    Style = style,
+                    Country = country,
                     DiaryEntryId = diaryEntryId
                 })];
+        }
+
+        private static string? NormalizeText(string? value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+        }
+
+        private static bool IsStyle(string? style, string expected)
+        {
+            return string.Equals(style?.Trim(), expected, StringComparison.OrdinalIgnoreCase);
         }
 
         private sealed class RecommendedSongResponse

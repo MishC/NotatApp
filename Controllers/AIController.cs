@@ -37,13 +37,19 @@ namespace NotatApp.Controllers
 
             try
             {
-                var songs = await _recommendations.GetAnswerOnPrompt(userId, entry, request.Style);
+                var songs = await _recommendations.GetAnswerOnPrompt(
+                    userId,
+                    entry,
+                    request.Style,
+                    request.Country);
 
                 return Ok(songs.Select(song => new
                 {
                     song.Title,
                     song.Artist,
-                    song.Link
+                    song.Link,
+                    song.Style,
+                    song.Country
                 }));
             }
             catch (ArgumentException ex)
