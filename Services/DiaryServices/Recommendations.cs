@@ -139,9 +139,11 @@ namespace NotatApp.Services.DiaryServices
                   {
                     "title": "song title",
                     "artist": "artist name",
-                    "link": "optional youtube public URL or null"
+                    "link": "optional public YouTube watch URL or null"
                   }
                 ]
+                Link must be a normal public YouTube page URL, such as https://www.youtube.com/watch?v=VIDEO_ID.
+                Never return googlevideo.com, videoplayback, embed, player, or temporary media stream URLs.
                 Choose a song based on:
 
                 The overall atmosphere of the story.
@@ -213,7 +215,10 @@ namespace NotatApp.Services.DiaryServices
                 return null;
             }
 
-            if (!IsYouTubeUrl(uri))
+            if (IsBlockedYouTubeMediaUrl(uri))
+                return null;
+
+            if (!IsAllowedYouTubePageUrl(uri))
                 return trimmedLink;
 
             var client = _httpClientFactory.CreateClient();
@@ -223,7 +228,7 @@ namespace NotatApp.Services.DiaryServices
                 using var request = new HttpRequestMessage(HttpMethod.Head, uri);
                 using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                if (response.StatusCode == HttpStatusCode.Forbidden)
+                if (IsRejectedLinkStatus(response.StatusCode))
                     return null;
 
                 if (response.StatusCode != HttpStatusCode.MethodNotAllowed)
@@ -232,9 +237,9 @@ namespace NotatApp.Services.DiaryServices
                 using var getRequest = new HttpRequestMessage(HttpMethod.Get, uri);
                 using var getResponse = await client.SendAsync(getRequest, HttpCompletionOption.ResponseHeadersRead);
 
-                return getResponse.StatusCode == HttpStatusCode.Forbidden ? null : trimmedLink;
+                return IsRejectedLinkStatus(getResponse.StatusCode) ? null : trimmedLink;
             }
-            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Forbidden)
+            catch (HttpRequestException ex) when (ex.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound)
             {
                 return null;
             }
@@ -248,10 +253,22 @@ namespace NotatApp.Services.DiaryServices
             }
         }
 
-        private static bool IsYouTubeUrl(Uri uri)
+        private static bool IsBlockedYouTubeMediaUrl(Uri uri)
+        {
+            return uri.Host.EndsWith("googlevideo.com", StringComparison.OrdinalIgnoreCase)
+                || uri.AbsolutePath.Contains("videoplayback", StringComparison.OrdinalIgnoreCase)
+                || uri.AbsolutePath.Contains("/embed/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsAllowedYouTubePageUrl(Uri uri)
         {
             return uri.Host.EndsWith("youtube.com", StringComparison.OrdinalIgnoreCase)
                 || uri.Host.EndsWith("youtu.be", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsRejectedLinkStatus(HttpStatusCode statusCode)
+        {
+            return statusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound;
         }
 
         private sealed class RecommendedSongResponse
