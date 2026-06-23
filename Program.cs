@@ -57,7 +57,6 @@ builder.Services
     .AddDefaultTokenProviders();
 
 builder.Services.AddLogging();
-builder.Services.AddHttpClient();
 
 // ---------------------------
 /* 4) CORS

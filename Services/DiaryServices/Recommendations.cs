@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json;
 using System.ClientModel;
 using OpenAI;
@@ -14,16 +13,13 @@ namespace NotatApp.Services.DiaryServices
     {
         private readonly IConfiguration _config;
         private readonly IRecommendedSongRepository _recommendedSongRepository;
-        private readonly IHttpClientFactory _httpClientFactory;
 
         public Recommendations(
             IConfiguration config,
-            IRecommendedSongRepository recommendedSongRepository,
-            IHttpClientFactory httpClientFactory)
+            IRecommendedSongRepository recommendedSongRepository)
         {
             _config = config;
             _recommendedSongRepository = recommendedSongRepository;
-            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<List<RecommendedSong>> GetAnswerOnPrompt(
@@ -80,7 +76,7 @@ namespace NotatApp.Services.DiaryServices
             if (song is null)
                 return [];
 
-            song.Link = await GetAllowedLinkAsync(song.Link);
+            song.Link = BuildSongSearchLink(song);
 
             var savedSong = await _recommendedSongRepository.SaveForDiaryEntryAsync(diaryEntry.Id, song);
             return [savedSong];
@@ -139,11 +135,10 @@ namespace NotatApp.Services.DiaryServices
                   {
                     "title": "song title",
                     "artist": "artist name",
-                    "link": "optional public YouTube watch URL or null"
+                    "link": null
                   }
                 ]
-                Link must be a normal public YouTube page URL, such as https://www.youtube.com/watch?v=VIDEO_ID.
-                Never return googlevideo.com, videoplayback, embed, player, or temporary media stream URLs.
+                Always return link as null. The backend creates the YouTube search link.
                 Choose a song based on:
 
                 The overall atmosphere of the story.
@@ -203,72 +198,23 @@ namespace NotatApp.Services.DiaryServices
             return string.Equals(style?.Trim(), expected, StringComparison.OrdinalIgnoreCase);
         }
 
-        private async Task<string?> GetAllowedLinkAsync(string? link)
+        private static string? BuildSongSearchLink(RecommendedSong song)
         {
-            if (string.IsNullOrWhiteSpace(link))
+            var label = BuildSongLabel(song);
+            if (string.IsNullOrWhiteSpace(label) || label == "Recommended song")
                 return null;
 
-            var trimmedLink = link.Trim();
-            if (!Uri.TryCreate(trimmedLink, UriKind.Absolute, out var uri)
-                || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
-            {
-                return null;
-            }
-
-            if (IsBlockedYouTubeMediaUrl(uri))
-                return null;
-
-            if (!IsAllowedYouTubePageUrl(uri))
-                return trimmedLink;
-
-            var client = _httpClientFactory.CreateClient();
-
-            try
-            {
-                using var request = new HttpRequestMessage(HttpMethod.Head, uri);
-                using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-
-                if (IsRejectedLinkStatus(response.StatusCode))
-                    return null;
-
-                if (response.StatusCode != HttpStatusCode.MethodNotAllowed)
-                    return trimmedLink;
-
-                using var getRequest = new HttpRequestMessage(HttpMethod.Get, uri);
-                using var getResponse = await client.SendAsync(getRequest, HttpCompletionOption.ResponseHeadersRead);
-
-                return IsRejectedLinkStatus(getResponse.StatusCode) ? null : trimmedLink;
-            }
-            catch (HttpRequestException ex) when (ex.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-            catch (TaskCanceledException)
-            {
-                return trimmedLink;
-            }
-            catch (HttpRequestException)
-            {
-                return trimmedLink;
-            }
+            return $"https://www.youtube.com/results?search_query={Uri.EscapeDataString(label)}";
         }
 
-        private static bool IsBlockedYouTubeMediaUrl(Uri uri)
+        private static string BuildSongLabel(RecommendedSong song)
         {
-            return uri.Host.EndsWith("googlevideo.com", StringComparison.OrdinalIgnoreCase)
-                || uri.AbsolutePath.Contains("videoplayback", StringComparison.OrdinalIgnoreCase)
-                || uri.AbsolutePath.Contains("/embed/", StringComparison.OrdinalIgnoreCase);
-        }
+            var artist = song.Artist.Trim();
+            var title = song.Title.Trim();
 
-        private static bool IsAllowedYouTubePageUrl(Uri uri)
-        {
-            return uri.Host.EndsWith("youtube.com", StringComparison.OrdinalIgnoreCase)
-                || uri.Host.EndsWith("youtu.be", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static bool IsRejectedLinkStatus(HttpStatusCode statusCode)
-        {
-            return statusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound;
+            if (!string.IsNullOrWhiteSpace(artist) && !string.IsNullOrWhiteSpace(title))
+                return $"{artist} - {title}";
+            return string.IsNullOrWhiteSpace(artist) ? title : artist;
         }
 
         private sealed class RecommendedSongResponse
