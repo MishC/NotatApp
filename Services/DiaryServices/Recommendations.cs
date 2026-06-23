@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.ClientModel;
 using OpenAI;
 using OpenAI.Responses;
 using NotatApp.Models;
@@ -47,7 +48,16 @@ namespace NotatApp.Services.DiaryServices
 
             options.InputItems.Add(ResponseItem.CreateUserMessageItem(BuildRecommendationPrompt(content, style)));
 
-            ResponseResult response = await client.CreateResponseAsync(options);
+            ResponseResult response;
+            try
+            {
+                response = await client.CreateResponseAsync(options);
+            }
+            catch (ClientResultException ex)
+            {
+                throw new InvalidOperationException($"OpenAI request failed: {ex.Message}", ex);
+            }
+
             var output = response.GetOutputText();
 
             return ParseRecommendedSongs(output, model, diaryEntry.Id);
@@ -65,14 +75,33 @@ namespace NotatApp.Services.DiaryServices
 
         private static string BuildRecommendationPrompt(string content, string? style)
         {
+            var preferredType = string.IsNullOrWhiteSpace(style)
+                ? "No specific style. Choose what fits the diary best."
+                : style;
+
+            var additionalType = "Choose ";
+            if (style == "International")
+            {
+                additionalType = "Choose international hits from radio.";
+            }
+            else if (style == "Local")
+            {
+                additionalType = "Choose local hits from radio. Hitds for that land, cultural context is important.";
+            }
+            else
+            {
+                additionalType = "Choose classical music or modern electronic music (just melody, no words).";
+            }
+
             return $$"""
                 Recommend song based on this diary text or mood:
 
                 {{content}}
 
-                Preferred style, genre, or vibe:
-                {{(string.IsNullOrWhiteSpace(style) ? "No specific style. Choose what fits the diary best." : style)}}
-
+                Preferred type of songs:
+                {{preferredType}}
+                {{additionalType}}
+ 
                 Return only valid JSON. Do not wrap it in markdown.
                 JSON shape:
                 [
@@ -89,8 +118,8 @@ namespace NotatApp.Services.DiaryServices
                 Cultural associations.
                 The theme of the story.
                 Similarity of lyrics, but only as an additional criterion.
-
-                Return max 2 songs
+                
+                Return exactly just 1 song.
                 """;
         }
 
