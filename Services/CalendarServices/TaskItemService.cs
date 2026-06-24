@@ -95,7 +95,6 @@ namespace NotatApp.Services.CalendarServices
             if (dto.Title.Length > 100)
                 throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(dto.Title));
 
-            // (voliteľné) ak chceš rovnaké limity ako pri Note:
             if (dto.Content != null && dto.Content.Length > 20)
                 throw new ArgumentException("Content cannot be longer than 20 characters.", nameof(dto.Content));
 
