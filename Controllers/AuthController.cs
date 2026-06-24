@@ -59,6 +59,15 @@ public class AuthController : ControllerBase
 
     }
 
+    private void ClearRefreshTokenCookie()
+    {
+        Response.Cookies.Delete("refreshToken", new CookieOptions
+        {
+            Secure = true,
+            SameSite = SameSiteMode.Strict
+        });
+    }
+
     [HttpGet("health")]
     public IActionResult HealthCheck() => Ok("Auth service is running.");
 
@@ -233,17 +242,26 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Refresh()
     {
         if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
-            return Unauthorized();
+            return Unauthorized(new { message = "Refresh token is missing." });
 
 
         var user = await _users.Users
             .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
 
         if (user == null || user.RefreshTokenExpiresAt == null)
-            return Unauthorized();
+        {
+            ClearRefreshTokenCookie();
+            return Unauthorized(new { message = "Refresh token is invalid." });
+        }
 
         if (user.RefreshTokenExpiresAt < DateTime.UtcNow)
-            return Unauthorized();
+        {
+            user.RefreshToken = null;
+            user.RefreshTokenExpiresAt = null;
+            await _users.UpdateAsync(user);
+            ClearRefreshTokenCookie();
+            return Unauthorized(new { message = "Refresh token expired." });
+        }
 
         // (generation of new  accesstoken, refresh token is not expired)
 
@@ -362,4 +380,3 @@ public class AuthController : ControllerBase
         });
     }
 }
-
