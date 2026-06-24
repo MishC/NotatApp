@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.ClientModel;
 using OpenAI;
 using OpenAI.Responses;
@@ -64,10 +65,15 @@ namespace NotatApp.Services.DiaryServices
             if (content is null)
                 throw new ArgumentException("Description is required.", nameof(description));
 
+            if (TryBuildFrameCssFromDescription(content, out var css))
+                return css;
+
             var prompt = BuildRecommendationPrompt(
                 """
                 Write a CSS string based on the description.
                 The CSS will be applied inline to a diary frame container.
+                If the description is a vague mood or theme, such as "sun flowers summer vibe",
+                infer a tasteful palette from that theme and prefer a soft gradient with 2 to 4 colors.
                 Return only CSS declarations. Do not return a selector, braces, markdown, JSON, comments, or explanation.
                 Use only frame color or gradient styling.
                 Allowed properties: background, background-color, border, border-color, box-shadow.
@@ -238,6 +244,73 @@ namespace NotatApp.Services.DiaryServices
             return string.Equals(style?.Trim(), expected, StringComparison.OrdinalIgnoreCase);
         }
 
+        private static bool TryBuildFrameCssFromDescription(string description, out string css)
+        {
+            var colors = ExtractFrameColors(description);
+            var wantsGradient = description.Contains("gradient", StringComparison.OrdinalIgnoreCase);
+
+            if (colors.Count == 0 || (wantsGradient && colors.Count < 2))
+            {
+                css = string.Empty;
+                return false;
+            }
+
+            css = wantsGradient
+                ? BuildGradientFrameCss(colors)
+                : BuildSolidFrameCss(colors[0]);
+            return true;
+        }
+
+        private static List<string> ExtractFrameColors(string description)
+        {
+            var colors = new List<string>();
+
+            foreach (Match match in Regex.Matches(description, @"#[0-9a-fA-F]{3,8}\b"))
+            {
+                AddColor(colors, match.Value);
+            }
+
+            var words = Regex.Matches(description.ToLowerInvariant(), @"[a-z]+")
+                .Select(match => match.Value)
+                .ToList();
+
+            for (var i = 0; i < words.Count; i++)
+            {
+                if (i < words.Count - 1)
+                {
+                    var twoWordColor = words[i] + words[i + 1];
+                    if (CssColorNames.Contains(twoWordColor))
+                    {
+                        AddColor(colors, twoWordColor);
+                        i++;
+                        continue;
+                    }
+                }
+
+                if (CssColorNames.Contains(words[i]))
+                    AddColor(colors, words[i]);
+            }
+
+            return colors;
+        }
+
+        private static void AddColor(List<string> colors, string color)
+        {
+            if (!colors.Contains(color, StringComparer.OrdinalIgnoreCase))
+                colors.Add(color);
+        }
+
+        private static string BuildSolidFrameCss(string color)
+        {
+            return $"background: {color}; border: 3px solid {color}; box-shadow: 0 24px 50px rgb(15 23 42 / 0.22), inset 0 0 0 2px rgb(255 255 255 / 0.12);";
+        }
+
+        private static string BuildGradientFrameCss(List<string> colors)
+        {
+            var gradientColors = string.Join(", ", colors.Take(4));
+            return $"background: linear-gradient(135deg, {gradientColors}); border: 3px solid {colors[0]}; box-shadow: 0 24px 50px rgb(15 23 42 / 0.22), inset 0 0 0 2px rgb(255 255 255 / 0.12);";
+        }
+
         private static string SanitizeFrameCss(string output)
         {
             var css = NormalizeText(output)
@@ -356,6 +429,68 @@ namespace NotatApp.Services.DiaryServices
             public string? Artist { get; set; }
             public string? Link { get; set; }
         }
+
+        private static readonly HashSet<string> CssColorNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "black",
+            "white",
+            "gray",
+            "grey",
+            "silver",
+            "red",
+            "blue",
+            "green",
+            "yellow",
+            "orange",
+            "purple",
+            "violet",
+            "pink",
+            "brown",
+            "gold",
+            "cyan",
+            "aqua",
+            "teal",
+            "lime",
+            "navy",
+            "indigo",
+            "magenta",
+            "fuchsia",
+            "maroon",
+            "olive",
+            "coral",
+            "salmon",
+            "tomato",
+            "plum",
+            "lavender",
+            "beige",
+            "ivory",
+            "cream",
+            "tan",
+            "khaki",
+            "turquoise",
+            "transparent",
+            "darkblue",
+            "darkgreen",
+            "darkred",
+            "darkgray",
+            "darkgrey",
+            "lightblue",
+            "lightgreen",
+            "lightpink",
+            "lightgray",
+            "lightgrey",
+            "hotpink",
+            "deeppink",
+            "skyblue",
+            "deepskyblue",
+            "royalblue",
+            "midnightblue",
+            "seagreen",
+            "springgreen",
+            "forestgreen",
+            "goldenrod",
+            "crimson"
+        };
     }
 }
 
