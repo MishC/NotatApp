@@ -9,5 +9,7 @@ namespace NotatApp.Services.DiaryServices
             DiaryEntry diaryEntry,
             string? style,
             string? country);
+
+        Task<string> GetFrame(string description);
     }
 }

@@ -41,12 +41,17 @@ namespace NotatApp.Models
         public DiaryEntry DiaryEntry { get; set; } = default!;
     }
 
-        public class AiSongRequest
+    public class AiSongRequest
     {
         public int DiaryEntryId { get; set; }
         public string? Style { get; set; }
 
         public string? Country {get;set;}
+    }
+
+    public class AiFrameRequest
+    {
+        public string? Description { get; set; }
     }
    
 }

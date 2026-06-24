@@ -61,6 +61,27 @@ namespace NotatApp.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPost("frame")]
+        public async Task<IActionResult> GenerateFrame([FromBody] AiFrameRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request?.Description))
+                return BadRequest(new { message = "Description is required." });
+
+            try
+            {
+                var css = await _recommendations.GetFrame(request.Description);
+                return Ok(new { css });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 
 }
