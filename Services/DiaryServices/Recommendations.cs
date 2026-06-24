@@ -258,7 +258,10 @@ namespace NotatApp.Services.DiaryServices
             var colors = ExtractFrameColors(description);
             var wantsGradient = description.Contains("gradient", StringComparison.OrdinalIgnoreCase);
 
-            if (colors.Count == 0 || (wantsGradient && colors.Count < 2))
+            if (colors.Count == 0)
+                return TryBuildMoodFrameCssFromDescription(description, out css);
+
+            if (wantsGradient && colors.Count < 2)
             {
                 css = string.Empty;
                 return false;
@@ -312,24 +315,60 @@ namespace NotatApp.Services.DiaryServices
 
         private static string BuildMoodFallbackFrameCss(string description)
         {
+            if (TryBuildMoodFrameCssFromDescription(description, out var css))
+                return css;
+
+            return BuildGradientFrameCss(["#64748b", "#8b5cf6", "#14b8a6"]);
+        }
+
+        private static bool TryBuildMoodFrameCssFromDescription(string description, out string css)
+        {
             var text = RemoveDiacritics(description.ToLowerInvariant());
 
             if (ContainsAny(text, "sun", "sunny", "summer", "flower", "flowers", "slnko", "letny", "leto", "kvet", "kvety"))
-                return BuildGradientFrameCss(["#facc15", "#fb7185", "#38bdf8"]);
+            {
+                css = BuildGradientFrameCss(["#facc15", "#fb7185", "#38bdf8"]);
+                return true;
+            }
+
+            if (ContainsAny(text, "frozen", "snow", "ice", "icy", "frost", "winter", "glacier"))
+            {
+                css = BuildGradientFrameCss(["#f8fafc", "#dbeafe", "#7dd3fc", "#60a5fa"]);
+                return true;
+            }
+
+            if (ContainsAny(text, "poison", "toxic", "venom", "acid"))
+            {
+                css = BuildGradientFrameCss(["#1a2e05", "#84cc16", "#a855f7", "#4c1d95"]);
+                return true;
+            }
 
             if (ContainsAny(text, "sea", "ocean", "water", "rain", "sky", "more", "voda", "dazd", "obloha"))
-                return BuildGradientFrameCss(["#0ea5e9", "#22d3ee", "#0369a1"]);
+            {
+                css = BuildGradientFrameCss(["#0ea5e9", "#22d3ee", "#0369a1"]);
+                return true;
+            }
 
             if (ContainsAny(text, "forest", "nature", "leaf", "leaves", "garden", "les", "priroda", "zahrada", "listy"))
-                return BuildGradientFrameCss(["#14532d", "#22c55e", "#84cc16"]);
+            {
+                css = BuildGradientFrameCss(["#14532d", "#22c55e", "#84cc16"]);
+                return true;
+            }
 
             if (ContainsAny(text, "night", "moon", "stars", "space", "noc", "mesiac", "hviezdy", "vesmir"))
-                return BuildGradientFrameCss(["#020617", "#312e81", "#9333ea"]);
+            {
+                css = BuildGradientFrameCss(["#020617", "#312e81", "#9333ea"]);
+                return true;
+            }
 
             if (ContainsAny(text, "love", "heart", "romantic", "laska", "srdce", "romantika"))
-                return BuildGradientFrameCss(["#be123c", "#fb7185", "#f9a8d4"]);
+            {
+                css = BuildGradientFrameCss(["#be123c", "#fb7185", "#f9a8d4"]);
+                return true;
+            }
 
-            return BuildGradientFrameCss(["#64748b", "#8b5cf6", "#14b8a6"]);
+            css = string.Empty;
+            return false;
         }
 
         private static bool ContainsAny(string text, params string[] keywords)
