@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.ClientModel;
@@ -83,7 +85,14 @@ namespace NotatApp.Services.DiaryServices
                 content);
 
             var output = await GetOpenAiOutputAsync(prompt, null, 250);
-            return SanitizeFrameCss(output);
+            try
+            {
+                return SanitizeFrameCss(output);
+            }
+            catch (InvalidOperationException)
+            {
+                return BuildMoodFallbackFrameCss(content);
+            }
         }
 
         private async Task<string> GetOpenAiOutputAsync(
@@ -270,7 +279,8 @@ namespace NotatApp.Services.DiaryServices
                 AddColor(colors, match.Value);
             }
 
-            var words = Regex.Matches(description.ToLowerInvariant(), @"[a-z]+")
+            var normalizedDescription = RemoveDiacritics(description.ToLowerInvariant());
+            var words = Regex.Matches(normalizedDescription, @"[a-z]+")
                 .Select(match => match.Value)
                 .ToList();
 
@@ -287,11 +297,58 @@ namespace NotatApp.Services.DiaryServices
                     }
                 }
 
+                if (SlovakColorAliases.TryGetValue(words[i], out var aliasedColor))
+                {
+                    AddColor(colors, aliasedColor);
+                    continue;
+                }
+
                 if (CssColorNames.Contains(words[i]))
                     AddColor(colors, words[i]);
             }
 
             return colors;
+        }
+
+        private static string BuildMoodFallbackFrameCss(string description)
+        {
+            var text = RemoveDiacritics(description.ToLowerInvariant());
+
+            if (ContainsAny(text, "sun", "sunny", "summer", "flower", "flowers", "slnko", "letny", "leto", "kvet", "kvety"))
+                return BuildGradientFrameCss(["#facc15", "#fb7185", "#38bdf8"]);
+
+            if (ContainsAny(text, "sea", "ocean", "water", "rain", "sky", "more", "voda", "dazd", "obloha"))
+                return BuildGradientFrameCss(["#0ea5e9", "#22d3ee", "#0369a1"]);
+
+            if (ContainsAny(text, "forest", "nature", "leaf", "leaves", "garden", "les", "priroda", "zahrada", "listy"))
+                return BuildGradientFrameCss(["#14532d", "#22c55e", "#84cc16"]);
+
+            if (ContainsAny(text, "night", "moon", "stars", "space", "noc", "mesiac", "hviezdy", "vesmir"))
+                return BuildGradientFrameCss(["#020617", "#312e81", "#9333ea"]);
+
+            if (ContainsAny(text, "love", "heart", "romantic", "laska", "srdce", "romantika"))
+                return BuildGradientFrameCss(["#be123c", "#fb7185", "#f9a8d4"]);
+
+            return BuildGradientFrameCss(["#64748b", "#8b5cf6", "#14b8a6"]);
+        }
+
+        private static bool ContainsAny(string text, params string[] keywords)
+        {
+            return keywords.Any(keyword => text.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static string RemoveDiacritics(string text)
+        {
+            var normalized = text.Normalize(NormalizationForm.FormD);
+            var builder = new StringBuilder(normalized.Length);
+
+            foreach (var character in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(character) != UnicodeCategory.NonSpacingMark)
+                    builder.Append(character);
+            }
+
+            return builder.ToString().Normalize(NormalizationForm.FormC);
         }
 
         private static void AddColor(List<string> colors, string color)
@@ -429,6 +486,38 @@ namespace NotatApp.Services.DiaryServices
             public string? Artist { get; set; }
             public string? Link { get; set; }
         }
+
+        private static readonly Dictionary<string, string> SlovakColorAliases = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ["cierna"] = "black",
+            ["cierny"] = "black",
+            ["biela"] = "white",
+            ["biely"] = "white",
+            ["modra"] = "blue",
+            ["modry"] = "blue",
+            ["cervena"] = "red",
+            ["cerveny"] = "red",
+            ["zelena"] = "green",
+            ["zeleny"] = "green",
+            ["zlta"] = "yellow",
+            ["zlty"] = "yellow",
+            ["ruzova"] = "pink",
+            ["ruzovy"] = "pink",
+            ["fialova"] = "purple",
+            ["fialovy"] = "purple",
+            ["oranzova"] = "orange",
+            ["oranzovy"] = "orange",
+            ["hneda"] = "brown",
+            ["hnedy"] = "brown",
+            ["siva"] = "gray",
+            ["sivy"] = "gray",
+            ["strieborna"] = "silver",
+            ["strieborny"] = "silver",
+            ["zlata"] = "gold",
+            ["zlaty"] = "gold",
+            ["tyrkysova"] = "turquoise",
+            ["tyrkysovy"] = "turquoise"
+        };
 
         private static readonly HashSet<string> CssColorNames = new(StringComparer.OrdinalIgnoreCase)
         {
